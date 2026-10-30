@@ -1,0 +1,898 @@
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#101b2b">
+<meta name="description" content="UbicaBus Merlo-Papagayos: prototipo escolar de seguimiento del transporte interurbano.">
+<title>UbicaBus | Merlo - Papagayos</title>
+
+<!-- Leaflet: biblioteca de mapas interactivos -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet@1.9.4/dist/leaflet.css">
+
+<style>
+:root{
+  --bg:#101b2b;
+  --panel:#19283b;
+  --panel2:#203249;
+  --line:#30435a;
+  --text:#edf4fa;
+  --muted:#9aadc1;
+  --cyan:#35d4dc;
+  --blue:#3989f5;
+  --green:#35c994;
+  --orange:#ffb45c;
+  --red:#ff6e75;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  margin:0;
+  background:var(--bg);
+  color:var(--text);
+  font-family:Inter,Arial,sans-serif;
+}
+button{font:inherit;cursor:pointer}
+button:focus-visible,select:focus-visible{
+  outline:2px solid var(--cyan);outline-offset:3px
+}
+
+/* ENCABEZADO */
+header{
+  height:76px;
+  padding:0 28px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  background:#111e30;
+  border-bottom:1px solid var(--line);
+  position:relative;
+  z-index:1000;
+}
+.brand{display:flex;align-items:center;gap:12px}
+.brand-icon{
+  width:44px;height:44px;
+  background:linear-gradient(145deg,#35d4dc,#2473c9);
+  border-radius:13px;
+  display:grid;place-items:center;
+  font-size:23px;
+  box-shadow:0 5px 20px #35d4dc33;
+}
+.brand h1{font-size:19px;margin:0;letter-spacing:.3px}
+.brand p{margin:4px 0 0;font-size:10px;color:var(--muted);letter-spacing:1.2px;text-transform:uppercase}
+.header-right{display:flex;align-items:center;gap:17px}
+.live-indicator{
+  display:flex;align-items:center;gap:8px;
+  color:#a9e9d0;font-size:11px;font-weight:700;
+  background:#35c99417;padding:9px 12px;border-radius:20px;
+  border:1px solid #35c99444;
+}
+.pulse{
+  width:8px;height:8px;border-radius:50%;
+  background:var(--green);box-shadow:0 0 0 4px #35c99425;
+}
+.header-button{
+  background:var(--cyan);color:#09212c;border:0;
+  padding:10px 15px;border-radius:9px;font-weight:800;font-size:12px;
+}
+
+/* DISTRIBUCIÓN */
+.layout{
+  display:grid;
+  grid-template-columns:285px minmax(0,1fr);
+  min-height:calc(100vh - 76px);
+}
+.sidebar{
+  background:#142236;
+  border-right:1px solid var(--line);
+  padding:22px 17px;
+}
+.side-label{
+  color:#7189a2;font-size:10px;font-weight:800;
+  letter-spacing:1.5px;text-transform:uppercase;
+  margin:7px 0 14px;
+}
+.route-card{
+  background:linear-gradient(140deg,#1d3851,#19283b);
+  border:1px solid #31506b;
+  border-radius:15px;padding:16px;margin-bottom:22px;
+}
+.route-card-top{display:flex;justify-content:space-between;align-items:center}
+.route-badge{
+  background:#35d4dc;color:#102638;
+  padding:6px 9px;border-radius:7px;font-size:11px;font-weight:900;
+}
+.route-card small{color:var(--muted);font-size:10px}
+.route-card h2{font-size:17px;margin:14px 0 5px}
+.route-card p{font-size:11px;color:var(--muted);margin:0;line-height:1.5}
+.route-line{
+  margin-top:19px;padding-left:5px;position:relative;
+}
+.route-stop{
+  display:flex;gap:12px;align-items:flex-start;
+  position:relative;padding-bottom:19px;
+}
+.route-stop:last-child{padding-bottom:0}
+.route-stop:not(:last-child):before{
+  content:"";position:absolute;left:5px;top:12px;
+  width:2px;height:calc(100% - 10px);background:#3b6787;
+}
+.stop-dot{
+  width:12px;height:12px;flex-shrink:0;
+  border-radius:50%;border:3px solid var(--cyan);
+  background:#19283b;z-index:1;
+}
+.route-stop:last-child .stop-dot{border-color:var(--orange)}
+.stop-name{font-size:12px;font-weight:700}
+.stop-detail{font-size:10px;color:var(--muted);margin-top:4px}
+.sidebar-button{
+  width:100%;padding:12px;margin-top:15px;
+  background:#243d56;border:1px solid #3b5b77;
+  color:#dcecf7;border-radius:9px;font-size:11px;font-weight:700;
+}
+.sidebar-button:hover{background:#2d4d6b}
+.sidebar-info{
+  margin-top:25px;padding:14px;border-radius:12px;
+  background:#101d2e;border:1px solid var(--line);
+}
+.sidebar-info strong{font-size:11px}
+.sidebar-info p{font-size:10px;color:var(--muted);line-height:1.6;margin:8px 0 0}
+
+/* CONTENIDO PRINCIPAL */
+main{min-width:0;padding:23px 25px 40px}
+.page-heading{
+  display:flex;justify-content:space-between;align-items:flex-start;
+  gap:15px;margin-bottom:19px;
+}
+.page-heading h2{font-size:22px;margin:0 0 6px}
+.page-heading p{font-size:12px;color:var(--muted);margin:0}
+.demo-label{
+  color:#ffd28e;background:#ffb45c17;
+  border:1px solid #ffb45c55;border-radius:7px;
+  font-size:10px;font-weight:800;padding:8px 11px;white-space:nowrap;
+}
+.metrics{
+  display:grid;grid-template-columns:repeat(4,1fr);
+  gap:12px;margin-bottom:17px;
+}
+.metric{
+  background:var(--panel);border:1px solid var(--line);
+  border-radius:13px;padding:15px;
+}
+.metric-top{display:flex;justify-content:space-between;align-items:center}
+.metric-label{font-size:10px;color:var(--muted)}
+.metric-icon{font-size:17px}
+.metric-value{font-size:22px;font-weight:800;margin-top:10px}
+.metric-note{font-size:10px;color:var(--muted);margin-top:4px}
+
+/* MAPA */
+.map-panel{
+  background:var(--panel);border:1px solid var(--line);
+  border-radius:16px;overflow:hidden;
+}
+.map-toolbar{
+  padding:15px 17px;display:flex;justify-content:space-between;
+  align-items:center;gap:12px;border-bottom:1px solid var(--line);
+}
+.map-toolbar h3{margin:0;font-size:14px}
+.map-toolbar p{margin:4px 0 0;color:var(--muted);font-size:10px}
+.map-actions{display:flex;gap:8px;align-items:center}
+.map-actions button{
+  padding:8px 10px;background:#263c53;color:#dcecf7;
+  border:1px solid #40566d;border-radius:7px;font-size:10px;
+}
+.map-actions button:hover{background:#34516e}
+#map{
+  height:420px;width:100%;
+  background:#dbe7e4;
+}
+.map-footer{
+  display:flex;justify-content:space-between;align-items:center;
+  gap:12px;padding:11px 16px;font-size:10px;color:var(--muted);
+}
+.legend{display:flex;gap:14px;flex-wrap:wrap}
+.legend-item{display:flex;align-items:center;gap:6px}
+.legend-dot{width:8px;height:8px;border-radius:50%;background:var(--cyan)}
+.legend-dot.bus{background:#147bd1}
+.legend-dot.stop{background:#f3a64d}
+
+/* PANELES INFERIORES */
+.bottom-grid{
+  display:grid;grid-template-columns:1.1fr .9fr;
+  gap:15px;margin-top:16px;
+}
+.info-panel{
+  background:var(--panel);border:1px solid var(--line);
+  border-radius:15px;padding:18px;min-width:0;
+}
+.panel-heading{
+  display:flex;justify-content:space-between;align-items:center;
+  gap:10px;margin-bottom:14px;
+}
+.panel-heading h3{font-size:14px;margin:0}
+.panel-heading span{font-size:10px;color:var(--muted)}
+select{
+  width:100%;background:#101e30;color:var(--text);
+  border:1px solid #3a5069;padding:11px;border-radius:8px;
+  font-size:12px;margin-bottom:13px;
+}
+.arrival-card{
+  background:linear-gradient(110deg,#153f5c,#1d5770);
+  border:1px solid #367b91;border-radius:12px;
+  padding:17px;display:flex;justify-content:space-between;
+  align-items:center;gap:10px;
+}
+.arrival-card small{color:#b7dce7;font-size:10px}
+.arrival-card strong{display:block;font-size:29px;margin-top:5px}
+.arrival-card p{font-size:10px;color:#c2e1e9;margin:5px 0 0}
+.arrival-icon{font-size:31px}
+.stop-list{margin-top:12px}
+.stop-list-row{
+  display:flex;justify-content:space-between;align-items:center;
+  padding:11px 0;border-bottom:1px solid var(--line);
+  font-size:11px;gap:10px;
+}
+.stop-list-row:last-child{border-bottom:0}
+.stop-list-row span:last-child{color:var(--cyan);font-weight:700}
+.donation-card{
+  background:linear-gradient(145deg,#273b50,#1c2b3e);
+  border:1px solid #40546a;border-radius:12px;padding:17px;
+}
+.donation-card h4{margin:0 0 8px;font-size:15px}
+.donation-card p{font-size:11px;line-height:1.6;color:#b4c5d5;margin:0 0 14px}
+.donation-button{
+  width:100%;background:#35d4dc;color:#09212c;
+  border:0;border-radius:8px;padding:12px;font-weight:900;font-size:12px;
+}
+.donation-button:hover{background:#75e7e9}
+.donation-note{font-size:9px;color:var(--muted);margin-top:10px;line-height:1.5}
+.tech-grid{
+  display:grid;grid-template-columns:repeat(3,1fr);
+  gap:12px;margin-top:16px;
+}
+.tech-card{
+  padding:14px;background:#142236;border:1px solid var(--line);
+  border-radius:12px;
+}
+.tech-card .tech-icon{font-size:19px}
+.tech-card h4{font-size:11px;margin:9px 0 5px}
+.tech-card p{font-size:10px;line-height:1.5;color:var(--muted);margin:0}
+.disclaimer{
+  margin-top:17px;padding:14px 16px;
+  border:1px solid #8b6a34;background:#392f20;
+  border-radius:11px;color:#f2d6a4;
+  font-size:10px;line-height:1.7;
+}
+footer{
+  border-top:1px solid var(--line);
+  padding:22px;text-align:center;
+  color:#8296ab;font-size:10px;line-height:1.8;
+}
+footer strong{color:#d9e8f4}
+
+/* MARCADOR PERSONALIZADO */
+.bus-marker{
+  width:39px;height:39px;border-radius:50%;
+  background:#167bd1;border:3px solid white;
+  box-shadow:0 3px 14px #102b46aa;
+  display:grid;place-items:center;font-size:19px;
+}
+.stop-marker{
+  width:15px;height:15px;border-radius:50%;
+  background:#ffb45c;border:3px solid white;
+  box-shadow:0 2px 7px #0005;
+}
+.leaflet-popup-content-wrapper{
+  border-radius:10px!important;
+}
+.leaflet-popup-content{
+  font-family:Arial,sans-serif;font-size:12px;line-height:1.5;
+}
+
+/* MODAL */
+.modal-bg{
+  display:none;position:fixed;inset:0;
+  z-index:3000;background:#07111edc;
+  align-items:center;justify-content:center;padding:18px;
+}
+.modal{
+  background:#1b2c41;border:1px solid #40546a;
+  border-radius:17px;padding:23px;
+  width:min(420px,100%);
+  box-shadow:0 20px 70px #0008;
+}
+.modal h3{margin:0 0 9px;font-size:18px}
+.modal p{font-size:12px;line-height:1.7;color:#b6c8d9}
+.modal-actions{display:flex;gap:9px;margin-top:17px}
+.modal-actions button{
+  flex:1;padding:11px;border:0;border-radius:8px;font-weight:800;font-size:11px;
+}
+.modal-close{background:#34485e;color:white}
+.modal-confirm{background:var(--cyan);color:#102638}
+.confirmation{
+  display:none;margin-top:13px;padding:12px;
+  border-radius:9px;background:#173e35;color:#9fe6c8;
+  font-size:11px;line-height:1.5;
+}
+
+/* RESPONSIVE */
+@media(max-width:1000px){
+  .layout{grid-template-columns:235px minmax(0,1fr)}
+  .metrics{grid-template-columns:repeat(2,1fr)}
+  main{padding:20px 17px}
+}
+@media(max-width:720px){
+  header{height:67px;padding:0 15px}
+  .brand h1{font-size:16px}
+  .header-right{gap:8px}
+  .live-indicator{font-size:9px;padding:8px}
+  .header-button{font-size:10px;padding:9px}
+  .layout{display:block}
+  .sidebar{display:none}
+  main{padding:18px 12px 30px}
+  .page-heading{flex-direction:column}
+  .metrics{gap:9px}
+  .metric{padding:12px}
+  .metric-value{font-size:20px}
+  .map-toolbar{align-items:flex-start;flex-direction:column}
+  #map{height:350px}
+  .map-footer{align-items:flex-start;flex-direction:column}
+  .bottom-grid{grid-template-columns:1fr}
+  .tech-grid{grid-template-columns:1fr}
+}
+</style>
+</head>
+
+<body>
+
+<header>
+  <div class="brand">
+    <div class="brand-icon">🚌</div>
+    <div>
+      <h1>UbicaBus</h1>
+      <p>Merlo · Papagayos</p>
+    </div>
+  </div>
+  <div class="header-right">
+    <div class="live-indicator">
+      <span class="pulse"></span>
+      SIMULACIÓN ACTIVA
+    </div>
+    <button class="header-button" onclick="openDonation()">
+      ♥ Colaborar
+    </button>
+  </div>
+</header>
+
+<div class="layout">
+
+  <!-- PANEL LATERAL -->
+  <aside class="sidebar">
+    <div class="side-label">Corredor de transporte</div>
+
+    <div class="route-card">
+      <div class="route-card-top">
+        <span class="route-badge">RUTA 1</span>
+        <small>Interurbano</small>
+      </div>
+      <h2>Merlo – Papagayos</h2>
+      <p>Seguimiento demostrativo del corredor interurbano de la provincia de San Luis.</p>
+
+      <div class="route-line">
+        <div class="route-stop">
+          <span class="stop-dot"></span>
+          <div>
+            <div class="stop-name">Villa de Merlo</div>
+            <div class="stop-detail">Punto de inicio</div>
+          </div>
+        </div>
+        <div class="route-stop">
+          <span class="stop-dot"></span>
+          <div>
+            <div class="stop-name">Carpintería</div>
+            <div class="stop-detail">Parada intermedia</div>
+          </div>
+        </div>
+        <div class="route-stop">
+          <span class="stop-dot"></span>
+          <div>
+            <div class="stop-name">Los Molles</div>
+            <div class="stop-detail">Parada intermedia</div>
+          </div>
+        </div>
+        <div class="route-stop">
+          <span class="stop-dot"></span>
+          <div>
+            <div class="stop-name">Cortaderas</div>
+            <div class="stop-detail">Parada intermedia</div>
+          </div>
+        </div>
+        <div class="route-stop">
+          <span class="stop-dot"></span>
+          <div>
+            <div class="stop-name">Papagayos</div>
+            <div class="stop-detail">Punto final</div>
+          </div>
+        </div>
+      </div>
+      <button class="sidebar-button" onclick="showFullRoute()">
+        VER CORREDOR EN EL MAPA →
+      </button>
+    </div>
+
+    <div class="side-label">Estado del prototipo</div>
+    <div class="sidebar-info">
+      <strong>🟢 Simulador funcionando</strong>
+      <p>El marcador del colectivo se desplaza automáticamente sobre el recorrido ilustrativo.</p>
+    </div>
+
+    <div class="sidebar-info">
+      <strong>📡 Conectividad GPS</strong>
+      <p>Sin conexión a unidades reales. La posición que se muestra es generada por el prototipo.</p>
+    </div>
+
+    <div class="sidebar-info">
+      <strong>💡 ¿Cómo funciona?</strong>
+      <p>El sistema representa cómo podría visualizarse la información enviada por un módulo GPS instalado en un colectivo.</p>
+    </div>
+  </aside>
+
+  <!-- CONTENIDO PRINCIPAL -->
+  <main>
+    <div class="page-heading">
+      <div>
+        <h2>Centro de seguimiento</h2>
+        <p>Información del corredor interurbano Merlo – Papagayos.</p>
+      </div>
+      <span class="demo-label">PROTOTIPO ESCOLAR · DATOS SIMULADOS</span>
+    </div>
+
+    <!-- INDICADORES -->
+    <section class="metrics">
+      <div class="metric">
+        <div class="metric-top">
+          <span class="metric-label">Unidades simuladas</span>
+          <span class="metric-icon">🚌</span>
+        </div>
+        <div class="metric-value">01</div>
+        <div class="metric-note">Vehículo de demostración</div>
+      </div>
+      <div class="metric">
+        <div class="metric-top">
+          <span class="metric-label">Localidades</span>
+          <span class="metric-icon">📍</span>
+        </div>
+        <div class="metric-value">05</div>
+        <div class="metric-note">Puntos de referencia</div>
+      </div>
+      <div class="metric">
+        <div class="metric-top">
+          <span class="metric-label">Estado GPS</span>
+          <span class="metric-icon">📡</span>
+        </div>
+        <div class="metric-value" style="font-size:17px;color:var(--orange)">SIMULADO</div>
+        <div class="metric-note">Sin dispositivo físico conectado</div>
+      </div>
+      <div class="metric">
+        <div class="metric-top">
+          <span class="metric-label">Última actualización</span>
+          <span class="metric-icon">🕒</span>
+        </div>
+        <div class="metric-value" id="clock" style="font-size:19px">--:--:--</div>
+        <div class="metric-note">Reloj del dispositivo</div>
+      </div>
+    </section>
+
+    <!-- MAPA PRINCIPAL -->
+    <section class="map-panel">
+      <div class="map-toolbar">
+        <div>
+          <h3>🗺️ Mapa de seguimiento del corredor</h3>
+          <p>Visualización geográfica ilustrativa · Ruta Provincial N.º 1</p>
+        </div>
+        <div class="map-actions">
+          <button onclick="toggleSimulation()" id="simulationButton">⏸ Pausar</button>
+          <button onclick="resetSimulation()">↺ Reiniciar</button>
+        </div>
+      </div>
+      <div id="map">
+        <div id="mapFallback" style="display:none;padding:24px;color:#183047;text-align:center;">
+          <strong>No se pudo cargar el mapa geográfico.</strong>
+          <p>La simulación y la consulta de paradas siguen disponibles. Revisá la conexión a Internet o los permisos de red del navegador.</p>
+        </div>
+      </div>
+      <div class="map-footer">
+        <div class="legend">
+          <span class="legend-item"><i class="legend-dot bus"></i>Colectivo simulado</span>
+          <span class="legend-item"><i class="legend-dot"></i>Recorrido ilustrativo</span>
+          <span class="legend-item"><i class="legend-dot stop"></i>Paradas de referencia</span>
+        </div>
+        <span id="mapStatus">● Simulación en movimiento</span>
+      </div>
+    </section>
+
+    <!-- INFORMACIÓN Y DONACIONES -->
+    <div class="bottom-grid">
+
+      <section class="info-panel">
+        <div class="panel-heading">
+          <h3>📍 Consultar una parada</h3>
+          <span>Información de ejemplo</span>
+        </div>
+        <label for="selectedStop" style="font-size:11px;color:var(--muted)">
+          Seleccioná una localidad:
+        </label>
+        <select id="selectedStop">
+          <option value="0">Villa de Merlo</option>
+          <option value="1">Carpintería</option>
+          <option value="2">Los Molles</option>
+          <option value="3">Cortaderas</option>
+          <option value="4">Papagayos</option>
+        </select>
+
+        <div class="arrival-card">
+          <div>
+            <small>Tiempo estimado de llegada</small>
+            <strong id="eta">-- min</strong>
+            <p id="etaDescription">Estimación demostrativa</p>
+          </div>
+          <div class="arrival-icon">🚌</div>
+        </div>
+
+        <div class="stop-list" id="stopInformation"></div>
+      </section>
+
+      <section class="info-panel">
+        <div class="panel-heading">
+          <h3>♥ Financiamiento colectivo</h3>
+          <span>Participación voluntaria</span>
+        </div>
+        <div class="donation-card">
+          <h4>Ayudanos a hacer realidad UbicaBus</h4>
+          <p>El proyecto propone reunir aportes voluntarios para contribuir a la adquisición de módulos GPS, conectividad y servicios de alojamiento de datos.</p>
+          <button class="donation-button" onclick="openDonation()">
+            ♥ Conocer cómo colaborar
+          </button>
+          <div class="donation-note">
+            Esta función es demostrativa. No se realizan cobros ni transferencias de dinero.
+          </div>
+        </div>
+
+        <div class="sidebar-info" style="margin-top:13px">
+          <strong>🎯 ¿Para qué serviría?</strong>
+          <p>Para que los usuarios puedan conocer dónde se encuentra el colectivo y organizar mejor sus viajes.</p>
+        </div>
+      </section>
+
+    </div>
+
+    <!-- TECNOLOGÍAS -->
+    <div class="side-label" style="margin-top:25px">Tecnologías previstas para el proyecto</div>
+    <section class="tech-grid">
+      <div class="tech-card">
+        <div class="tech-icon">🗺️</div>
+        <h4>OpenStreetMap + Leaflet</h4>
+        <p>Mapa interactivo para representar el recorrido y las paradas.</p>
+      </div>
+      <div class="tech-card">
+        <div class="tech-icon">📡</div>
+        <h4>GPS + ESP32 + 4G</h4>
+        <p>Dispositivos que podrían obtener y transmitir la ubicación de las unidades.</p>
+      </div>
+      <div class="tech-card">
+        <div class="tech-icon">☁️</div>
+        <h4>Base de datos</h4>
+        <p>Servicio que recibiría y almacenaría las coordenadas enviadas por los dispositivos.</p>
+      </div>
+    </section>
+
+    <div class="disclaimer">
+      <strong>⚠️ IMPORTANTE: PROTOTIPO DE DEMOSTRACIÓN</strong><br>
+      UbicaBus Merlo-Papagayos es un proyecto escolar en etapa de prototipado. La ubicación del colectivo, los tiempos de llegada y la trayectoria representada son simulados. Los puntos geográficos son aproximados y no constituyen coordenadas verificadas de paradas ni un trazado oficial del transporte. La plataforma no está conectada a empresas de transporte ni a dispositivos GPS reales. El módulo de colaboración tampoco procesa pagos.
+    </div>
+  </main>
+</div>
+
+<footer>
+  <strong>UBICABUS MERLO – PAPAGAYOS</strong><br>
+  Proyecto de Educación Tecnológica · 6.º A<br>
+  Centro Educativo Padre Pablo Tissera · Villa de Merlo, San Luis<br>
+  <span>Desarrollado por Ignacio Marzano, Benjamín Loeschbor y Gael Cozzella</span>
+</footer>
+
+<!-- MODAL DE DONACIONES -->
+<div class="modal-bg" id="donationModal">
+  <div class="modal">
+    <h3>♥ Colaborá con UbicaBus</h3>
+    <p>
+      El proyecto propone un sistema de aportes voluntarios para ayudar a financiar los dispositivos GPS, la conectividad y el alojamiento de la plataforma.
+    </p>
+    <p>
+      En una futura versión se podría integrar Mercado Pago mediante su entorno de pruebas (Sandbox), para demostrar el proceso de donación sin utilizar dinero real.
+    </p>
+    <div class="confirmation" id="donationConfirmation">
+      Esta es una simulación escolar. No se inició ningún pago ni se compartieron datos personales.
+    </div>
+    <div class="modal-actions">
+      <button class="modal-close" onclick="closeDonation()">Cerrar</button>
+      <button class="modal-confirm" onclick="simulateDonation()">Probar donación</button>
+    </div>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/leaflet@1.9.4/dist/leaflet.js"></script>
+
+<script>
+// =====================================================
+// 1. PUNTOS GEOGRÁFICOS ILUSTRATIVOS
+// Coordenadas aproximadas para la demostración.
+// Deben reemplazarse por coordenadas verificadas.
+// =====================================================
+
+const stops = [
+  {
+    name:"Villa de Merlo",
+    coords:[-32.3427,-65.0138],
+    detail:"Punto de inicio del corredor"
+  },
+  {
+    name:"Carpintería",
+    coords:[-32.4070,-64.9950],
+    detail:"Parada intermedia de referencia"
+  },
+  {
+    name:"Los Molles",
+    coords:[-32.4800,-64.9600],
+    detail:"Parada intermedia de referencia"
+  },
+  {
+    name:"Cortaderas",
+    coords:[-32.5540,-64.9250],
+    detail:"Parada intermedia de referencia"
+  },
+  {
+    name:"Papagayos",
+    coords:[-32.6400,-64.9000],
+    detail:"Punto final del corredor"
+  }
+];
+
+// =====================================================
+// 2. CONFIGURACIÓN DEL MAPA LEAFLET
+// =====================================================
+
+if (typeof L === "undefined") {
+  document.getElementById("mapFallback").style.display = "block";
+  document.getElementById("mapFallback").style.minHeight = "220px";
+  document.getElementById("mapFallback").style.paddingTop = "75px";
+  throw new Error("Leaflet no pudo cargarse. El mapa queda desactivado, pero el resto del prototipo puede utilizarse.");
+}
+
+const map = L.map("map",{
+  scrollWheelZoom:true
+}).setView([-32.48,-64.96],11);
+
+L.tileLayer(
+  "https://tile.openstreetmap.org/{z}/{x}/{y}.png",
+  {
+    maxZoom:19,
+    attribution: '&copy; OpenStreetMap contributors'
+  }
+).addTo(map);
+
+map.on("tileerror", function(){
+  document.getElementById("mapStatus").textContent =
+    "● No se pudieron cargar los mosaicos del mapa; revisá la conexión";
+});
+
+// Recorrido ilustrativo
+const routeCoordinates=stops.map(s=>s.coords);
+
+const route=L.polyline(routeCoordinates,{
+  color:"#168fc4",
+  weight:5,
+  opacity:.9,
+  dashArray:"9 8"
+}).addTo(map);
+
+// Marcadores de las localidades
+stops.forEach((stop,index)=>{
+  const marker=L.marker(stop.coords,{
+    icon:L.divIcon({
+      className:"",
+      html:'<div class="stop-marker"></div>',
+      iconSize:[15,15],
+      iconAnchor:[7,7]
+    })
+  }).addTo(map);
+
+  marker.bindPopup(
+    "<strong>"+stop.name+"</strong><br>"+stop.detail+
+    "<br><small>Ubicación ilustrativa</small>"
+  );
+});
+
+map.fitBounds(route.getBounds(),{padding:[35,35]});
+
+// =====================================================
+// 3. MARCADOR DEL COLECTIVO SIMULADO
+// =====================================================
+
+const busIcon=L.divIcon({
+  className:"",
+  html:'<div class="bus-marker">🚌</div>',
+  iconSize:[39,39],
+  iconAnchor:[19,19]
+});
+
+let progress=0;
+let direction=1;
+let simulationRunning=true;
+let busMarker=L.marker(routeCoordinates[0],{
+  icon:busIcon,
+  zIndexOffset:1000
+}).addTo(map);
+
+busMarker.bindPopup(
+  "<strong>Unidad demostrativa</strong><br>Ubicación simulada"
+);
+
+function interpolatePosition(value){
+  const segments=routeCoordinates.length-1;
+  const scaled=value*segments;
+  const index=Math.min(Math.floor(scaled),segments-1);
+  const localProgress=scaled-index;
+
+  const a=routeCoordinates[index];
+  const b=routeCoordinates[index+1];
+
+  return [
+    a[0]+(b[0]-a[0])*localProgress,
+    a[1]+(b[1]-a[1])*localProgress
+  ];
+}
+
+function moveBus(){
+  if(!simulationRunning)return;
+
+  progress+=0.0018*direction;
+
+  if(progress>=1){
+    progress=1;
+    direction=-1;
+  }
+  if(progress<=0){
+    progress=0;
+    direction=1;
+  }
+
+  const position=interpolatePosition(progress);
+  busMarker.setLatLng(position);
+  updateETA();
+}
+
+const movementTimer=setInterval(moveBus,1000);
+
+function toggleSimulation(){
+  simulationRunning=!simulationRunning;
+  document.getElementById("simulationButton").textContent=
+    simulationRunning?"⏸ Pausar":"▶ Reanudar";
+
+  document.getElementById("mapStatus").textContent=
+    simulationRunning?"● Simulación en movimiento":"Ⅱ Simulación pausada";
+}
+
+function resetSimulation(){
+  progress=0;
+  direction=1;
+  busMarker.setLatLng(routeCoordinates[0]);
+  simulationRunning=true;
+  document.getElementById("simulationButton").textContent="⏸ Pausar";
+  document.getElementById("mapStatus").textContent="● Simulación reiniciada";
+  updateETA();
+}
+
+function showFullRoute(){
+  map.fitBounds(route.getBounds(),{padding:[35,35]});
+  map.invalidateSize();
+}
+
+// =====================================================
+// 4. SELECCIÓN DE PARADAS Y TIEMPO ESTIMADO
+// =====================================================
+
+const selectedStop=document.getElementById("selectedStop");
+
+function updateETA(){
+  const index=Number(selectedStop.value);
+  const selected=stops[index];
+
+  const busPosition=interpolatePosition(progress);
+
+  const distance=Math.sqrt(
+    Math.pow((selected.coords[0]-busPosition[0])*111,2)+
+    Math.pow((selected.coords[1]-busPosition[1])*93,2)
+  );
+
+  const simulatedMinutes=Math.max(1,Math.round(distance*4.5));
+
+  document.getElementById("eta").textContent=
+    simulatedMinutes+" min";
+
+  document.getElementById("etaDescription").textContent=
+    "Estimación ficticia para "+selected.name;
+}
+
+function updateStopInformation(){
+  const index=Number(selectedStop.value);
+  const selected=stops[index];
+
+  document.getElementById("stopInformation").innerHTML=`
+    <div class="stop-list-row">
+      <span>Localidad seleccionada</span>
+      <strong>${selected.name}</strong>
+    </div>
+    <div class="stop-list-row">
+      <span>Tipo de información</span>
+      <span>Demostrativa</span>
+    </div>
+    <div class="stop-list-row">
+      <span>Ubicación GPS real</span>
+      <span>No disponible</span>
+    </div>
+  `;
+
+  updateETA();
+}
+
+selectedStop.addEventListener("change",updateStopInformation);
+
+// =====================================================
+// 5. RELOJ DE ACTUALIZACIÓN VISUAL
+// =====================================================
+
+function updateClock(){
+  const now=new Date();
+  document.getElementById("clock").textContent=
+    now.toLocaleTimeString("es-AR");
+}
+setInterval(updateClock,1000);
+updateClock();
+
+// =====================================================
+// 6. MÓDULO DEMOSTRATIVO DE DONACIONES
+// No se conecta a Mercado Pago.
+// =====================================================
+
+function openDonation(){
+  document.getElementById("donationModal").style.display="flex";
+  document.getElementById("donationConfirmation").style.display="none";
+}
+
+function closeDonation(){
+  document.getElementById("donationModal").style.display="none";
+}
+
+function simulateDonation(){
+  document.getElementById("donationConfirmation").style.display="block";
+}
+
+document.getElementById("donationModal").addEventListener("click",function(event){
+  if(event.target===this)closeDonation();
+});
+
+// =====================================================
+// 7. INICIO
+// =====================================================
+
+updateStopInformation();
+
+// Ajuste del mapa al cambiar el tamaño de la pantalla
+window.addEventListener("resize",()=>{
+  setTimeout(()=>map.invalidateSize(),200);
+});
+</script>
+
+</body>
+</html>

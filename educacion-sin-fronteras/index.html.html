@@ -1,0 +1,2127 @@
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#102a43">
+  <meta name="description" content="Educación Sin Fronteras: cursos, recursos y tutorías gratuitas para acercar oportunidades educativas a jóvenes de Villa de Merlo y otras localidades.">
+  <title>Educación Sin Fronteras | Aprender sin límites</title>
+
+  <style>
+    /* ========================================
+       1. CONFIGURACIÓN GENERAL
+    ======================================== */
+    :root {
+      --navy: #102a43;
+      --blue: #1769aa;
+      --blue-light: #eaf4ff;
+      --teal: #14b8a6;
+      --yellow: #ffcb69;
+      --white: #ffffff;
+      --background: #f5f8fc;
+      --text: #243b53;
+      --muted: #627d98;
+      --border: #d9e2ec;
+      --shadow: 0 12px 35px rgba(16, 42, 67, .08);
+      --radius: 20px;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+      scroll-padding-top: 90px;
+    }
+
+    body {
+      font-family: "Segoe UI", Arial, sans-serif;
+      color: var(--text);
+      background: var(--background);
+      line-height: 1.6;
+    }
+
+    button, input, select, textarea {
+      font: inherit;
+    }
+
+    button, a {
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    button {
+      cursor: pointer;
+    }
+
+    .container {
+      width: min(1160px, 92%);
+      margin-inline: auto;
+    }
+
+    .section {
+      padding: 82px 0;
+    }
+
+    .section-heading {
+      max-width: 680px;
+      margin-bottom: 36px;
+    }
+
+    .eyebrow {
+      color: var(--blue);
+      text-transform: uppercase;
+      font-size: .78rem;
+      font-weight: 800;
+      letter-spacing: 1.7px;
+    }
+
+    h1, h2, h3 {
+      line-height: 1.2;
+      color: var(--navy);
+    }
+
+    h2 {
+      font-size: clamp(1.8rem, 4vw, 2.65rem);
+      margin: 10px 0 14px;
+      letter-spacing: -.8px;
+    }
+
+    .section-heading p,
+    .muted {
+      color: var(--muted);
+    }
+
+    .btn {
+      display: inline-flex;
+      justify-content: center;
+      align-items: center;
+      gap: 9px;
+      padding: 12px 20px;
+      border: 0;
+      border-radius: 11px;
+      font-weight: 750;
+      transition: .2s ease;
+    }
+
+    .btn:hover {
+      transform: translateY(-2px);
+    }
+
+    .btn-primary {
+      color: white;
+      background: var(--blue);
+    }
+
+    .btn-primary:hover {
+      background: #12568f;
+    }
+
+    .btn-outline {
+      border: 1px solid var(--border);
+      background: white;
+      color: var(--navy);
+    }
+
+    .btn-light {
+      background: white;
+      color: var(--navy);
+    }
+
+    .full-width {
+      width: 100%;
+    }
+
+    /* ========================================
+       2. BARRA DE NAVEGACIÓN
+    ======================================== */
+    .navbar {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(255,255,255,.96);
+      backdrop-filter: blur(14px);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .nav-inner {
+      min-height: 76px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 11px;
+      flex-shrink: 0;
+    }
+
+    .brand-mark {
+      width: 43px;
+      height: 43px;
+      display: grid;
+      place-items: center;
+      border-radius: 13px;
+      color: white;
+      background: var(--blue);
+      font-size: 1.4rem;
+      font-weight: 900;
+    }
+
+    .brand strong {
+      display: block;
+      font-size: .97rem;
+      line-height: 1.25;
+      color: var(--navy);
+    }
+
+    .brand small {
+      display: block;
+      color: var(--muted);
+      font-size: .72rem;
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 24px;
+      font-size: .91rem;
+      font-weight: 650;
+    }
+
+    .nav-links a:hover {
+      color: var(--blue);
+    }
+
+    .nav-actions {
+      display: flex;
+      gap: 9px;
+      align-items: center;
+    }
+
+    .menu-toggle {
+      display: none;
+      border: 0;
+      background: transparent;
+      color: var(--navy);
+      font-size: 1.8rem;
+    }
+
+    /* ========================================
+       3. PORTADA
+    ======================================== */
+    .hero {
+      overflow: hidden;
+      position: relative;
+      color: white;
+      background:
+        radial-gradient(ellipse at 85% 10%, #2376ae 0%, transparent 36%),
+        linear-gradient(125deg, #102a43 0%, #123f65 60%, #1769aa 100%);
+    }
+
+    .hero::after {
+      content: "";
+      position: absolute;
+      width: 450px;
+      height: 450px;
+      right: -180px;
+      bottom: -280px;
+      border: 1px solid rgba(255,255,255,.15);
+      border-radius: 50%;
+      box-shadow:
+        0 0 0 45px rgba(255,255,255,.035),
+        0 0 0 90px rgba(255,255,255,.025);
+    }
+
+    .hero-grid {
+      min-height: 520px;
+      display: grid;
+      grid-template-columns: 1.15fr .85fr;
+      align-items: center;
+      gap: 50px;
+      padding-block: 70px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .hero .eyebrow {
+      color: #9dece1;
+    }
+
+    .hero h1 {
+      color: white;
+      font-size: clamp(2.6rem, 5vw, 4.6rem);
+      letter-spacing: -2.3px;
+      margin: 15px 0 22px;
+      max-width: 680px;
+    }
+
+    .hero h1 span {
+      color: var(--yellow);
+    }
+
+    .hero-copy {
+      color: #e1edf7;
+      font-size: 1.1rem;
+      max-width: 590px;
+      margin-bottom: 29px;
+    }
+
+    .hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    .hero .btn-outline {
+      color: white;
+      background: transparent;
+      border-color: rgba(255,255,255,.35);
+    }
+
+    .hero-note {
+      margin-top: 22px;
+      color: #c7d8e8;
+      font-size: .85rem;
+    }
+
+    .hero-visual {
+      position: relative;
+      min-height: 350px;
+      display: grid;
+      place-items: center;
+    }
+
+    .learning-card {
+      width: min(100%, 370px);
+      padding: 28px;
+      background: white;
+      color: var(--text);
+      border-radius: 25px;
+      box-shadow: 0 28px 70px rgba(0,0,0,.2);
+      transform: rotate(2deg);
+    }
+
+    .learning-card-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 22px;
+    }
+
+    .learning-card h3 {
+      font-size: 1.35rem;
+      margin-bottom: 6px;
+    }
+
+    .pill {
+      display: inline-flex;
+      padding: 5px 10px;
+      border-radius: 30px;
+      background: #e4faf5;
+      color: #087f70;
+      font-size: .75rem;
+      font-weight: 800;
+    }
+
+    .course-preview {
+      display: flex;
+      align-items: center;
+      gap: 13px;
+      padding: 14px 0;
+      border-top: 1px solid #edf2f7;
+    }
+
+    .course-icon {
+      width: 48px;
+      height: 48px;
+      display: grid;
+      place-items: center;
+      flex-shrink: 0;
+      border-radius: 14px;
+      font-size: 1.55rem;
+    }
+
+    .icon-blue { background: #e6f1ff; }
+    .icon-green { background: #dff8ee; }
+    .icon-yellow { background: #fff1cc; }
+    .icon-purple { background: #eee7ff; }
+
+    .course-preview strong {
+      display: block;
+      font-size: .95rem;
+      color: var(--navy);
+    }
+
+    .course-preview small {
+      color: var(--muted);
+    }
+
+    /* ========================================
+       4. INDICADORES
+    ======================================== */
+    .stats {
+      position: relative;
+      z-index: 2;
+      margin-top: -1px;
+      background: white;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      padding-block: 27px;
+      gap: 20px;
+    }
+
+    .stat {
+      text-align: center;
+      padding: 8px;
+    }
+
+    .stat strong {
+      display: block;
+      font-size: 1.2rem;
+      color: var(--navy);
+    }
+
+    .stat span {
+      font-size: .9rem;
+      color: var(--muted);
+    }
+
+    /* ========================================
+       5. BUSCADOR Y CURSOS
+    ======================================== */
+    .search-bar {
+      display: flex;
+      gap: 12px;
+      margin-bottom: 28px;
+    }
+
+    .search-input {
+      flex: 1;
+      min-width: 0;
+      padding: 13px 16px;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      background: white;
+      outline: none;
+    }
+
+    .search-input:focus,
+    .form-control:focus {
+      border-color: var(--blue);
+      box-shadow: 0 0 0 3px rgba(23,105,170,.1);
+    }
+
+    .filters {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 9px;
+      margin-bottom: 27px;
+    }
+
+    .filter-btn {
+      padding: 9px 15px;
+      border: 1px solid var(--border);
+      border-radius: 30px;
+      color: var(--text);
+      background: white;
+      font-weight: 650;
+      font-size: .88rem;
+    }
+
+    .filter-btn.active,
+    .filter-btn:hover {
+      background: var(--navy);
+      color: white;
+      border-color: var(--navy);
+    }
+
+    .courses-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 22px;
+    }
+
+    .course-card {
+      overflow: hidden;
+      background: white;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      transition: .25s;
+    }
+
+    .course-card:hover {
+      transform: translateY(-5px);
+      box-shadow: var(--shadow);
+    }
+
+    .course-banner {
+      min-height: 155px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 23px;
+    }
+
+    .course-banner .emoji {
+      font-size: 3.5rem;
+    }
+
+    .course-banner .category {
+      align-self: flex-start;
+      padding: 6px 10px;
+      border-radius: 20px;
+      background: rgba(255,255,255,.75);
+      font-size: .75rem;
+      font-weight: 800;
+    }
+
+    .banner-math { background: #e3edff; }
+    .banner-code { background: #d9f8ed; }
+    .banner-science { background: #fff0cf; }
+    .banner-data { background: #ede5ff; }
+    .banner-english { background: #ffe5e2; }
+    .banner-digital { background: #dff3ff; }
+
+    .course-body {
+      padding: 23px;
+    }
+
+    .course-body h3 {
+      font-size: 1.2rem;
+      margin-bottom: 10px;
+    }
+
+    .course-body p {
+      color: var(--muted);
+      font-size: .92rem;
+      min-height: 68px;
+    }
+
+    .course-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 13px;
+      margin: 19px 0;
+      color: var(--muted);
+      font-size: .82rem;
+    }
+
+    .course-footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      border-top: 1px solid #edf2f7;
+      padding-top: 16px;
+    }
+
+    .free-label {
+      color: #087f70;
+      font-weight: 800;
+      font-size: .88rem;
+    }
+
+    .empty-state {
+      grid-column: 1 / -1;
+      padding: 35px;
+      text-align: center;
+      color: var(--muted);
+      background: white;
+      border-radius: var(--radius);
+    }
+
+    /* ========================================
+       6. CÓMO FUNCIONA
+    ======================================== */
+    .how-section {
+      background: white;
+    }
+
+    .steps-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 27px;
+    }
+
+    .step-card {
+      padding: 27px;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      background: #fbfdff;
+    }
+
+    .step-number {
+      width: 48px;
+      height: 48px;
+      display: grid;
+      place-items: center;
+      margin-bottom: 20px;
+      border-radius: 15px;
+      background: var(--blue-light);
+      color: var(--blue);
+      font-weight: 900;
+      font-size: 1.15rem;
+    }
+
+    .step-card h3 {
+      margin-bottom: 11px;
+    }
+
+    .step-card p {
+      color: var(--muted);
+      font-size: .94rem;
+    }
+
+    /* ========================================
+       7. CRONOGRAMA
+    ======================================== */
+    .schedule-layout {
+      display: grid;
+      grid-template-columns: .8fr 1.2fr;
+      gap: 35px;
+      align-items: start;
+    }
+
+    .schedule-intro {
+      padding: 30px;
+      border-radius: var(--radius);
+      background: var(--navy);
+      color: white;
+    }
+
+    .schedule-intro h3 {
+      color: white;
+      font-size: 1.55rem;
+      margin: 14px 0;
+    }
+
+    .schedule-intro p {
+      color: #d1e0ed;
+    }
+
+    .schedule-list {
+      display: grid;
+      gap: 14px;
+    }
+
+    .schedule-item {
+      display: grid;
+      grid-template-columns: 80px 1fr auto;
+      align-items: center;
+      gap: 16px;
+      padding: 19px;
+      border: 1px solid var(--border);
+      border-radius: 15px;
+      background: white;
+    }
+
+    .schedule-date {
+      text-align: center;
+      padding: 9px 5px;
+      border-radius: 12px;
+      background: var(--blue-light);
+      color: var(--blue);
+      font-size: .78rem;
+      font-weight: 800;
+    }
+
+    .schedule-date strong {
+      display: block;
+      font-size: 1.3rem;
+    }
+
+    .schedule-item h3 {
+      font-size: 1rem;
+      margin-bottom: 4px;
+    }
+
+    .schedule-item p {
+      color: var(--muted);
+      font-size: .84rem;
+    }
+
+    /* ========================================
+       8. RECURSOS
+    ======================================== */
+    .resources-section {
+      background: white;
+    }
+
+    .resources-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+    }
+
+    .resource-card {
+      padding: 25px;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      background: #fbfdff;
+    }
+
+    .resource-card .course-icon {
+      margin-bottom: 17px;
+    }
+
+    .resource-card h3 {
+      margin-bottom: 9px;
+    }
+
+    .resource-card p {
+      color: var(--muted);
+      font-size: .9rem;
+      margin-bottom: 18px;
+    }
+
+    .text-link {
+      color: var(--blue);
+      font-weight: 800;
+      font-size: .9rem;
+      border: 0;
+      background: transparent;
+    }
+
+    /* ========================================
+       9. AULAS ITINERANTES
+    ======================================== */
+    .mobile-classroom {
+      background: #eaf4ff;
+    }
+
+    .mobile-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 45px;
+      align-items: center;
+    }
+
+    .mobile-visual {
+      min-height: 330px;
+      display: grid;
+      place-items: center;
+      border-radius: 28px;
+      background:
+        radial-gradient(circle at 70% 20%, #c7f5ec, transparent 35%),
+        linear-gradient(135deg, #d9e9ff, #f8fbff);
+    }
+
+    .mobile-illustration {
+      text-align: center;
+      padding: 20px;
+    }
+
+    .mobile-illustration .big-emoji {
+      font-size: 7rem;
+      display: block;
+      margin-bottom: 10px;
+    }
+
+    .mobile-illustration strong {
+      color: var(--navy);
+      font-size: 1.15rem;
+    }
+
+    .mobile-copy p {
+      color: var(--muted);
+      margin: 14px 0 22px;
+    }
+
+    .feature-list {
+      display: grid;
+      gap: 12px;
+      margin: 22px 0;
+      list-style: none;
+    }
+
+    .feature-list li {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+    }
+
+    .feature-list li span {
+      color: #087f70;
+      font-weight: 900;
+    }
+
+    /* ========================================
+       10. FORMULARIO DE INTERÉS
+    ======================================== */
+    .join-panel {
+      display: grid;
+      grid-template-columns: .9fr 1.1fr;
+      gap: 45px;
+      padding: 42px;
+      border-radius: 26px;
+      color: white;
+      background: linear-gradient(130deg, #102a43, #1769aa);
+    }
+
+    .join-panel h2 {
+      color: white;
+    }
+
+    .join-panel p {
+      color: #d8e7f4;
+      margin-top: 14px;
+    }
+
+    .join-form {
+      padding: 25px;
+      border-radius: 18px;
+      background: white;
+      color: var(--text);
+    }
+
+    .form-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 13px;
+    }
+
+    .form-group {
+      margin-bottom: 15px;
+    }
+
+    .form-group label {
+      display: block;
+      margin-bottom: 6px;
+      color: var(--navy);
+      font-size: .86rem;
+      font-weight: 750;
+    }
+
+    .form-control {
+      display: block;
+      width: 100%;
+      padding: 11px 12px;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      background: white;
+      outline: none;
+    }
+
+    .form-note {
+      color: var(--muted);
+      font-size: .78rem;
+      margin-top: 12px;
+    }
+
+    .form-message {
+      margin-top: 14px;
+      padding: 12px;
+      border-radius: 10px;
+      background: #e4faf5;
+      color: #087f70;
+      font-size: .9rem;
+    }
+
+    /* ========================================
+       11. PIE DE PÁGINA
+    ======================================== */
+    footer {
+      padding: 45px 0 20px;
+      background: #0b2035;
+      color: #d1e0ed;
+    }
+
+    .footer-grid {
+      display: grid;
+      grid-template-columns: 1.4fr 1fr 1fr;
+      gap: 40px;
+      padding-bottom: 35px;
+    }
+
+    footer .brand strong {
+      color: white;
+    }
+
+    footer .brand small {
+      color: #b7cadb;
+    }
+
+    footer h3 {
+      color: white;
+      font-size: 1rem;
+      margin-bottom: 13px;
+    }
+
+    footer p, footer a {
+      font-size: .88rem;
+      color: #b7cadb;
+    }
+
+    footer a:hover {
+      color: white;
+    }
+
+    .footer-links {
+      display: grid;
+      gap: 8px;
+    }
+
+    .footer-bottom {
+      border-top: 1px solid rgba(255,255,255,.13);
+      padding-top: 18px;
+      display: flex;
+      justify-content: space-between;
+      gap: 15px;
+      font-size: .8rem;
+      color: #a6bbcf;
+    }
+
+    .prototype-label {
+      display: inline-block;
+      margin-top: 15px;
+      padding: 5px 9px;
+      border: 1px solid rgba(255,255,255,.25);
+      border-radius: 7px;
+      font-size: .75rem;
+    }
+
+    /* ========================================
+       12. VENTANA DE INFORMACIÓN
+    ======================================== */
+    .modal {
+      display: none;
+      position: fixed;
+      inset: 0;
+      z-index: 200;
+      padding: 20px;
+      place-items: center;
+      background: rgba(5,20,35,.68);
+    }
+
+    .modal.open {
+      display: grid;
+    }
+
+    .modal-content {
+      position: relative;
+      width: min(520px, 100%);
+      max-height: 85vh;
+      overflow-y: auto;
+      padding: 30px;
+      border-radius: 22px;
+      background: white;
+      box-shadow: var(--shadow);
+    }
+
+    .modal-close {
+      position: absolute;
+      top: 12px;
+      right: 16px;
+      border: 0;
+      background: transparent;
+      color: var(--muted);
+      font-size: 1.8rem;
+    }
+
+    .modal-content h2 {
+      padding-right: 25px;
+      font-size: 1.7rem;
+    }
+
+    .modal-content p {
+      color: var(--muted);
+      margin: 12px 0;
+    }
+
+    .modal-content ul {
+      margin: 15px 0 20px 20px;
+      color: var(--text);
+    }
+
+    .modal-content li {
+      margin: 6px 0;
+    }
+
+    /* ========================================
+       13. ADAPTACIÓN A CELULARES
+    ======================================== */
+    @media (max-width: 950px) {
+      .nav-links {
+        gap: 13px;
+        font-size: .85rem;
+      }
+
+      .nav-actions .btn {
+        padding: 10px 12px;
+      }
+
+      .hero-grid {
+        gap: 20px;
+      }
+
+      .courses-grid,
+      .resources-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .join-panel {
+        gap: 25px;
+        padding: 28px;
+      }
+    }
+
+    @media (max-width: 760px) {
+      .section {
+        padding: 60px 0;
+      }
+
+      .nav-inner {
+        min-height: 68px;
+        flex-wrap: wrap;
+      }
+
+      .menu-toggle {
+        display: block;
+      }
+
+      .nav-actions {
+        margin-left: auto;
+      }
+
+      .nav-actions .btn-outline {
+        display: none;
+      }
+
+      .nav-links {
+        display: none;
+        width: 100%;
+        padding: 12px 0 20px;
+        flex-direction: column;
+        align-items: stretch;
+        gap: 0;
+      }
+
+      .nav-links.open {
+        display: flex;
+      }
+
+      .nav-links a {
+        padding: 12px 4px;
+        border-top: 1px solid var(--border);
+      }
+
+      .hero-grid {
+        grid-template-columns: 1fr;
+        padding-block: 55px;
+      }
+
+      .hero h1 {
+        font-size: clamp(2.5rem, 10vw, 4rem);
+      }
+
+      .hero-visual {
+        min-height: auto;
+        padding: 15px 0;
+      }
+
+      .learning-card {
+        transform: none;
+      }
+
+      .stats-grid {
+        grid-template-columns: 1fr;
+        gap: 4px;
+      }
+
+      .stat {
+        border-bottom: 1px solid #edf2f7;
+      }
+
+      .stat:last-child {
+        border-bottom: 0;
+      }
+
+      .courses-grid,
+      .steps-grid,
+      .resources-grid,
+      .mobile-grid,
+      .schedule-layout,
+      .join-panel,
+      .footer-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .course-body p {
+        min-height: auto;
+      }
+
+      .schedule-item {
+        grid-template-columns: 66px 1fr;
+      }
+
+      .schedule-item .btn {
+        grid-column: 1 / -1;
+        width: 100%;
+      }
+
+      .join-panel {
+        padding: 23px;
+      }
+
+      .form-row {
+        grid-template-columns: 1fr;
+        gap: 0;
+      }
+
+      .footer-grid {
+        gap: 28px;
+      }
+
+      .footer-bottom {
+        flex-direction: column;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      html {
+        scroll-behavior: auto;
+      }
+
+      *, *::before, *::after {
+        transition: none !important;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- NAVEGACIÓN -->
+  <header class="navbar">
+    <div class="container nav-inner">
+
+      <a href="#inicio" class="brand" aria-label="Educación Sin Fronteras, inicio">
+        <span class="brand-mark">EF</span>
+        <span>
+          <strong>Educación Sin Fronteras</strong>
+          <small>Aprender sin límites</small>
+        </span>
+      </a>
+
+      <button class="menu-toggle" id="menuToggle"
+              aria-label="Abrir menú" aria-expanded="false"
+              aria-controls="navLinks">☰</button>
+
+      <nav class="nav-links" id="navLinks" aria-label="Navegación principal">
+        <a href="#inicio">Inicio</a>
+        <a href="#cursos">Cursos</a>
+        <a href="#cronograma">Cronograma</a>
+        <a href="#recursos">Recursos</a>
+        <a href="#aulas">Aulas itinerantes</a>
+      </nav>
+
+      <div class="nav-actions">
+        <a href="#inscripcion" class="btn btn-primary">Quiero participar →</a>
+      </div>
+
+    </div>
+  </header>
+
+  <main>
+
+    <!-- PORTADA -->
+    <section class="hero" id="inicio">
+      <div class="container hero-grid">
+
+        <div>
+          <span class="eyebrow">Más oportunidades, en todas partes</span>
+
+          <h1>Tu futuro no tiene <span>fronteras.</span></h1>
+
+          <p class="hero-copy">
+            Una plataforma educativa gratuita para que jóvenes de Villa de
+            Merlo y de otras localidades puedan aprender, desarrollar nuevas
+            habilidades y prepararse para los desafíos del futuro.
+          </p>
+
+          <div class="hero-actions">
+            <a href="#cursos" class="btn btn-light">Explorar cursos ↗</a>
+            <a href="#como-funciona" class="btn btn-outline">Conocer el proyecto</a>
+          </div>
+
+          <p class="hero-note">
+            Educación accesible · Tecnología · Igualdad de oportunidades
+          </p>
+        </div>
+
+        <div class="hero-visual">
+          <div class="learning-card">
+
+            <div class="learning-card-top">
+              <div>
+                <span class="eyebrow">Tu espacio de aprendizaje</span>
+                <h3>¿Qué querés aprender hoy?</h3>
+              </div>
+              <span style="font-size:2rem">🎓</span>
+            </div>
+
+            <div class="course-preview">
+              <div class="course-icon icon-blue">📐</div>
+              <div>
+                <strong>Matemática avanzada</strong>
+                <small>Preparación para el nivel superior</small>
+              </div>
+            </div>
+
+            <div class="course-preview">
+              <div class="course-icon icon-green">💻</div>
+              <div>
+                <strong>Programación</strong>
+                <small>Creá tus primeras soluciones digitales</small>
+              </div>
+            </div>
+
+            <div class="course-preview">
+              <div class="course-icon icon-yellow">🔬</div>
+              <div>
+                <strong>Ciencia y tecnología</strong>
+                <small>Aprender investigando y experimentando</small>
+              </div>
+            </div>
+
+            <div style="margin-top:18px">
+              <span class="pill">Propuesta educativa gratuita</span>
+            </div>
+
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- PROPÓSITO -->
+    <section class="stats" aria-label="Características del proyecto">
+      <div class="container stats-grid">
+
+        <div class="stat">
+          <strong>Acceso gratuito</strong>
+          <span>Aprendizaje sin cuotas de inscripción</span>
+        </div>
+
+        <div class="stat">
+          <strong>Desde cualquier localidad</strong>
+          <span>Una propuesta que conecta comunidades</span>
+        </div>
+
+        <div class="stat">
+          <strong>Modalidad híbrida</strong>
+          <span>Recursos virtuales y talleres presenciales</span>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- CURSOS -->
+    <section class="section" id="cursos">
+      <div class="container">
+
+        <div class="section-heading">
+          <span class="eyebrow">Aprendé a tu ritmo</span>
+          <h2>Explorá nuestros cursos</h2>
+          <p>
+            Encontrá propuestas para reforzar conocimientos, descubrir nuevas
+            áreas y prepararte para la universidad o el mundo laboral.
+            Los cursos que aparecen aquí son ejemplos de la versión beta.
+          </p>
+        </div>
+
+        <div class="search-bar">
+          <input class="search-input" id="courseSearch"
+                 type="search"
+                 placeholder="Buscar matemática, programación..."
+                 aria-label="Buscar cursos">
+          <button class="btn btn-primary" id="searchButton">Buscar</button>
+        </div>
+
+        <div class="filters" role="group" aria-label="Filtrar cursos">
+          <button class="filter-btn active" data-filter="todos">Todos</button>
+          <button class="filter-btn" data-filter="matematica">Matemática</button>
+          <button class="filter-btn" data-filter="programacion">Programación</button>
+          <button class="filter-btn" data-filter="ciencias">Ciencias</button>
+          <button class="filter-btn" data-filter="habilidades">Habilidades digitales</button>
+        </div>
+
+        <div class="courses-grid" id="coursesGrid">
+
+          <article class="course-card"
+                   data-category="matematica"
+                   data-search="matematica algebra funciones preparacion universidad">
+            <div class="course-banner banner-math">
+              <span class="category">Matemática</span>
+              <span class="emoji">📐</span>
+            </div>
+            <div class="course-body">
+              <h3>Matemática para el nivel superior</h3>
+              <p>
+                Repasá álgebra, ecuaciones y funciones para fortalecer tus
+                conocimientos antes de ingresar a estudios superiores.
+              </p>
+              <div class="course-meta">
+                <span>◷ 6 módulos de ejemplo</span>
+                <span>◎ Nivel inicial</span>
+              </div>
+              <div class="course-footer">
+                <span class="free-label">Gratuito</span>
+                <button class="btn btn-outline course-detail"
+                        data-course="matematica">Ver curso ↗</button>
+              </div>
+            </div>
+          </article>
+
+          <article class="course-card"
+                   data-category="programacion"
+                   data-search="programacion codigo javascript algoritmos computacion">
+            <div class="course-banner banner-code">
+              <span class="category">Programación</span>
+              <span class="emoji">💻</span>
+            </div>
+            <div class="course-body">
+              <h3>Introducción a la programación</h3>
+              <p>
+                Descubrí los algoritmos, las variables y las estructuras
+                básicas para crear tus primeros programas.
+              </p>
+              <div class="course-meta">
+                <span>◷ 5 módulos de ejemplo</span>
+                <span>◎ Desde cero</span>
+              </div>
+              <div class="course-footer">
+                <span class="free-label">Gratuito</span>
+                <button class="btn btn-outline course-detail"
+                        data-course="programacion">Ver curso ↗</button>
+              </div>
+            </div>
+          </article>
+
+          <article class="course-card"
+                   data-category="ciencias"
+                   data-search="ciencias fisica experimentos investigacion">
+            <div class="course-banner banner-science">
+              <span class="category">Ciencias</span>
+              <span class="emoji">🔬</span>
+            </div>
+            <div class="course-body">
+              <h3>Ciencia para descubrir</h3>
+              <p>
+                Explorá fenómenos naturales, aprendé a formular preguntas
+                y desarrollá pequeñas investigaciones.
+              </p>
+              <div class="course-meta">
+                <span>◷ 4 módulos de ejemplo</span>
+                <span>◎ Nivel inicial</span>
+              </div>
+              <div class="course-footer">
+                <span class="free-label">Gratuito</span>
+                <button class="btn btn-outline course-detail"
+                        data-course="ciencias">Ver curso ↗</button>
+              </div>
+            </div>
+          </article>
+
+          <article class="course-card"
+                   data-category="matematica"
+                   data-search="estadistica datos graficos probabilidad">
+            <div class="course-banner banner-data">
+              <span class="category">Matemática</span>
+              <span class="emoji">📊</span>
+            </div>
+            <div class="course-body">
+              <h3>Estadística y análisis de datos</h3>
+              <p>
+                Interpretá tablas y gráficos, calculá medidas estadísticas
+                y aprendé a comunicar conclusiones.
+              </p>
+              <div class="course-meta">
+                <span>◷ 4 módulos de ejemplo</span>
+                <span>◎ Nivel intermedio</span>
+              </div>
+              <div class="course-footer">
+                <span class="free-label">Gratuito</span>
+                <button class="btn btn-outline course-detail"
+                        data-course="estadistica">Ver curso ↗</button>
+              </div>
+            </div>
+          </article>
+
+          <article class="course-card"
+                   data-category="habilidades"
+                   data-search="herramientas digitales internet seguridad documentos">
+            <div class="course-banner banner-digital">
+              <span class="category">Habilidades digitales</span>
+              <span class="emoji">🌐</span>
+            </div>
+            <div class="course-body">
+              <h3>Herramientas digitales para estudiar</h3>
+              <p>
+                Organizá tus tareas, creá documentos y presentaciones,
+                investigá en internet y verificá tus fuentes.
+              </p>
+              <div class="course-meta">
+                <span>◷ 3 módulos de ejemplo</span>
+                <span>◎ Desde cero</span>
+              </div>
+              <div class="course-footer">
+                <span class="free-label">Gratuito</span>
+                <button class="btn btn-outline course-detail"
+                        data-course="digital">Ver curso ↗</button>
+              </div>
+            </div>
+          </article>
+
+          <article class="course-card"
+                   data-category="programacion"
+                   data-search="robotica sensores circuitos electronica tecnologia">
+            <div class="course-banner banner-code">
+              <span class="category">Programación</span>
+              <span class="emoji">🤖</span>
+            </div>
+            <div class="course-body">
+              <h3>Robótica y pensamiento computacional</h3>
+              <p>
+                Conocé sensores, circuitos y secuencias lógicas mediante
+                desafíos tecnológicos de dificultad progresiva.
+              </p>
+              <div class="course-meta">
+                <span>◷ 5 módulos de ejemplo</span>
+                <span>◎ Nivel inicial</span>
+              </div>
+              <div class="course-footer">
+                <span class="free-label">Gratuito</span>
+                <button class="btn btn-outline course-detail"
+                        data-course="robotica">Ver curso ↗</button>
+              </div>
+            </div>
+          </article>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- CÓMO FUNCIONA -->
+    <section class="section how-section" id="como-funciona">
+      <div class="container">
+
+        <div class="section-heading">
+          <span class="eyebrow">Simple y accesible</span>
+          <h2>Aprender debería estar al alcance de todos</h2>
+          <p>
+            La plataforma busca reducir las barreras geográficas y acercar
+            oportunidades educativas a estudiantes de comunidades alejadas
+            de los grandes centros urbanos.
+          </p>
+        </div>
+
+        <div class="steps-grid">
+
+          <article class="step-card">
+            <div class="step-number">01</div>
+            <h3>Elegí tu camino</h3>
+            <p>
+              Explorá las áreas de estudio y encontrá cursos relacionados
+              con tus intereses, necesidades y proyectos futuros.
+            </p>
+          </article>
+
+          <article class="step-card">
+            <div class="step-number">02</div>
+            <h3>Aprendé con recursos</h3>
+            <p>
+              Accedé a materiales teóricos, actividades, clases grabadas
+              y encuentros virtuales previstos por cada curso.
+            </p>
+          </article>
+
+          <article class="step-card">
+            <div class="step-number">03</div>
+            <h3>Conectate con tutores</h3>
+            <p>
+              La propuesta contempla espacios de consulta y acompañamiento
+              para resolver dudas y sostener el aprendizaje.
+            </p>
+          </article>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- CRONOGRAMA -->
+    <section class="section" id="cronograma">
+      <div class="container">
+
+        <div class="section-heading">
+          <span class="eyebrow">Organizá tu aprendizaje</span>
+          <h2>Próximas actividades</h2>
+          <p>
+            Ejemplo de cómo se podría presentar el cronograma de clases
+            virtuales y encuentros de consulta.
+          </p>
+        </div>
+
+        <div class="schedule-layout">
+
+          <aside class="schedule-intro">
+            <span class="eyebrow">Planificá tu semana</span>
+            <h3>Un espacio para aprender y avanzar.</h3>
+            <p>
+              Consultá las actividades, reservá tiempo para estudiar
+              y prepará tus preguntas para los encuentros.
+            </p>
+            <div style="margin-top:24px">
+              <a href="#recursos" class="btn btn-light">Ver materiales →</a>
+            </div>
+          </aside>
+
+          <div class="schedule-list">
+
+            <article class="schedule-item">
+              <div class="schedule-date">
+                <strong>01</strong>
+                EJEMPLO
+              </div>
+              <div>
+                <h3>Matemática: encuentro de consulta</h3>
+                <p>Modalidad virtual · Horario a confirmar</p>
+              </div>
+              <span class="pill">Propuesto</span>
+            </article>
+
+            <article class="schedule-item">
+              <div class="schedule-date">
+                <strong>02</strong>
+                EJEMPLO
+              </div>
+              <div>
+                <h3>Programación: taller inicial</h3>
+                <p>Actividad práctica · Horario a confirmar</p>
+              </div>
+              <span class="pill">Propuesto</span>
+            </article>
+
+            <article class="schedule-item">
+              <div class="schedule-date">
+                <strong>03</strong>
+                EJEMPLO
+              </div>
+              <div>
+                <h3>Ciencias: laboratorio de ideas</h3>
+                <p>Encuentro participativo · Horario a confirmar</p>
+              </div>
+              <span class="pill">Propuesto</span>
+            </article>
+
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- RECURSOS -->
+    <section class="section resources-section" id="recursos">
+      <div class="container">
+
+        <div class="section-heading">
+          <span class="eyebrow">Biblioteca de aprendizaje</span>
+          <h2>Recursos para seguir aprendiendo</h2>
+          <p>
+            Un espacio para reunir materiales de estudio, guías de ejercicios
+            y recursos complementarios organizados por temática.
+          </p>
+        </div>
+
+        <div class="resources-grid">
+
+          <article class="resource-card">
+            <div class="course-icon icon-blue">📘</div>
+            <h3>Guías de estudio</h3>
+            <p>
+              Apuntes, explicaciones y documentos para repasar los conceptos
+              fundamentales de cada área.
+            </p>
+            <button class="text-link resource-detail"
+                    data-resource="guias">Explorar recursos →</button>
+          </article>
+
+          <article class="resource-card">
+            <div class="course-icon icon-green">✏️</div>
+            <h3>Ejercicios prácticos</h3>
+            <p>
+              Actividades para practicar, resolver problemas y comprobar
+              los conocimientos adquiridos.
+            </p>
+            <button class="text-link resource-detail"
+                    data-resource="ejercicios">Explorar recursos →</button>
+          </article>
+
+          <article class="resource-card">
+            <div class="course-icon icon-yellow">🎥</div>
+            <h3>Clases grabadas</h3>
+            <p>
+              Una futura biblioteca audiovisual para volver a consultar
+              explicaciones y repasar los contenidos.
+            </p>
+            <button class="text-link resource-detail"
+                    data-resource="videos">Explorar recursos →</button>
+          </article>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- AULAS ITINERANTES -->
+    <section class="section mobile-classroom" id="aulas">
+      <div class="container mobile-grid">
+
+        <div class="mobile-visual">
+          <div class="mobile-illustration">
+            <span class="big-emoji" aria-hidden="true">🚐💻</span>
+            <strong>El aprendizaje también llega a tu comunidad</strong>
+            <p style="color:#627d98;margin-top:8px">
+              Tecnología, talleres y experiencias presenciales
+            </p>
+          </div>
+        </div>
+
+        <div class="mobile-copy">
+          <span class="eyebrow">Más allá de la pantalla</span>
+          <h2>Aulas itinerantes: la educación se acerca a vos</h2>
+          <p>
+            El proyecto propone complementar la plataforma con carros móviles
+            equipados para realizar talleres en escuelas y espacios
+            comunitarios de Villa de Merlo y localidades cercanas.
+          </p>
+
+          <ul class="feature-list">
+            <li><span>✓</span> Talleres presenciales de ciencia y tecnología.</li>
+            <li><span>✓</span> Computadoras y materiales didácticos.</li>
+            <li><span>✓</span> Actividades prácticas acompañadas por tutores.</li>
+            <li><span>✓</span> Mayor cercanía entre oportunidades educativas y comunidades.</li>
+          </ul>
+
+          <a href="#inscripcion" class="btn btn-primary">
+            Manifestar interés →
+          </a>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- FORMULARIO -->
+    <section class="section" id="inscripcion">
+      <div class="container">
+
+        <div class="join-panel">
+
+          <div>
+            <span class="eyebrow" style="color:#9dece1">
+              Construyamos nuevas oportunidades
+            </span>
+            <h2>¿Te gustaría formar parte?</h2>
+            <p>
+              Estamos presentando una versión beta para mostrar cómo podría
+              funcionar Educación Sin Fronteras.
+            </p>
+            <p>
+              Completá el formulario de demostración para conocer el recorrido
+              de inscripción que tendría la plataforma.
+            </p>
+          </div>
+
+          <form class="join-form" id="interestForm">
+
+            <div class="form-row">
+              <div class="form-group">
+                <label for="studentName">Nombre</label>
+                <input class="form-control" id="studentName"
+                       name="studentName" required maxlength="80"
+                       autocomplete="given-name"
+                       placeholder="Tu nombre">
+              </div>
+
+              <div class="form-group">
+                <label for="studentAge">Edad</label>
+                <select class="form-control" id="studentAge"
+                        name="studentAge" required>
+                  <option value="">Seleccionar</option>
+                  <option>13-15 años</option>
+                  <option>16-18 años</option>
+                  <option>19-24 años</option>
+                  <option>25 años o más</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="studentLocation">Localidad</label>
+              <input class="form-control" id="studentLocation"
+                     name="studentLocation" required maxlength="100"
+                     placeholder="Ej.: Villa de Merlo">
+            </div>
+
+            <div class="form-group">
+              <label for="studentInterest">¿Qué te gustaría aprender?</label>
+              <select class="form-control" id="studentInterest"
+                      name="studentInterest" required>
+                <option value="">Elegí un área</option>
+                <option>Matemática avanzada</option>
+                <option>Programación y robótica</option>
+                <option>Ciencias</option>
+                <option>Herramientas digitales</option>
+                <option>Otra área</option>
+              </select>
+            </div>
+
+            <button type="submit" class="btn btn-primary full-width">
+              Probar inscripción →
+            </button>
+
+            <p class="form-note">
+              Demostración: este formulario no envía ni guarda datos en
+              un servidor. No ingreses información personal sensible.
+            </p>
+
+            <div id="formMessage" aria-live="polite"></div>
+          </form>
+
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- PIE DE PÁGINA -->
+  <footer>
+    <div class="container">
+
+      <div class="footer-grid">
+
+        <div>
+          <a href="#inicio" class="brand">
+            <span class="brand-mark">EF</span>
+            <span>
+              <strong>Educación Sin Fronteras</strong>
+              <small>Aprender sin límites</small>
+            </span>
+          </a>
+
+          <p style="margin-top:17px;max-width:350px">
+            Una propuesta tecnológica para contribuir a reducir la brecha
+            educativa y acercar nuevas oportunidades a las comunidades.
+          </p>
+
+          <span class="prototype-label">Versión beta demostrativa</span>
+        </div>
+
+        <div>
+          <h3>Explorar</h3>
+          <div class="footer-links">
+            <a href="#cursos">Cursos</a>
+            <a href="#cronograma">Cronograma</a>
+            <a href="#recursos">Recursos educativos</a>
+            <a href="#aulas">Aulas itinerantes</a>
+          </div>
+        </div>
+
+        <div>
+          <h3>Sobre el proyecto</h3>
+          <p>
+            Propuesta educativa desarrollada en el marco de Educación
+            Tecnológica, con foco en la accesibilidad y la igualdad
+            de oportunidades.
+          </p>
+        </div>
+
+      </div>
+
+      <div class="footer-bottom">
+        <span>© <span id="currentYear"></span> Educación Sin Fronteras</span>
+        <span>Proyecto educativo · Villa de Merlo, San Luis, Argentina</span>
+      </div>
+
+    </div>
+  </footer>
+
+  <!-- VENTANA MODAL -->
+  <div class="modal" id="infoModal"
+       role="dialog" aria-modal="true"
+       aria-labelledby="modalTitle">
+    <div class="modal-content">
+      <button class="modal-close" id="modalClose"
+              aria-label="Cerrar ventana">×</button>
+      <div id="modalContent"></div>
+    </div>
+  </div>
+
+  <script>
+    /* ========================================
+       1. MENÚ RESPONSIVE
+    ======================================== */
+    const menuToggle = document.getElementById("menuToggle");
+    const navLinks = document.getElementById("navLinks");
+
+    menuToggle.addEventListener("click", () => {
+      const isOpen = navLinks.classList.toggle("open");
+      menuToggle.setAttribute("aria-expanded", String(isOpen));
+      menuToggle.setAttribute(
+        "aria-label",
+        isOpen ? "Cerrar menú" : "Abrir menú"
+      );
+      menuToggle.textContent = isOpen ? "×" : "☰";
+    });
+
+    navLinks.querySelectorAll("a").forEach(link => {
+      link.addEventListener("click", () => {
+        navLinks.classList.remove("open");
+        menuToggle.setAttribute("aria-expanded", "false");
+        menuToggle.setAttribute("aria-label", "Abrir menú");
+        menuToggle.textContent = "☰";
+      });
+    });
+
+    /* ========================================
+       2. BUSCADOR Y FILTROS DE CURSOS
+    ======================================== */
+    const courseCards = [
+      ...document.querySelectorAll(".course-card")
+    ];
+
+    const filterButtons = [
+      ...document.querySelectorAll(".filter-btn")
+    ];
+
+    const courseSearch = document.getElementById("courseSearch");
+    let activeFilter = "todos";
+
+    function filterCourses() {
+      const query = courseSearch.value
+        .trim()
+        .toLocaleLowerCase("es");
+
+      let visibleCount = 0;
+
+      courseCards.forEach(card => {
+        const category = card.dataset.category;
+        const searchableText = (
+          card.dataset.search + " " + card.innerText
+        ).toLocaleLowerCase("es");
+
+        const matchesCategory =
+          activeFilter === "todos" || category === activeFilter;
+
+        const matchesSearch = searchableText.includes(query);
+        const visible = matchesCategory && matchesSearch;
+
+        card.hidden = !visible;
+
+        if (visible) visibleCount++;
+      });
+
+      let empty = document.getElementById("emptyCourses");
+
+      if (!visibleCount) {
+        if (!empty) {
+          empty = document.createElement("div");
+          empty.id = "emptyCourses";
+          empty.className = "empty-state";
+          empty.textContent =
+            "No encontramos cursos con esos criterios. Probá con otra búsqueda.";
+          document.getElementById("coursesGrid").appendChild(empty);
+        }
+      } else if (empty) {
+        empty.remove();
+      }
+    }
+
+    filterButtons.forEach(button => {
+      button.addEventListener("click", () => {
+        activeFilter = button.dataset.filter;
+
+        filterButtons.forEach(item => {
+          const selected = item === button;
+          item.classList.toggle("active", selected);
+          item.setAttribute("aria-pressed", String(selected));
+        });
+
+        filterCourses();
+      });
+
+      button.setAttribute(
+        "aria-pressed",
+        String(button.classList.contains("active"))
+      );
+    });
+
+    courseSearch.addEventListener("input", filterCourses);
+
+    document.getElementById("searchButton")
+      .addEventListener("click", filterCourses);
+
+    courseSearch.addEventListener("keydown", event => {
+      if (event.key === "Enter") {
+        event.preventDefault();
+        filterCourses();
+      }
+    });
+
+    /* ========================================
+       3. INFORMACIÓN DE LOS CURSOS
+    ======================================== */
+    const courseInformation = {
+      matematica: {
+        title: "Matemática para el nivel superior",
+        description:
+          "Una propuesta de ejemplo para reforzar conocimientos matemáticos y preparar el ingreso a estudios superiores.",
+        modules: [
+          "Números reales y operaciones",
+          "Expresiones algebraicas",
+          "Ecuaciones e inecuaciones",
+          "Funciones y representación gráfica",
+          "Resolución de problemas",
+          "Actividades de integración"
+        ]
+      },
+
+      programacion: {
+        title: "Introducción a la programación",
+        description:
+          "Un recorrido inicial por la lógica computacional y el desarrollo de programas.",
+        modules: [
+          "¿Qué es un algoritmo?",
+          "Variables y tipos de datos",
+          "Condicionales",
+          "Repeticiones",
+          "Pequeño proyecto de programación"
+        ]
+      },
+
+      ciencias: {
+        title: "Ciencia para descubrir",
+        description:
+          "Una propuesta para observar fenómenos, formular hipótesis y realizar investigaciones.",
+        modules: [
+          "Observar y formular preguntas",
+          "Hipótesis y variables",
+          "Diseño de experiencias",
+          "Comunicación de resultados"
+        ]
+      },
+
+      estadistica: {
+        title: "Estadística y análisis de datos",
+        description:
+          "Aprendé a organizar datos y utilizarlos para comprender situaciones reales.",
+        modules: [
+          "Población y muestra",
+          "Tablas de frecuencias",
+          "Gráficos estadísticos",
+          "Interpretación de resultados"
+        ]
+      },
+
+      digital: {
+        title: "Herramientas digitales para estudiar",
+        description:
+          "Conocé herramientas útiles para organizar el estudio y realizar investigaciones responsables.",
+        modules: [
+          "Organización de archivos",
+          "Documentos y presentaciones",
+          "Búsqueda de información",
+          "Verificación de fuentes"
+        ]
+      },
+
+      robotica: {
+        title: "Robótica y pensamiento computacional",
+        description:
+          "Explorá los fundamentos de la robótica mediante desafíos prácticos y secuencias lógicas.",
+        modules: [
+          "Introducción a la robótica",
+          "Sensores y actuadores",
+          "Secuencias de instrucciones",
+          "Programación básica",
+          "Diseño de un prototipo"
+        ]
+      }
+    };
+
+    const infoModal = document.getElementById("infoModal");
+    const modalContent = document.getElementById("modalContent");
+    const modalClose = document.getElementById("modalClose");
+
+    function openModal(html) {
+      modalContent.innerHTML = html;
+      infoModal.classList.add("open");
+      modalClose.focus();
+      document.body.style.overflow = "hidden";
+    }
+
+    function closeModal() {
+      infoModal.classList.remove("open");
+      document.body.style.overflow = "";
+    }
+
+    document.querySelectorAll(".course-detail").forEach(button => {
+      button.addEventListener("click", () => {
+        const course = courseInformation[button.dataset.course];
+
+        if (!course) return;
+
+        const list = course.modules
+          .map(module => `<li>${module}</li>`)
+          .join("");
+
+        openModal(`
+          <span class="eyebrow">Curso de ejemplo</span>
+          <h2 id="modalTitle">${course.title}</h2>
+          <p>${course.description}</p>
+          <h3 style="margin-top:22px">Contenido propuesto</h3>
+          <ul>${list}</ul>
+          <p><strong>Estado:</strong> contenido demostrativo.
+          La inscripción y las clases reales todavía no están habilitadas.</p>
+          <button class="btn btn-primary full-width" id="modalJoin">
+            Me interesa este curso
+          </button>
+        `);
+
+        document.getElementById("modalJoin").addEventListener("click", () => {
+          closeModal();
+          document.getElementById("studentInterest").value =
+            button.dataset.course === "robotica" ? "Programación y robótica" :
+            button.dataset.course === "programacion" ? "Programación y robótica" :
+            button.dataset.course === "matematica" ||
+            button.dataset.course === "estadistica" ? "Matemática avanzada" :
+            button.dataset.course === "ciencias" ? "Ciencias" :
+            "Herramientas digitales";
+
+          document.getElementById("inscripcion").scrollIntoView();
+        });
+      });
+    });
+
+    /* ========================================
+       4. RECURSOS EDUCATIVOS
+    ======================================== */
+    const resourceInformation = {
+      guias: {
+        title: "Biblioteca de guías de estudio",
+        description:
+          "En la versión definitiva se podrán consultar o descargar apuntes y documentos organizados por curso.",
+        items: [
+          "Material teórico por unidad",
+          "Glosarios y resúmenes",
+          "Lecturas complementarias"
+        ]
+      },
+
+      ejercicios: {
+        title: "Actividades y ejercicios",
+        description:
+          "Este espacio podrá reunir ejercicios de práctica, desafíos y propuestas para comprobar lo aprendido.",
+        items: [
+          "Ejercicios de aplicación",
+          "Problemas para resolver",
+          "Actividades de autoevaluación"
+        ]
+      },
+
+      videos: {
+        title: "Biblioteca audiovisual",
+        description:
+          "Aquí se podrán organizar clases grabadas y videos educativos seleccionados para cada temática.",
+        items: [
+          "Clases organizadas por unidad",
+          "Explicaciones paso a paso",
+          "Material audiovisual complementario"
+        ]
+      }
+    };
+
+    document.querySelectorAll(".resource-detail").forEach(button => {
+      button.addEventListener("click", () => {
+        const resource = resourceInformation[button.dataset.resource];
+
+        const list = resource.items
+          .map(item => `<li>${item}</li>`)
+          .join("");
+
+        openModal(`
+          <span class="eyebrow">Recursos educativos</span>
+          <h2 id="modalTitle">${resource.title}</h2>
+          <p>${resource.description}</p>
+          <ul>${list}</ul>
+          <p><strong>Nota:</strong> esta biblioteca es ilustrativa.
+          Los materiales todavía deben incorporarse.</p>
+          <button class="btn btn-primary full-width" id="resourceClose">
+            Entendido
+          </button>
+        `);
+
+        document.getElementById("resourceClose")
+          .addEventListener("click", closeModal);
+      });
+    });
+
+    modalClose.addEventListener("click", closeModal);
+
+    infoModal.addEventListener("click", event => {
+      if (event.target === infoModal) closeModal();
+    });
+
+    document.addEventListener("keydown", event => {
+      if (event.key === "Escape") closeModal();
+    });
+
+    /* ========================================
+       5. FORMULARIO DEMOSTRATIVO
+    ======================================== */
+    document.getElementById("interestForm")
+      .addEventListener("submit", event => {
+        event.preventDefault();
+
+        const name = document.getElementById("studentName")
+          .value.trim();
+
+        const interest = document.getElementById("studentInterest")
+          .value;
+
+        if (!name || !interest) return;
+
+        const message = document.getElementById("formMessage");
+        message.className = "form-message";
+        message.textContent =
+          `¡Gracias, ${name}! Probaste correctamente el formulario. ` +
+          `Tu interés seleccionado es: ${interest}. ` +
+          "Esta demostración no guardó ni envió tus datos.";
+
+        document.getElementById("interestForm").reset();
+      });
+
+    /* ========================================
+       6. AÑO AUTOMÁTICO
+    ======================================== */
+    document.getElementById("currentYear").textContent =
+      new Date().getFullYear();
+  </script>
+
+</body>
+</html>

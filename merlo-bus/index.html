@@ -1,0 +1,492 @@
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#102b46">
+<title>Merlo Bus | Transporte público</title>
+<style>
+:root {
+  --navy:#102b46;
+  --blue:#1769aa;
+  --cyan:#21b8c7;
+  --green:#22a879;
+  --bg:#f2f6fa;
+  --text:#203348;
+  --muted:#718096;
+  --white:#fff;
+  --border:#e4ebf2;
+  --shadow:0 12px 35px rgba(22,49,75,.09);
+}
+*{box-sizing:border-box}
+body{
+  margin:0;
+  font-family:Inter,Arial,sans-serif;
+  color:var(--text);
+  background:var(--bg);
+}
+button{font:inherit;cursor:pointer}
+header{
+  background:var(--navy);
+  color:white;
+  padding:17px 6%;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:15px;
+  position:sticky;
+  top:0;
+  z-index:10;
+}
+.brand{display:flex;align-items:center;gap:11px}
+.logo{
+  width:43px;height:43px;border-radius:13px;
+  background:linear-gradient(135deg,var(--cyan),#1673ad);
+  display:grid;place-items:center;font-size:23px;
+}
+.brand h1{font-size:20px;margin:0}
+.brand small{display:block;color:#b8d4e9;font-size:11px;margin-top:3px}
+.nav{display:flex;gap:20px;align-items:center}
+.nav a{color:#d8e7f4;text-decoration:none;font-size:13px}
+.nav a:hover{color:white}
+main{max-width:1160px;margin:auto;padding:30px 22px 60px}
+.hero{
+  min-height:270px;border-radius:25px;overflow:hidden;
+  padding:35px;color:white;position:relative;
+  background:
+    linear-gradient(90deg,rgba(9,34,57,.95),rgba(9,34,57,.55)),
+    url("https://images.unsplash.com/photo-1519681393784-d120267933ba?auto=format&fit=crop&w=1600&q=85");
+  background-position:center;background-size:cover;
+  display:flex;align-items:center;
+}
+.hero-content{max-width:600px;position:relative;z-index:1}
+.eyebrow{
+  color:#7ce1df;font-size:12px;font-weight:800;
+  text-transform:uppercase;letter-spacing:1.5px
+}
+.hero h2{font-size:clamp(30px,5vw,45px);line-height:1.1;margin:13px 0}
+.hero p{color:#dbe8f1;line-height:1.6;max-width:490px}
+.location{
+  display:inline-flex;align-items:center;gap:7px;
+  background:rgba(255,255,255,.13);padding:9px 13px;
+  border-radius:30px;font-size:12px;margin-top:10px
+}
+.section-title{
+  display:flex;justify-content:space-between;align-items:center;
+  margin:32px 0 16px;gap:10px
+}
+.section-title h3{margin:0;font-size:20px}
+.section-title p{margin:5px 0 0;color:var(--muted);font-size:13px}
+.status{
+  color:#a35e12;background:#fff3dc;border-radius:20px;
+  padding:7px 11px;font-size:11px;font-weight:700
+}
+.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.card{
+  background:white;border:1px solid var(--border);
+  border-radius:18px;padding:19px;box-shadow:var(--shadow)
+}
+.line-card{cursor:pointer;transition:.2s}
+.line-card:hover{transform:translateY(-4px);border-color:#8bcbd7}
+.line-top{display:flex;justify-content:space-between;align-items:center}
+.line-number{
+  width:48px;height:48px;border-radius:14px;
+  background:#e6f5f7;color:#087d8c;display:grid;
+  place-items:center;font-size:19px;font-weight:800
+}
+.tag{font-size:10px;background:#e9f5ef;color:#16865c;padding:6px 9px;border-radius:20px}
+.line-card h4{margin:16px 0 6px;font-size:17px}
+.line-card p{color:var(--muted);font-size:12px;line-height:1.5;margin:0}
+.line-footer{
+  display:flex;justify-content:space-between;align-items:center;
+  border-top:1px solid var(--border);margin-top:16px;padding-top:13px;
+  font-size:12px
+}
+.link{color:var(--blue);font-weight:700}
+.columns{display:grid;grid-template-columns:1.15fr .85fr;gap:17px}
+.panel{background:white;border:1px solid var(--border);border-radius:20px;padding:20px;box-shadow:var(--shadow)}
+.panel h3{margin:0 0 6px;font-size:18px}
+.panel-sub{font-size:12px;color:var(--muted);margin:0 0 18px}
+select{
+  padding:11px 13px;border:1px solid var(--border);
+  border-radius:10px;background:white;color:var(--text);width:100%;
+  outline:none;margin:8px 0 15px
+}
+.info-row{
+  display:flex;justify-content:space-between;align-items:center;
+  padding:13px 0;border-bottom:1px solid var(--border);gap:10px
+}
+.info-row:last-child{border:0}
+.info-row strong{font-size:13px}
+.info-row small{display:block;color:var(--muted);margin-top:4px;font-size:11px}
+.time{font-weight:800;color:var(--blue);font-size:15px;white-space:nowrap}
+.map{
+  height:320px;border-radius:15px;overflow:hidden;
+  background:#eaf1e9;position:relative;border:1px solid #d8e4d7
+}
+.map svg{width:100%;height:100%;display:block}
+.map-legend{
+  display:flex;gap:15px;flex-wrap:wrap;margin-top:12px;
+  color:var(--muted);font-size:11px
+}
+.dot{display:inline-block;width:9px;height:9px;border-radius:50%;margin-right:5px}
+.arrival{
+  background:linear-gradient(135deg,#102b46,#1769aa);
+  color:white;border-radius:17px;padding:19px;margin-top:15px
+}
+.arrival small{color:#b9d8ed}
+.arrival strong{font-size:34px;display:block;margin:7px 0}
+.arrival p{font-size:11px;color:#d2e6f4;margin:0}
+.favorite-btn{
+  border:0;background:#edf6fa;color:#1769aa;
+  border-radius:10px;padding:9px 12px;font-size:12px;font-weight:700
+}
+.favorite-list{display:grid;gap:10px}
+.favorite-item{
+  display:flex;justify-content:space-between;align-items:center;
+  padding:12px;background:#f7f9fb;border-radius:12px;font-size:12px
+}
+.empty{color:var(--muted);font-size:12px;padding:10px 0}
+.notice{
+  background:#fff8e8;border:1px solid #f4e2b9;
+  border-radius:15px;padding:15px;margin-top:22px;
+  color:#79521a;font-size:12px;line-height:1.6
+}
+footer{
+  background:var(--navy);color:#c3d6e6;text-align:center;
+  padding:28px 15px;font-size:12px;line-height:1.8
+}
+footer strong{color:white}
+.modal-bg{
+  display:none;position:fixed;inset:0;background:#071a2dcc;
+  z-index:30;align-items:center;justify-content:center;padding:18px
+}
+.modal{
+  background:white;border-radius:20px;padding:24px;
+  width:min(440px,100%);box-shadow:var(--shadow)
+}
+.modal h3{margin-top:0}
+.modal p{font-size:13px;line-height:1.6;color:var(--muted)}
+.modal-actions{display:flex;gap:10px;margin-top:20px}
+.primary,.secondary{
+  padding:12px 15px;border-radius:10px;border:0;font-weight:700;flex:1
+}
+.primary{background:var(--blue);color:white}
+.secondary{background:#edf2f7;color:var(--text)}
+@media(max-width:760px){
+  .nav{display:none}
+  .grid{grid-template-columns:1fr}
+  .columns{grid-template-columns:1fr}
+  main{padding:20px 14px 45px}
+  .hero{padding:25px;min-height:290px}
+  .section-title{align-items:flex-start;flex-direction:column}
+}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="brand">
+    <div class="logo">🚌</div>
+    <div>
+      <h1>Merlo Bus</h1>
+      <small>Movilidad urbana inteligente</small>
+    </div>
+  </div>
+  <nav class="nav">
+    <a href="#lineas">Líneas</a>
+    <a href="#horarios">Horarios</a>
+    <a href="#mapa">Recorridos</a>
+    <a href="#favoritos">Favoritos</a>
+  </nav>
+</header>
+
+<main>
+  <section class="hero">
+    <div class="hero-content">
+      <div class="eyebrow">Transporte público · Villa de Merlo</div>
+      <h2>Tu viaje comienza con buena información.</h2>
+      <p>Consultá líneas, horarios y paradas. Organizá tus viajes por la ciudad de una manera más sencilla.</p>
+      <div class="location">📍 Villa de Merlo · San Luis</div>
+    </div>
+  </section>
+
+  <div class="section-title" id="lineas">
+    <div>
+      <h3>Elegí tu línea</h3>
+      <p>Seleccioná una línea para consultar sus horarios y recorrido.</p>
+    </div>
+    <span class="status">● DEMOSTRACIÓN</span>
+  </div>
+
+  <div class="grid" id="lineCards"></div>
+
+  <div class="section-title" id="horarios">
+    <div>
+      <h3>Consulta de horarios y paradas</h3>
+      <p>Información organizada para planificar tu viaje.</p>
+    </div>
+  </div>
+
+  <div class="columns">
+    <section class="panel">
+      <h3>🕒 Horarios disponibles</h3>
+      <p class="panel-sub">Elegí una línea para consultar los horarios de ejemplo.</p>
+      <label for="lineSelect"><strong style="font-size:12px">Línea de colectivo</strong></label>
+      <select id="lineSelect"></select>
+      <div id="schedule"></div>
+    </section>
+
+    <section class="panel">
+      <h3>📍 Próxima llegada</h3>
+      <p class="panel-sub">Simulación de tiempo estimado hasta la parada.</p>
+      <label for="stopSelect"><strong style="font-size:12px">Seleccioná una parada</strong></label>
+      <select id="stopSelect"></select>
+      <div class="arrival">
+        <small>Tiempo estimado de llegada</small>
+        <strong id="arrivalTime">-- min</strong>
+        <p>Tiempo simulado con fines demostrativos.</p>
+      </div>
+      <p style="font-size:11px;color:var(--muted);line-height:1.5;margin-top:15px">
+        En una aplicación real, este dato podría calcularse a partir de la ubicación GPS del colectivo y su recorrido.
+      </p>
+    </section>
+  </div>
+
+  <div class="section-title" id="mapa">
+    <div>
+      <h3>Mapa de recorridos</h3>
+      <p>Representación esquemática de un recorrido y sus paradas.</p>
+    </div>
+  </div>
+
+  <section class="panel">
+    <div class="map">
+      <svg viewBox="0 0 700 320" role="img" aria-label="Mapa ilustrativo de recorrido de colectivo">
+        <rect width="700" height="320" fill="#eaf1e9"/>
+        <path d="M0 65 L700 250 M40 0 L250 320 M470 0 L390 320 M0 250 L700 80" stroke="#fff" stroke-width="22"/>
+        <path d="M0 65 L700 250 M40 0 L250 320 M470 0 L390 320 M0 250 L700 80" stroke="#d5dfd2" stroke-width="2" fill="none"/>
+        <path d="M80 245 C170 210 185 90 310 110 S490 220 625 80" fill="none" stroke="#1479bd" stroke-width="7" stroke-linecap="round" stroke-dasharray="1 0"/>
+        <g fill="#fff" stroke="#1479bd" stroke-width="4">
+          <circle cx="80" cy="245" r="10"/>
+          <circle cx="180" cy="176" r="10"/>
+          <circle cx="310" cy="110" r="10"/>
+          <circle cx="455" cy="160" r="10"/>
+          <circle cx="625" cy="80" r="10"/>
+        </g>
+        <g fill="#28445a" font-size="13" font-weight="bold">
+          <text x="38" y="275">Terminal</text>
+          <text x="125" y="153">Parada 2</text>
+          <text x="270" y="83">Centro</text>
+          <text x="420" y="190">Parada 4</text>
+          <text x="580" y="55">Destino</text>
+        </g>
+        <g fill="#7a9b82" opacity=".35">
+          <rect x="280" y="190" width="65" height="35" rx="7"/>
+          <rect x="520" y="245" width="85" height="30" rx="7"/>
+          <rect x="80" y="40" width="80" height="30" rx="7"/>
+        </g>
+        <g fill="#54745a" font-size="11">
+          <text x="288" y="211">Plaza</text>
+          <text x="530" y="264">Espacio verde</text>
+        </g>
+      </svg>
+    </div>
+    <div class="map-legend">
+      <span><i class="dot" style="background:#1479bd"></i>Recorrido ilustrativo</span>
+      <span><i class="dot" style="background:white;border:3px solid #1479bd"></i>Parada</span>
+    </div>
+    <p style="font-size:11px;color:var(--muted);margin-bottom:0">
+      Este mapa es esquemático y no representa calles ni recorridos oficiales de Villa de Merlo.
+    </p>
+  </section>
+
+  <div class="section-title" id="favoritos">
+    <div>
+      <h3>⭐ Mis paradas favoritas</h3>
+      <p>Guardá las paradas que consultás con mayor frecuencia.</p>
+    </div>
+  </div>
+
+  <section class="panel">
+    <div id="favoriteList" class="favorite-list">
+      <p class="empty">Todavía no guardaste paradas favoritas.</p>
+    </div>
+    <button class="favorite-btn" style="margin-top:15px" onclick="addFavorite()">+ Guardar parada seleccionada</button>
+  </section>
+
+  <div class="notice">
+    <strong>ℹ️ Información importante</strong><br>
+    Merlo Bus es un prototipo escolar. Los horarios, las líneas, las paradas, los recorridos y los tiempos de llegada que aparecen en esta versión son datos ficticios creados para demostrar cómo podría funcionar la aplicación. No corresponden al servicio real de transporte público.
+  </div>
+</main>
+
+<footer>
+  <strong>MERLO BUS</strong><br>
+  Prototipo de aplicación de transporte público<br>
+  Proyecto escolar · Educación Tecnológica · 6.º A<br>
+  Centro Educativo Pablo Tissera · Villa de Merlo, San Luis
+</footer>
+
+<div class="modal-bg" id="modal">
+  <div class="modal">
+    <h3 id="modalTitle">Información</h3>
+    <p id="modalText"></p>
+    <div class="modal-actions">
+      <button class="secondary" onclick="closeModal()">Cerrar</button>
+      <button class="primary" onclick="selectModalLine()">Consultar línea</button>
+    </div>
+  </div>
+</div>
+
+<script>
+const lines = [
+  {
+    id:"1",name:"Centro – Terminal",
+    description:"Recorrido de ejemplo entre el centro y la terminal.",
+    stops:["Terminal","Parada 2","Centro","Parada 4","Destino"],
+    times:["07:00","08:00","09:00","10:00","11:00","12:00"]
+  },
+  {
+    id:"2",name:"Centro – Zona residencial",
+    description:"Recorrido ilustrativo hacia un sector residencial.",
+    stops:["Centro","Plaza","Parada 3","Zona residencial","Destino"],
+    times:["07:30","08:30","09:30","10:30","11:30","12:30"]
+  },
+  {
+    id:"3",name:"Centro – Zona turística",
+    description:"Recorrido de demostración hacia una zona turística.",
+    stops:["Centro","Parada 2","Paseo turístico","Parada 4","Destino"],
+    times:["08:00","09:00","10:00","11:00","12:00","13:00"]
+  }
+];
+
+let selectedLine="1";
+let favorites=[];
+let modalLine="1";
+
+const lineCards=document.getElementById("lineCards");
+const lineSelect=document.getElementById("lineSelect");
+const stopSelect=document.getElementById("stopSelect");
+
+function renderCards(){
+  lineCards.innerHTML=lines.map(line=>`
+    <article class="card line-card" onclick="selectLine('${line.id}')">
+      <div class="line-top">
+        <div class="line-number">${line.id}</div>
+        <span class="tag">Datos de ejemplo</span>
+      </div>
+      <h4>Línea ${line.id}</h4>
+      <p>${line.name}<br>${line.description}</p>
+      <div class="line-footer">
+        <span>${line.stops.length} paradas de ejemplo</span>
+        <span class="link">Consultar →</span>
+      </div>
+    </article>
+  `).join("");
+}
+
+function renderSelect(){
+  lineSelect.innerHTML=lines.map(line=>
+    `<option value="${line.id}">Línea ${line.id} · ${line.name}</option>`
+  ).join("");
+  lineSelect.value=selectedLine;
+}
+
+function renderSchedule(){
+  const line=lines.find(l=>l.id===selectedLine);
+  document.getElementById("schedule").innerHTML=`
+    <div style="font-size:12px;color:#718096;margin-bottom:8px">
+      Horarios ilustrativos · Línea ${line.id}
+    </div>
+    ${line.times.map((time,i)=>`
+      <div class="info-row">
+        <div>
+          <strong>${time} hs</strong>
+          <small>${i===0?"Primer horario":i===line.times.length-1?"Último horario":"Salida programada"}</small>
+        </div>
+        <span class="time">Disponible</span>
+      </div>
+    `).join("")}
+  `;
+  stopSelect.innerHTML=line.stops.map((stop,i)=>
+    `<option value="${i}">${stop}</option>`
+  ).join("");
+  updateArrival();
+}
+
+function updateArrival(){
+  const stop=Number(stopSelect.value||0);
+  const simulated=3+((stop*7+Number(selectedLine)*4)%15);
+  document.getElementById("arrivalTime").textContent=simulated+" min";
+}
+
+function selectLine(id){
+  selectedLine=id;
+  renderSelect();
+  renderSchedule();
+  document.getElementById("horarios").scrollIntoView({behavior:"smooth"});
+}
+
+function addFavorite(){
+  const line=lines.find(l=>l.id===selectedLine);
+  const stop=line.stops[Number(stopSelect.value||0)];
+  const key=line.id+"-"+stop;
+  if(favorites.some(f=>f.key===key)){
+    showModal("Parada ya guardada","Esta parada ya se encuentra en tu lista de favoritos.");
+    return;
+  }
+  favorites.push({key,line:line.id,stop});
+  renderFavorites();
+}
+
+function renderFavorites(){
+  const container=document.getElementById("favoriteList");
+  if(!favorites.length){
+    container.innerHTML='<p class="empty">Todavía no guardaste paradas favoritas.</p>';
+    return;
+  }
+  container.innerHTML=favorites.map((f,i)=>`
+    <div class="favorite-item">
+      <span><strong>Línea ${f.line}</strong> · ${f.stop}</span>
+      <button class="favorite-btn" onclick="removeFavorite(${i})">Quitar</button>
+    </div>
+  `).join("");
+}
+
+function removeFavorite(index){
+  favorites.splice(index,1);
+  renderFavorites();
+}
+
+function showModal(title,text){
+  document.getElementById("modalTitle").textContent=title;
+  document.getElementById("modalText").textContent=text;
+  document.querySelector(".modal-actions .primary").style.display="none";
+  document.getElementById("modal").style.display="flex";
+}
+
+function closeModal(){
+  document.getElementById("modal").style.display="none";
+}
+
+function selectModalLine(){
+  closeModal();
+  selectLine(modalLine);
+}
+
+lineSelect.addEventListener("change",e=>{
+  selectedLine=e.target.value;
+  renderSchedule();
+});
+
+stopSelect.addEventListener("change",updateArrival);
+
+renderCards();
+renderSelect();
+renderSchedule();
+renderFavorites();
+</script>
+</body>
+</html>

@@ -1,0 +1,2108 @@
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#153c32">
+<meta name="description" content="Merlo Verde: plataforma demostrativa de monitoreo ambiental y planificación urbana de Villa de Merlo, San Luis.">
+<title>Merlo Verde | Monitoreo territorial</title>
+
+<style>
+:root {
+  --green: #176b4b;
+  --green-dark: #153c32;
+  --green-light: #e5f3e9;
+  --lime: #b8db83;
+  --blue: #2776a5;
+  --blue-light: #e7f2f9;
+  --orange: #dc923b;
+  --red: #c94c4c;
+  --bg: #f3f6f3;
+  --white: #fff;
+  --text: #263c34;
+  --muted: #718078;
+  --border: #dfe8e1;
+  --shadow: 0 12px 32px rgba(25,60,43,.08);
+  --radius: 17px;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+html { scroll-behavior: smooth; scroll-padding-top: 85px; }
+
+body {
+  font-family: "Segoe UI", Arial, sans-serif;
+  color: var(--text);
+  background: var(--bg);
+  line-height: 1.5;
+}
+
+button, input, select, textarea { font: inherit; }
+button { cursor: pointer; }
+a { color: inherit; text-decoration: none; }
+
+.container { width: min(1320px, 94%); margin: auto; }
+
+.topbar {
+  background: var(--green-dark);
+  color: #d8e9df;
+  padding: 8px 0;
+  font-size: .78rem;
+}
+
+.topbar-inner {
+  display: flex;
+  justify-content: space-between;
+  gap: 15px;
+  flex-wrap: wrap;
+}
+
+.header {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: rgba(255,255,255,.97);
+  border-bottom: 1px solid var(--border);
+  backdrop-filter: blur(12px);
+}
+
+.header-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  min-height: 76px;
+  gap: 20px;
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 11px;
+}
+
+.brand-icon {
+  width: 46px;
+  height: 46px;
+  display: grid;
+  place-items: center;
+  border-radius: 14px;
+  color: white;
+  background: var(--green);
+  font-size: 1.55rem;
+}
+
+.brand strong {
+  display: block;
+  color: var(--green-dark);
+  font-size: 1.1rem;
+  letter-spacing: -.5px;
+}
+
+.brand small {
+  display: block;
+  color: var(--muted);
+  font-size: .72rem;
+}
+
+.nav {
+  display: flex;
+  align-items: center;
+  gap: 23px;
+  font-size: .88rem;
+  font-weight: 650;
+}
+
+.nav a:hover { color: var(--green); }
+
+.header-actions {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+.menu-btn {
+  display: none;
+  background: transparent;
+  border: 0;
+  font-size: 1.8rem;
+  color: var(--green-dark);
+}
+
+.btn {
+  border: 0;
+  padding: 11px 17px;
+  border-radius: 10px;
+  font-weight: 750;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  gap: 7px;
+  transition: .2s;
+}
+
+.btn:hover { transform: translateY(-2px); }
+
+.btn-green { background: var(--green); color: white; }
+.btn-green:hover { background: #10583d; }
+.btn-white { background: white; color: var(--green-dark); }
+.btn-outline { background: white; border: 1px solid var(--border); color: var(--text); }
+.btn-danger { background: #fff0ef; color: var(--red); }
+.btn-small { padding: 8px 12px; font-size: .82rem; }
+.btn-block { width: 100%; }
+
+.eyebrow {
+  text-transform: uppercase;
+  font-size: .74rem;
+  font-weight: 850;
+  letter-spacing: 1.6px;
+  color: var(--green);
+}
+
+.section { padding: 54px 0; }
+
+.section-title {
+  font-size: clamp(1.65rem, 3vw, 2.3rem);
+  color: var(--green-dark);
+  margin: 7px 0 10px;
+  letter-spacing: -.8px;
+}
+
+.section-description {
+  color: var(--muted);
+  max-width: 700px;
+  font-size: .95rem;
+}
+
+.hero {
+  color: white;
+  background:
+    linear-gradient(100deg, rgba(15,49,39,.94), rgba(23,86,59,.84)),
+    url("https://images.unsplash.com/photo-1511497584788-876760111969?auto=format&fit=crop&w=1800&q=85") center/cover;
+  position: relative;
+  overflow: hidden;
+}
+
+.hero-inner {
+  min-height: 355px;
+  display: flex;
+  align-items: center;
+  padding: 58px 0;
+}
+
+.hero-content { max-width: 760px; }
+
+.hero .eyebrow { color: #c4e69e; }
+
+.hero h1 {
+  font-size: clamp(2.4rem, 5vw, 4.3rem);
+  line-height: 1.08;
+  letter-spacing: -2px;
+  margin: 15px 0;
+  color: white;
+}
+
+.hero h1 span { color: #c5e79a; }
+
+.hero p {
+  color: #e1ede5;
+  font-size: 1.04rem;
+  max-width: 650px;
+}
+
+.hero-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 26px;
+}
+
+.hero-note {
+  margin-top: 19px;
+  font-size: .78rem !important;
+  color: #d1e4d7 !important;
+}
+
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(4,1fr);
+  gap: 15px;
+  margin-top: -28px;
+  position: relative;
+  z-index: 2;
+}
+
+.stat-card {
+  background: white;
+  border: 1px solid var(--border);
+  box-shadow: var(--shadow);
+  border-radius: 14px;
+  padding: 21px;
+}
+
+.stat-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+  color: var(--muted);
+  font-size: .8rem;
+}
+
+.stat-icon { font-size: 1.5rem; }
+
+.stat-value {
+  font-size: 1.85rem;
+  color: var(--green-dark);
+  font-weight: 850;
+  margin-top: 8px;
+}
+
+.stat-foot {
+  color: var(--muted);
+  font-size: .76rem;
+}
+
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  border-radius: 30px;
+  padding: 5px 10px;
+  font-size: .73rem;
+  font-weight: 800;
+}
+
+.badge-green { background: #e1f3e5; color: #207349; }
+.badge-orange { background: #fff1db; color: #a66b20; }
+.badge-red { background: #ffebea; color: #b43e3e; }
+.badge-blue { background: #e5f2fa; color: #276b93; }
+.badge-gray { background: #edf1ee; color: #607067; }
+
+.dashboard-grid {
+  display: grid;
+  grid-template-columns: minmax(0,1.7fr) minmax(280px,.8fr);
+  gap: 20px;
+  align-items: start;
+}
+
+.panel {
+  background: white;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  box-shadow: 0 5px 20px rgba(25,60,43,.035);
+}
+
+.panel-header {
+  padding: 20px 22px;
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.panel-header h3 {
+  color: var(--green-dark);
+  font-size: 1.05rem;
+}
+
+.panel-header p {
+  font-size: .78rem;
+  color: var(--muted);
+  margin-top: 3px;
+}
+
+.map-tools {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.map-tools button {
+  padding: 7px 11px;
+  border-radius: 8px;
+  border: 1px solid var(--border);
+  background: white;
+  color: var(--text);
+  font-size: .77rem;
+  font-weight: 750;
+}
+
+.map-tools button.active {
+  background: var(--green-dark);
+  color: white;
+  border-color: var(--green-dark);
+}
+
+.map-wrapper {
+  padding: 14px;
+}
+
+.map-canvas {
+  min-height: 460px;
+  border-radius: 13px;
+  overflow: hidden;
+  position: relative;
+  background: #e8efe4;
+}
+
+.map-canvas svg {
+  display: block;
+  width: 100%;
+  height: 460px;
+}
+
+.map-legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 15px;
+  padding: 13px 5px 2px;
+  font-size: .76rem;
+  color: var(--muted);
+}
+
+.legend-item { display: flex; align-items: center; gap: 6px; }
+.legend-dot { width: 10px; height: 10px; border-radius: 3px; }
+
+.map-disclaimer {
+  padding: 12px 15px;
+  border-radius: 9px;
+  background: #fff8e8;
+  color: #84632c;
+  font-size: .77rem;
+  margin-top: 10px;
+}
+
+.map-zone { cursor: pointer; transition: .2s; }
+.map-zone:hover { filter: brightness(.94); }
+.map-zone.selected { stroke: #153c32; stroke-width: 4; }
+
+.map-pin { cursor: pointer; }
+.map-pin circle { transition: .2s; }
+.map-pin:hover circle { r: 15; }
+
+.side-stack { display: grid; gap: 18px; }
+
+.zone-info { padding: 20px; }
+
+.zone-info h3 {
+  color: var(--green-dark);
+  margin: 8px 0;
+  font-size: 1.2rem;
+}
+
+.zone-info p {
+  color: var(--muted);
+  font-size: .87rem;
+}
+
+.zone-detail {
+  display: flex;
+  justify-content: space-between;
+  padding: 11px 0;
+  gap: 10px;
+  border-bottom: 1px solid #edf2ee;
+  font-size: .82rem;
+}
+
+.zone-detail span:first-child { color: var(--muted); }
+.zone-detail strong { text-align: right; }
+
+.zone-info .btn { margin-top: 16px; }
+
+.alert-panel { padding-bottom: 8px; }
+
+.alert-item {
+  display: flex;
+  gap: 12px;
+  padding: 15px 18px;
+  border-bottom: 1px solid #edf2ee;
+}
+
+.alert-item:last-child { border-bottom: 0; }
+
+.alert-icon {
+  width: 37px;
+  height: 37px;
+  flex-shrink: 0;
+  display: grid;
+  place-items: center;
+  border-radius: 11px;
+  background: #fff1db;
+}
+
+.alert-item h4 {
+  font-size: .85rem;
+  color: var(--green-dark);
+}
+
+.alert-item p {
+  font-size: .76rem;
+  color: var(--muted);
+  margin-top: 3px;
+}
+
+.alert-item .badge { margin-top: 6px; }
+
+.alert-empty {
+  padding: 25px 18px;
+  text-align: center;
+  color: var(--muted);
+  font-size: .85rem;
+}
+
+.quick-actions {
+  padding: 18px;
+}
+
+.quick-actions h3 {
+  font-size: .98rem;
+  margin-bottom: 13px;
+  color: var(--green-dark);
+}
+
+.action-list { display: grid; gap: 9px; }
+
+.action-list button {
+  width: 100%;
+  padding: 11px 12px;
+  border-radius: 9px;
+  border: 1px solid var(--border);
+  background: #fbfdfb;
+  color: var(--text);
+  text-align: left;
+  font-size: .82rem;
+  font-weight: 700;
+}
+
+.action-list button:hover {
+  border-color: var(--green);
+  background: var(--green-light);
+}
+
+.table-wrap { overflow-x: auto; }
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  min-width: 650px;
+}
+
+th, td {
+  text-align: left;
+  padding: 15px 18px;
+  border-bottom: 1px solid #edf2ee;
+  font-size: .82rem;
+}
+
+th {
+  background: #f8faf8;
+  color: var(--muted);
+  font-size: .74rem;
+  text-transform: uppercase;
+  letter-spacing: .5px;
+}
+
+td strong { color: var(--green-dark); }
+
+.table-action {
+  border: 0;
+  color: var(--green);
+  background: transparent;
+  font-weight: 800;
+  font-size: .8rem;
+}
+
+.section-heading-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: end;
+  gap: 20px;
+  flex-wrap: wrap;
+  margin-bottom: 25px;
+}
+
+.indicators-grid {
+  display: grid;
+  grid-template-columns: repeat(3,1fr);
+  gap: 18px;
+}
+
+.indicator-card { padding: 22px; }
+
+.indicator-card h3 {
+  font-size: .95rem;
+  color: var(--green-dark);
+}
+
+.indicator-number {
+  font-size: 2rem;
+  font-weight: 850;
+  color: var(--green);
+  margin: 12px 0 3px;
+}
+
+.indicator-card p {
+  color: var(--muted);
+  font-size: .8rem;
+}
+
+.progress {
+  height: 8px;
+  border-radius: 20px;
+  background: #edf2ee;
+  overflow: hidden;
+  margin-top: 15px;
+}
+
+.progress span {
+  display: block;
+  height: 100%;
+  border-radius: inherit;
+  background: var(--green);
+}
+
+.progress.orange span { background: var(--orange); }
+.progress.blue span { background: var(--blue); }
+
+.info-grid {
+  display: grid;
+  grid-template-columns: repeat(3,1fr);
+  gap: 18px;
+}
+
+.info-card {
+  padding: 23px;
+  background: white;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+}
+
+.info-card .emoji { font-size: 2rem; }
+.info-card h3 { margin: 12px 0 8px; color: var(--green-dark); }
+.info-card p { color: var(--muted); font-size: .86rem; }
+
+.info-card a {
+  display: inline-block;
+  color: var(--green);
+  font-weight: 800;
+  margin-top: 15px;
+  font-size: .83rem;
+}
+
+.report-banner {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 20px;
+  align-items: center;
+  padding: 30px;
+  border-radius: 20px;
+  background: var(--green-dark);
+  color: white;
+}
+
+.report-banner h2 { color: white; font-size: 1.55rem; }
+.report-banner p { color: #d3e4d8; margin-top: 7px; font-size: .9rem; }
+
+.footer {
+  margin-top: 35px;
+  background: #102c24;
+  color: #c9d9ce;
+  padding: 35px 0 18px;
+}
+
+.footer-grid {
+  display: grid;
+  grid-template-columns: 1.4fr 1fr 1fr;
+  gap: 35px;
+  padding-bottom: 28px;
+}
+
+.footer h3 { color: white; font-size: 1rem; margin-bottom: 12px; }
+.footer p, .footer a { font-size: .83rem; color: #c9d9ce; }
+.footer-links { display: grid; gap: 8px; }
+.footer a:hover { color: white; }
+
+.footer-bottom {
+  border-top: 1px solid rgba(255,255,255,.15);
+  padding-top: 16px;
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 12px;
+  font-size: .75rem;
+  color: #a8c0b1;
+}
+
+.modal {
+  position: fixed;
+  inset: 0;
+  z-index: 300;
+  display: none;
+  place-items: center;
+  padding: 18px;
+  background: rgba(12,35,26,.68);
+}
+
+.modal.open { display: grid; }
+
+.modal-box {
+  position: relative;
+  width: min(550px,100%);
+  max-height: 88vh;
+  overflow-y: auto;
+  background: white;
+  border-radius: 20px;
+  padding: 28px;
+}
+
+.modal-box h2 {
+  color: var(--green-dark);
+  font-size: 1.5rem;
+  margin: 9px 0 12px;
+}
+
+.modal-box p { color: var(--muted); font-size: .88rem; margin: 10px 0; }
+
+.close-modal {
+  position: absolute;
+  top: 12px;
+  right: 17px;
+  border: 0;
+  background: transparent;
+  font-size: 1.8rem;
+  color: var(--muted);
+}
+
+.form-group { margin: 14px 0; }
+
+.form-group label {
+  display: block;
+  font-size: .82rem;
+  font-weight: 750;
+  color: var(--green-dark);
+  margin-bottom: 6px;
+}
+
+.form-control {
+  width: 100%;
+  padding: 11px 12px;
+  border: 1px solid var(--border);
+  border-radius: 9px;
+  outline: none;
+  background: white;
+}
+
+.form-control:focus {
+  border-color: var(--green);
+  box-shadow: 0 0 0 3px rgba(23,107,75,.1);
+}
+
+textarea.form-control { resize: vertical; min-height: 95px; }
+
+.form-message {
+  margin-top: 13px;
+  border-radius: 9px;
+  padding: 12px;
+  background: #e5f3e9;
+  color: #176b4b;
+  font-size: .83rem;
+}
+
+.demo-note {
+  color: #87642b;
+  background: #fff7e6;
+  padding: 11px;
+  border-radius: 9px;
+  font-size: .76rem;
+  margin-top: 12px;
+}
+
+.hidden { display: none !important; }
+
+@media(max-width:1050px) {
+  .nav { gap: 12px; font-size: .8rem; }
+  .dashboard-grid { grid-template-columns: 1fr; }
+  .side-stack { grid-template-columns: 1fr 1fr; }
+}
+
+@media(max-width:760px) {
+  .menu-btn { display: block; }
+  .nav {
+    display: none;
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 76px;
+    padding: 12px 5%;
+    background: white;
+    border-bottom: 1px solid var(--border);
+    flex-direction: column;
+    align-items: stretch;
+  }
+  .nav.open { display: flex; }
+  .nav a { padding: 10px; border-bottom: 1px solid #edf2ee; }
+  .header-actions .btn { display: none; }
+  .stats-grid { grid-template-columns: repeat(2,1fr); }
+  .indicators-grid, .info-grid { grid-template-columns: 1fr; }
+  .side-stack { grid-template-columns: 1fr; }
+  .report-banner { grid-template-columns: 1fr; }
+  .footer-grid { grid-template-columns: 1fr; gap: 25px; }
+  .hero-inner { min-height: 390px; }
+  .map-canvas, .map-canvas svg { height: 390px; min-height: 390px; }
+}
+
+@media(max-width:430px) {
+  .stats-grid { grid-template-columns: 1fr 1fr; }
+  .stat-card { padding: 14px; }
+  .stat-value { font-size: 1.5rem; }
+  .section { padding: 42px 0; }
+  .panel-header { padding: 16px; }
+  .map-wrapper { padding: 8px; }
+  .map-canvas, .map-canvas svg { height: 330px; min-height: 330px; }
+}
+</style>
+</head>
+
+<body>
+
+<!-- BARRA SUPERIOR -->
+<div class="topbar">
+  <div class="container topbar-inner">
+    <span>🌿 Plataforma de monitoreo ambiental y planificación urbana</span>
+    <span>Villa de Merlo · San Luis · Argentina</span>
+  </div>
+</div>
+
+<!-- NAVEGACIÓN -->
+<header class="header">
+  <div class="container header-inner">
+
+    <a class="brand" href="#inicio">
+      <span class="brand-icon">🌱</span>
+      <span>
+        <strong>MERLO VERDE</strong>
+        <small>Territorio · Ambiente · Futuro</small>
+      </span>
+    </a>
+
+    <button class="menu-btn" id="menuBtn"
+            aria-label="Abrir menú" aria-expanded="false">☰</button>
+
+    <nav class="nav" id="nav">
+      <a href="#inicio">Inicio</a>
+      <a href="#mapa">Mapa territorial</a>
+      <a href="#proyectos">Construcciones</a>
+      <a href="#indicadores">Indicadores</a>
+      <a href="#informacion">Información</a>
+    </nav>
+
+    <div class="header-actions">
+      <button class="btn btn-green" id="reportTop">+ Reportar situación</button>
+    </div>
+
+  </div>
+</header>
+
+<main>
+
+<!-- PORTADA -->
+<section class="hero" id="inicio">
+  <div class="container hero-inner">
+    <div class="hero-content">
+      <span class="eyebrow">Una ciudad que crece, un ambiente que debemos cuidar</span>
+      <h1>MERLO VERDE:<br><span>crecer sin perder</span> nuestra naturaleza.</h1>
+      <p>
+        Una herramienta digital para visualizar el crecimiento urbano,
+        identificar posibles riesgos ambientales y contribuir a la
+        protección de los espacios naturales de Villa de Merlo.
+      </p>
+      <div class="hero-buttons">
+        <a href="#mapa" class="btn btn-white">Explorar mapa territorial ↗</a>
+        <button class="btn btn-outline" id="heroReport">Reportar una situación</button>
+      </div>
+      <p class="hero-note">
+        Plataforma demostrativa · Datos y sectores ficticios
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- INDICADORES PRINCIPALES -->
+<div class="container">
+  <div class="stats-grid">
+
+    <article class="stat-card">
+      <div class="stat-top">
+        <span>Sectores ilustrativos</span>
+        <span class="stat-icon">🗺️</span>
+      </div>
+      <div class="stat-value" id="sectorCount">06</div>
+      <div class="stat-foot">Zonas representadas en el mapa</div>
+    </article>
+
+    <article class="stat-card">
+      <div class="stat-top">
+        <span>Proyectos registrados</span>
+        <span class="stat-icon">🏗️</span>
+      </div>
+      <div class="stat-value" id="projectCount">04</div>
+      <div class="stat-foot">Registros ficticios de demostración</div>
+    </article>
+
+    <article class="stat-card">
+      <div class="stat-top">
+        <span>Alertas de ejemplo</span>
+        <span class="stat-icon">⚠️</span>
+      </div>
+      <div class="stat-value" id="alertCount">02</div>
+      <div class="stat-foot">Situaciones que requieren revisión</div>
+    </article>
+
+    <article class="stat-card">
+      <div class="stat-top">
+        <span>Áreas naturales</span>
+        <span class="stat-icon">🌳</span>
+      </div>
+      <div class="stat-value">03</div>
+      <div class="stat-foot">Sectores ilustrativos de conservación</div>
+    </article>
+
+  </div>
+</div>
+
+<!-- MAPA Y PANEL -->
+<section class="section" id="mapa">
+  <div class="container">
+
+    <div style="margin-bottom:25px">
+      <span class="eyebrow">Sistema de información territorial</span>
+      <h2 class="section-title">Explorador de Villa de Merlo</h2>
+      <p class="section-description">
+        Seleccioná los diferentes sectores del mapa para consultar
+        información ambiental y conocer posibles situaciones de riesgo.
+      </p>
+    </div>
+
+    <div class="dashboard-grid">
+
+      <!-- MAPA -->
+      <div class="panel">
+        <div class="panel-header">
+          <div>
+            <h3>Mapa territorial interactivo</h3>
+            <p>Representación conceptual de zonas urbanas y naturales</p>
+          </div>
+
+          <div class="map-tools">
+            <button class="active" data-layer="all">Todas</button>
+            <button data-layer="urban">Urbanas</button>
+            <button data-layer="nature">Naturales</button>
+          </div>
+        </div>
+
+        <div class="map-wrapper">
+
+          <div class="map-canvas">
+            <svg viewBox="0 0 760 460"
+                 preserveAspectRatio="xMidYMid meet"
+                 role="img"
+                 aria-label="Mapa esquemático ficticio de sectores urbanos y naturales de Merlo">
+
+              <defs>
+                <pattern id="trees" width="35" height="35"
+                         patternUnits="userSpaceOnUse">
+                  <circle cx="10" cy="12" r="5" fill="#80a976" opacity=".6"/>
+                  <circle cx="25" cy="26" r="7" fill="#6b9865" opacity=".5"/>
+                </pattern>
+
+                <pattern id="blocks" width="25" height="25"
+                         patternUnits="userSpaceOnUse">
+                  <path d="M2 2 H22 V22 H2 Z"
+                        fill="none" stroke="#a6b8a8"
+                        stroke-width="1" opacity=".55"/>
+                </pattern>
+              </defs>
+
+              <rect width="760" height="460" fill="#e8efe4"/>
+
+              <!-- SIERRAS -->
+              <path d="M0 0 L760 0 L760 90
+                L690 70 L630 105 L560 56 L500 95
+                L430 42 L365 92 L300 35 L230 85
+                L165 30 L95 90 L0 58 Z"
+                fill="#a4b99a"/>
+
+              <path d="M0 0 L760 0 L760 90
+                L690 70 L630 105 L560 56 L500 95
+                L430 42 L365 92 L300 35 L230 85
+                L165 30 L95 90 L0 58 Z"
+                fill="url(#trees)"/>
+
+              <text x="375" y="27" text-anchor="middle"
+                    font-size="15" font-weight="bold"
+                    fill="#365c42">SIERRAS DE LOS COMECHINGONES</text>
+
+              <!-- ZONA NATURAL NORTE -->
+              <path class="map-zone nature-zone"
+                    data-zone="sierra"
+                    d="M40 105 L210 91 L285 125 L250 210
+                       L120 220 L40 185 Z"
+                    fill="#b8d5a8" stroke="#759b71" stroke-width="2"/>
+
+              <path d="M40 105 L210 91 L285 125 L250 210
+                       L120 220 L40 185 Z"
+                    fill="url(#trees)" pointer-events="none"/>
+
+              <!-- ZONA URBANA CENTRO -->
+              <path class="map-zone urban-zone"
+                    data-zone="centro"
+                    d="M270 145 L450 110 L555 175
+                       L510 275 L360 290 L250 225 Z"
+                    fill="#f1d9ae" stroke="#d1a96b" stroke-width="2"/>
+
+              <path d="M270 145 L450 110 L555 175
+                       L510 275 L360 290 L250 225 Z"
+                    fill="url(#blocks)" pointer-events="none"/>
+
+              <!-- ZONA NATURAL ESTE -->
+              <path class="map-zone nature-zone"
+                    data-zone="este"
+                    d="M570 110 L735 130 L720 300
+                       L610 285 L545 210 Z"
+                    fill="#b9d7a8" stroke="#759b71" stroke-width="2"/>
+
+              <path d="M570 110 L735 130 L720 300
+                       L610 285 L545 210 Z"
+                    fill="url(#trees)" pointer-events="none"/>
+
+              <!-- ZONA URBANA SUR -->
+              <path class="map-zone urban-zone"
+                    data-zone="sur"
+                    d="M275 300 L510 290 L590 370
+                       L470 430 L230 405 L180 340 Z"
+                    fill="#f1d9ae" stroke="#d1a96b" stroke-width="2"/>
+
+              <path d="M275 300 L510 290 L590 370
+                       L470 430 L230 405 L180 340 Z"
+                    fill="url(#blocks)" pointer-events="none"/>
+
+              <!-- ZONA DE TRANSICIÓN -->
+              <path class="map-zone nature-zone"
+                    data-zone="transicion"
+                    d="M60 250 L235 225 L270 315
+                       L190 385 L45 350 Z"
+                    fill="#c9dfad" stroke="#8aaa78" stroke-width="2"/>
+
+              <path d="M60 250 L235 225 L270 315
+                       L190 385 L45 350 Z"
+                    fill="url(#trees)" pointer-events="none"/>
+
+              <!-- CAMINOS -->
+              <path d="M5 230 Q190 190 330 220 T760 180"
+                    fill="none" stroke="#fff" stroke-width="8"
+                    stroke-linecap="round"/>
+              <path d="M5 230 Q190 190 330 220 T760 180"
+                    fill="none" stroke="#c2bda8" stroke-width="2"
+                    stroke-dasharray="7 6"/>
+
+              <path d="M360 100 Q330 225 400 460"
+                    fill="none" stroke="#fff" stroke-width="7"/>
+              <path d="M360 100 Q330 225 400 460"
+                    fill="none" stroke="#c2bda8" stroke-width="2"
+                    stroke-dasharray="7 6"/>
+
+              <!-- ETIQUETAS -->
+              <g font-size="12" font-weight="bold"
+                 text-anchor="middle" fill="#36513e"
+                 pointer-events="none">
+                <text x="153" y="156">ÁREA SERRANA</text>
+                <text x="400" y="191">CENTRO URBANO</text>
+                <text x="650" y="195">ÁREA NATURAL</text>
+                <text x="390" y="360">EXPANSIÓN SUR</text>
+                <text x="147" y="310">TRANSICIÓN</text>
+              </g>
+
+              <!-- REFERENCIA NORTE -->
+              <g transform="translate(710 35)">
+                <path d="M0 25 L10 0 L20 25 L10 19 Z" fill="#365c42"/>
+                <text x="10" y="40" font-size="11"
+                      text-anchor="middle" fill="#365c42">N</text>
+              </g>
+
+              <!-- PUNTOS INTERACTIVOS -->
+              <g class="map-pin" data-zone="centro" transform="translate(398 238)">
+                <circle r="10" fill="#2776a5" stroke="white" stroke-width="3"/>
+                <text x="17" y="4" font-size="11" font-weight="bold"
+                      fill="#36513e">01</text>
+              </g>
+
+              <g class="map-pin" data-zone="sierra" transform="translate(155 175)">
+                <circle r="10" fill="#176b4b" stroke="white" stroke-width="3"/>
+                <text x="17" y="4" font-size="11" font-weight="bold"
+                      fill="#36513e">02</text>
+              </g>
+
+              <g class="map-pin" data-zone="sur" transform="translate(435 375)">
+                <circle r="10" fill="#dc923b" stroke="white" stroke-width="3"/>
+                <text x="17" y="4" font-size="11" font-weight="bold"
+                      fill="#36513e">03</text>
+              </g>
+
+              <g class="map-pin" data-zone="este" transform="translate(650 235)">
+                <circle r="10" fill="#176b4b" stroke="white" stroke-width="3"/>
+                <text x="17" y="4" font-size="11" font-weight="bold"
+                      fill="#36513e">04</text>
+              </g>
+
+              <g class="map-pin" data-zone="transicion" transform="translate(150 330)">
+                <circle r="10" fill="#dc923b" stroke="white" stroke-width="3"/>
+                <text x="17" y="4" font-size="11" font-weight="bold"
+                      fill="#36513e">05</text>
+              </g>
+
+              <!-- ESCALA ILUSTRATIVA -->
+              <text x="25" y="440" font-size="10"
+                    fill="#607067">MAPA ESQUEMÁTICO · SIN ESCALA</text>
+
+            </svg>
+          </div>
+
+          <div class="map-legend">
+            <span class="legend-item">
+              <span class="legend-dot" style="background:#f1d9ae"></span>
+              Zona urbana
+            </span>
+            <span class="legend-item">
+              <span class="legend-dot" style="background:#b8d5a8"></span>
+              Espacio natural
+            </span>
+            <span class="legend-item">
+              <span class="legend-dot" style="background:#dc923b"></span>
+              Zona en observación
+            </span>
+            <span class="legend-item">
+              <span class="legend-dot" style="background:#2776a5"></span>
+              Referencia urbana
+            </span>
+          </div>
+
+          <div class="map-disclaimer">
+            ⚠️ Mapa conceptual de demostración. No representa la cartografía,
+            los límites parcelarios ni el ordenamiento territorial oficial.
+          </div>
+        </div>
+      </div>
+
+      <!-- PANEL LATERAL -->
+      <div class="side-stack">
+
+        <div class="panel">
+          <div class="panel-header">
+            <div>
+              <h3>Información del sector</h3>
+              <p>Seleccioná un área del mapa</p>
+            </div>
+            <span class="badge badge-blue">Interactivo</span>
+          </div>
+
+          <div class="zone-info" id="zoneInfo">
+            <span class="badge badge-gray">Sin seleccionar</span>
+            <h3>Explorá el territorio</h3>
+            <p>
+              Hacé clic en alguna zona del mapa para conocer sus características
+              y consultar la información ambiental de ejemplo.
+            </p>
+          </div>
+        </div>
+
+        <div class="panel alert-panel">
+          <div class="panel-header">
+            <div>
+              <h3>Alertas ambientales</h3>
+              <p>Situaciones demostrativas</p>
+            </div>
+            <span class="badge badge-orange" id="alertBadge">2 activas</span>
+          </div>
+
+          <div id="alertList"></div>
+        </div>
+
+        <div class="panel quick-actions">
+          <h3>Accesos rápidos</h3>
+          <div class="action-list">
+            <button id="goProjects">🏗️ Consultar proyectos de construcción</button>
+            <button id="goIndicators">🌳 Ver indicadores ambientales</button>
+            <button id="quickReport">📍 Reportar una situación ambiental</button>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PROYECTOS -->
+<section class="section" id="proyectos" style="padding-top:15px">
+  <div class="container">
+
+    <div class="section-heading-row">
+      <div>
+        <span class="eyebrow">Planificación y control territorial</span>
+        <h2 class="section-title">Registro de proyectos de construcción</h2>
+        <p class="section-description">
+          Ejemplo de un registro digital para consultar proyectos,
+          su localización y el estado de revisión ambiental.
+        </p>
+      </div>
+
+      <button class="btn btn-green" id="addProject">
+        + Registrar proyecto
+      </button>
+    </div>
+
+    <div class="panel">
+      <div class="panel-header">
+        <div>
+          <h3>Proyectos registrados</h3>
+          <p>Base de datos ficticia para la demostración</p>
+        </div>
+        <select id="projectFilter" class="form-control"
+                style="width:auto;min-width:175px">
+          <option value="todos">Todos los estados</option>
+          <option value="revision">En revisión</option>
+          <option value="observacion">Con observaciones</option>
+          <option value="informativo">Informativo</option>
+        </select>
+      </div>
+
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Proyecto</th>
+              <th>Sector</th>
+              <th>Tipo</th>
+              <th>Estado demostrativo</th>
+              <th>Consulta</th>
+            </tr>
+          </thead>
+          <tbody id="projectTable"></tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- INDICADORES -->
+<section class="section" id="indicadores">
+  <div class="container">
+
+    <div style="margin-bottom:25px">
+      <span class="eyebrow">Seguimiento ambiental</span>
+      <h2 class="section-title">Indicadores del territorio</h2>
+      <p class="section-description">
+        Ejemplo de información que podría analizarse a partir de imágenes
+        satelitales, registros ambientales y relevamientos territoriales.
+      </p>
+    </div>
+
+    <div class="indicators-grid">
+
+      <article class="panel indicator-card">
+        <h3>🌳 Cobertura vegetal</h3>
+        <div class="indicator-number">72%</div>
+        <p>Valor ilustrativo de cobertura en un sector de estudio.</p>
+        <div class="progress"><span style="width:72%"></span></div>
+        <p style="margin-top:9px">Dato ficticio · No medido</p>
+      </article>
+
+      <article class="panel indicator-card">
+        <h3>🏘️ Ocupación urbana</h3>
+        <div class="indicator-number">48%</div>
+        <p>Ejemplo de superficie ocupada dentro de un sector ficticio.</p>
+        <div class="progress orange"><span style="width:48%"></span></div>
+        <p style="margin-top:9px">Dato ficticio · No medido</p>
+      </article>
+
+      <article class="panel indicator-card">
+        <h3>💧 Recursos hídricos</h3>
+        <div class="indicator-number">En análisis</div>
+        <p>Variable que permitiría estudiar la presión sobre el agua.</p>
+        <div class="progress blue"><span style="width:55%"></span></div>
+        <p style="margin-top:9px">Indicador conceptual · Sin medición</p>
+      </article>
+
+    </div>
+  </div>
+</section>
+
+<!-- TECNOLOGÍAS -->
+<section class="section" id="informacion">
+  <div class="container">
+
+    <div style="margin-bottom:25px">
+      <span class="eyebrow">Tecnología aplicada al ambiente</span>
+      <h2 class="section-title">¿Cómo funcionaría Merlo Verde?</h2>
+      <p class="section-description">
+        La propuesta combina diferentes herramientas tecnológicas para
+        mejorar el acceso a la información y apoyar la planificación urbana.
+      </p>
+    </div>
+
+    <div class="info-grid">
+
+      <article class="info-card">
+        <span class="emoji">🛰️</span>
+        <h3>Imágenes satelitales</h3>
+        <p>
+          Permitirían comparar imágenes de diferentes períodos para
+          identificar cambios en la vegetación y el uso del suelo.
+        </p>
+      </article>
+
+      <article class="info-card">
+        <span class="emoji">📍</span>
+        <h3>Mapas digitales y GPS</h3>
+        <p>
+          Ayudarían a ubicar terrenos, construcciones, espacios naturales
+          y áreas que requieren especial atención.
+        </p>
+      </article>
+
+      <article class="info-card">
+        <span class="emoji">🗄️</span>
+        <h3>Base de datos territorial</h3>
+        <p>
+          Almacenaría información sobre terrenos, proyectos, permisos,
+          relevamientos y áreas protegidas.
+        </p>
+      </article>
+
+      <article class="info-card">
+        <span class="emoji">🚨</span>
+        <h3>Alertas automáticas</h3>
+        <p>
+          Señalarían posibles situaciones de riesgo para que sean
+          revisadas por los organismos correspondientes.
+        </p>
+      </article>
+
+      <article class="info-card">
+        <span class="emoji">🌿</span>
+        <h3>Monitoreo ambiental</h3>
+        <p>
+          Facilitaría el seguimiento de la cobertura vegetal,
+          el suelo y otros recursos naturales.
+        </p>
+      </article>
+
+      <article class="info-card">
+        <span class="emoji">🏛️</span>
+        <h3>Planificación urbana</h3>
+        <p>
+          Brindaría información organizada para apoyar el análisis
+          de proyectos y la toma de decisiones.
+        </p>
+      </article>
+
+    </div>
+  </div>
+</section>
+
+<!-- PARTICIPACIÓN CIUDADANA -->
+<section class="section">
+  <div class="container">
+
+    <div class="report-banner">
+      <div>
+        <span class="eyebrow" style="color:#c5e79a">
+          Participación ciudadana
+        </span>
+        <h2>La protección de Merlo es una tarea de todos.</h2>
+        <p>
+          La plataforma propone un espacio donde los vecinos puedan
+          comunicar situaciones que consideren importantes para el cuidado
+          del ambiente.
+        </p>
+      </div>
+      <button class="btn btn-white" id="reportBottom">
+        📍 Realizar un reporte
+      </button>
+    </div>
+
+  </div>
+</section>
+
+</main>
+
+<!-- PIE -->
+<footer class="footer">
+  <div class="container">
+
+    <div class="footer-grid">
+      <div>
+        <a href="#inicio" class="brand">
+          <span class="brand-icon">🌱</span>
+          <span>
+            <strong style="color:white">MERLO VERDE</strong>
+            <small style="color:#c9d9ce">Territorio · Ambiente · Futuro</small>
+          </span>
+        </a>
+        <p style="margin-top:15px;max-width:360px">
+          Una propuesta de innovación tecnológica para acompañar
+          el crecimiento responsable de Villa de Merlo y contribuir
+          a la conservación de sus espacios naturales.
+        </p>
+      </div>
+
+      <div>
+        <h3>Explorar</h3>
+        <div class="footer-links">
+          <a href="#mapa">Mapa territorial</a>
+          <a href="#proyectos">Proyectos</a>
+          <a href="#indicadores">Indicadores ambientales</a>
+          <a href="#informacion">Tecnologías</a>
+        </div>
+      </div>
+
+      <div>
+        <h3>Sobre el proyecto</h3>
+        <p>
+          Proyecto escolar de Educación Tecnológica.
+          Grupo Punto Límite · 6.º A.
+        </p>
+        <p style="margin-top:9px">
+          Centro Educativo Padre Pablo Tissera<br>
+          Villa de Merlo, San Luis.
+        </p>
+      </div>
+    </div>
+
+    <div class="footer-bottom">
+      <span>© <span id="year"></span> Merlo Verde · Proyecto educativo</span>
+      <span>Versión beta demostrativa · No oficial</span>
+    </div>
+
+  </div>
+</footer>
+
+<!-- VENTANA MODAL -->
+<div class="modal" id="modal" role="dialog"
+     aria-modal="true" aria-labelledby="modalTitle">
+  <div class="modal-box">
+    <button class="close-modal" id="closeModal"
+            aria-label="Cerrar">×</button>
+    <div id="modalContent"></div>
+  </div>
+</div>
+
+<script>
+/* ==========================================
+   1. DATOS DEMOSTRATIVOS DE LOS SECTORES
+========================================== */
+
+const zones = {
+  sierra: {
+    name: "Área serrana norte",
+    type: "Espacio natural",
+    badge: "badge-green",
+    vegetation: "Vegetación nativa",
+    condition: "Sector de conservación ilustrativo",
+    risk: "A evaluar",
+    description:
+      "Sector conceptual que representa ambientes naturales próximos a las Sierras de los Comechingones. Se propone priorizar su conservación y estudiar cualquier posible intervención.",
+    recommendation:
+      "Realizar relevamientos ambientales antes de evaluar nuevos usos del suelo."
+  },
+
+  centro: {
+    name: "Centro urbano",
+    type: "Zona urbana",
+    badge: "badge-blue",
+    vegetation: "Espacios verdes urbanos",
+    condition: "Área urbanizada ilustrativa",
+    risk: "Seguimiento",
+    description:
+      "Representa un sector urbano consolidado. El sistema podría reunir información sobre infraestructura, espacios verdes y evolución de las construcciones.",
+    recommendation:
+      "Promover el mantenimiento de los espacios verdes y una planificación urbana ordenada."
+  },
+
+  sur: {
+    name: "Sector de expansión sur",
+    type: "Zona en observación",
+    badge: "badge-orange",
+    vegetation: "Posible presencia de vegetación",
+    condition: "Expansión urbana ilustrativa",
+    risk: "Revisión preventiva",
+    description:
+      "Representa una zona conceptual donde el crecimiento urbano podría acercarse a terrenos con vegetación. Se propone revisar posibles impactos antes de nuevos desarrollos.",
+    recommendation:
+      "Analizar la cobertura vegetal y los posibles efectos ambientales de cada proyecto."
+  },
+
+  este: {
+    name: "Área natural este",
+    type: "Espacio natural",
+    badge: "badge-green",
+    vegetation: "Vegetación serrana",
+    condition: "Sector de protección ilustrativo",
+    risk: "A evaluar",
+    description:
+      "Sector ficticio destinado a representar ambientes naturales y corredores de vegetación que podrían ser importantes para la biodiversidad.",
+    recommendation:
+      "Identificar la vegetación existente y estudiar su conectividad ambiental."
+  },
+
+  transicion: {
+    name: "Zona de transición",
+    type: "Zona en observación",
+    badge: "badge-orange",
+    vegetation: "Vegetación y usos mixtos",
+    condition: "Área de transición ilustrativa",
+    risk: "Revisión preventiva",
+    description:
+      "Representa el encuentro entre sectores urbanizados y espacios naturales. Es una zona conceptual donde conviene estudiar cuidadosamente los cambios de uso del suelo.",
+    recommendation:
+      "Evaluar los límites de expansión y conservar sectores de vegetación nativa."
+  }
+};
+
+/* ==========================================
+   2. PROYECTOS DE CONSTRUCCIÓN DE EJEMPLO
+========================================== */
+
+let projects = [
+  {
+    id: 1,
+    name: "Barrio Los Aromos",
+    zone: "sur",
+    type: "Residencial",
+    status: "observacion",
+    description:
+      "Proyecto ficticio de viviendas en un sector de expansión urbana.",
+    reason:
+      "Se propone analizar la posible presencia de vegetación nativa y los cambios en el uso del suelo."
+  },
+  {
+    id: 2,
+    name: "Complejo Las Sierras",
+    zone: "sierra",
+    type: "Turístico",
+    status: "revision",
+    description:
+      "Proyecto ficticio de infraestructura turística próximo a un ambiente natural.",
+    reason:
+      "Se recomienda revisar la localización y la posible afectación del entorno."
+  },
+  {
+    id: 3,
+    name: "Ampliación Centro",
+    zone: "centro",
+    type: "Comercial",
+    status: "informativo",
+    description:
+      "Proyecto ficticio ubicado dentro del sector urbano consolidado.",
+    reason:
+      "Registro informativo para demostrar la organización de proyectos."
+  },
+  {
+    id: 4,
+    name: "Urbanización El Mirador",
+    zone: "transicion",
+    type: "Residencial",
+    status: "revision",
+    description:
+      "Proyecto ficticio ubicado en una zona de transición.",
+    reason:
+      "Se propone verificar la cobertura vegetal y los posibles efectos sobre el suelo."
+  }
+];
+
+const statusInfo = {
+  revision: {
+    label: "En revisión",
+    badge: "badge-orange"
+  },
+  observacion: {
+    label: "Con observaciones",
+    badge: "badge-red"
+  },
+  informativo: {
+    label: "Informativo",
+    badge: "badge-blue"
+  }
+};
+
+/* ==========================================
+   3. ALERTAS AMBIENTALES DE EJEMPLO
+========================================== */
+
+let alerts = [
+  {
+    id: 1,
+    title: "Posible modificación de vegetación",
+    description: "Sector de expansión sur · Registro ilustrativo",
+    level: "Atención",
+    badge: "badge-orange",
+    icon: "🌳",
+    zone: "sur",
+    active: true
+  },
+  {
+    id: 2,
+    title: "Proyecto próximo a zona natural",
+    description: "Área serrana norte · Registro ilustrativo",
+    level: "Revisión",
+    badge: "badge-red",
+    icon: "🏗️",
+    zone: "sierra",
+    active: true
+  }
+];
+
+/* ==========================================
+   4. ELEMENTOS GENERALES
+========================================== */
+
+const modal = document.getElementById("modal");
+const modalContent = document.getElementById("modalContent");
+const closeModalButton = document.getElementById("closeModal");
+
+function openModal(content) {
+  modalContent.innerHTML = content;
+  modal.classList.add("open");
+  document.body.style.overflow = "hidden";
+  closeModalButton.focus();
+}
+
+function closeModal() {
+  modal.classList.remove("open");
+  document.body.style.overflow = "";
+}
+
+closeModalButton.addEventListener("click", closeModal);
+
+modal.addEventListener("click", event => {
+  if (event.target === modal) closeModal();
+});
+
+document.addEventListener("keydown", event => {
+  if (event.key === "Escape") closeModal();
+});
+
+/* ==========================================
+   5. MENÚ PARA CELULARES
+========================================== */
+
+const menuBtn = document.getElementById("menuBtn");
+const nav = document.getElementById("nav");
+
+menuBtn.addEventListener("click", () => {
+  const opened = nav.classList.toggle("open");
+  menuBtn.setAttribute("aria-expanded", String(opened));
+  menuBtn.textContent = opened ? "×" : "☰";
+});
+
+nav.querySelectorAll("a").forEach(link => {
+  link.addEventListener("click", () => {
+    nav.classList.remove("open");
+    menuBtn.setAttribute("aria-expanded", "false");
+    menuBtn.textContent = "☰";
+  });
+});
+
+/* ==========================================
+   6. SELECCIÓN DE SECTORES DEL MAPA
+========================================== */
+
+let selectedZone = null;
+
+function selectZone(zoneId) {
+  const zone = zones[zoneId];
+  if (!zone) return;
+
+  selectedZone = zoneId;
+
+  document.querySelectorAll(".map-zone").forEach(item => {
+    item.classList.toggle(
+      "selected",
+      item.dataset.zone === zoneId
+    );
+  });
+
+  const relatedProjects = projects.filter(
+    project => project.zone === zoneId
+  );
+
+  const html = `
+    <span class="badge ${zone.badge}">${zone.type}</span>
+    <h3>${zone.name}</h3>
+    <p>${zone.description}</p>
+
+    <div class="zone-detail">
+      <span>Vegetación</span>
+      <strong>${zone.vegetation}</strong>
+    </div>
+
+    <div class="zone-detail">
+      <span>Condición</span>
+      <strong>${zone.condition}</strong>
+    </div>
+
+    <div class="zone-detail">
+      <span>Evaluación</span>
+      <strong>${zone.risk}</strong>
+    </div>
+
+    <div class="zone-detail">
+      <span>Proyectos asociados</span>
+      <strong>${relatedProjects.length}</strong>
+    </div>
+
+    <p style="margin-top:14px">
+      <strong style="color:#176b4b">Recomendación:</strong>
+      ${zone.recommendation}
+    </p>
+
+    <button class="btn btn-green btn-block"
+            id="viewZoneProjects">
+      Consultar proyectos del sector
+    </button>
+  `;
+
+  document.getElementById("zoneInfo").innerHTML = html;
+
+  document.getElementById("viewZoneProjects")
+    .addEventListener("click", () => {
+      document.getElementById("projectFilter").value = "todos";
+      renderProjects();
+      document.getElementById("proyectos").scrollIntoView({
+        behavior: "smooth"
+      });
+    });
+}
+
+document.querySelectorAll(".map-zone, .map-pin").forEach(item => {
+  item.addEventListener("click", () => {
+    selectZone(item.dataset.zone);
+  });
+});
+
+/* ==========================================
+   7. FILTROS DEL MAPA
+========================================== */
+
+document.querySelectorAll("[data-layer]").forEach(button => {
+  button.addEventListener("click", () => {
+
+    document.querySelectorAll("[data-layer]").forEach(btn => {
+      btn.classList.toggle("active", btn === button);
+    });
+
+    const layer = button.dataset.layer;
+
+    document.querySelectorAll(".urban-zone").forEach(zone => {
+      zone.style.opacity =
+        layer === "nature" ? ".12" : "1";
+    });
+
+    document.querySelectorAll(".nature-zone").forEach(zone => {
+      zone.style.opacity =
+        layer === "urban" ? ".12" : "1";
+    });
+
+    document.querySelectorAll(".map-pin").forEach(pin => {
+      const zone = zones[pin.dataset.zone];
+      const isUrban = zone.type === "Zona urbana";
+
+      pin.style.opacity =
+        layer === "all" ||
+        (layer === "urban" && isUrban) ||
+        (layer === "nature" && !isUrban)
+          ? "1" : ".12";
+    });
+  });
+});
+
+/* ==========================================
+   8. TABLA DE PROYECTOS
+========================================== */
+
+function escapeHTML(value) {
+  return String(value).replace(/[&<>"']/g, character => ({
+    "&": "&amp;",
+    "<": "&lt;",
+    ">": "&gt;",
+    '"': "&quot;",
+    "'": "&#039;"
+  })[character]);
+}
+
+function renderProjects() {
+  const filter = document.getElementById("projectFilter").value;
+
+  const filtered = projects.filter(project =>
+    filter === "todos" || project.status === filter
+  );
+
+  const tbody = document.getElementById("projectTable");
+
+  if (!filtered.length) {
+    tbody.innerHTML = `
+      <tr><td colspan="5" style="text-align:center;padding:30px">
+        No hay proyectos para este filtro.
+      </td></tr>`;
+  } else {
+    tbody.innerHTML = filtered.map(project => {
+      const status = statusInfo[project.status];
+
+      return `
+        <tr>
+          <td><strong>${escapeHTML(project.name)}</strong></td>
+          <td>${escapeHTML(zones[project.zone]?.name || "Sin sector")}</td>
+          <td>${escapeHTML(project.type)}</td>
+          <td><span class="badge ${status.badge}">
+            ${status.label}
+          </span></td>
+          <td>
+            <button class="table-action"
+                    data-project="${project.id}">
+              Ver detalle →
+            </button>
+          </td>
+        </tr>`;
+    }).join("");
+  }
+
+  document.getElementById("projectCount").textContent =
+    String(projects.length).padStart(2, "0");
+
+  tbody.querySelectorAll("[data-project]").forEach(button => {
+    button.addEventListener("click", () => {
+      showProject(Number(button.dataset.project));
+    });
+  });
+}
+
+function showProject(id) {
+  const project = projects.find(item => item.id === id);
+  if (!project) return;
+
+  const status = statusInfo[project.status];
+
+  openModal(`
+    <span class="eyebrow">Registro demostrativo</span>
+    <h2 id="modalTitle">${escapeHTML(project.name)}</h2>
+    <span class="badge ${status.badge}">${status.label}</span>
+
+    <p>${escapeHTML(project.description)}</p>
+
+    <div class="zone-detail">
+      <span>Sector</span>
+      <strong>${escapeHTML(zones[project.zone].name)}</strong>
+    </div>
+
+    <div class="zone-detail">
+      <span>Tipo</span>
+      <strong>${escapeHTML(project.type)}</strong>
+    </div>
+
+    <p style="margin-top:17px">
+      <strong style="color:#176b4b">Observación propuesta</strong><br>
+      ${escapeHTML(project.reason)}
+    </p>
+
+    <div class="demo-note">
+      Este registro es ficticio. No constituye un permiso,
+      una evaluación ambiental ni una decisión municipal.
+    </div>
+
+    <button class="btn btn-green btn-block" style="margin-top:15px"
+            id="locateProject">
+      Ubicar sector en el mapa
+    </button>
+  `);
+
+  document.getElementById("locateProject").addEventListener("click", () => {
+    const zone = project.zone;
+    closeModal();
+    document.getElementById("mapa").scrollIntoView({behavior:"smooth"});
+    setTimeout(() => selectZone(zone), 400);
+  });
+}
+
+document.getElementById("projectFilter")
+  .addEventListener("change", renderProjects);
+
+/* ==========================================
+   9. ALERTAS
+========================================== */
+
+function renderAlerts() {
+  const active = alerts.filter(alert => alert.active);
+
+  document.getElementById("alertCount").textContent =
+    String(active.length).padStart(2, "0");
+
+  document.getElementById("alertBadge").textContent =
+    `${active.length} activas`;
+
+  const container = document.getElementById("alertList");
+
+  if (!active.length) {
+    container.innerHTML = `
+      <div class="alert-empty">
+        ✓ No hay alertas activas en esta demostración.
+      </div>`;
+    return;
+  }
+
+  container.innerHTML = active.map(alert => `
+    <div class="alert-item">
+      <div class="alert-icon">${alert.icon}</div>
+      <div>
+        <h4>${escapeHTML(alert.title)}</h4>
+        <p>${escapeHTML(alert.description)}</p>
+        <span class="badge ${alert.badge}">${alert.level}</span>
+        <button class="table-action"
+                style="display:block;margin-top:7px"
+                data-alert="${alert.id}">
+          Consultar sector →
+        </button>
+      </div>
+    </div>
+  `).join("");
+
+  container.querySelectorAll("[data-alert]").forEach(button => {
+    button.addEventListener("click", () => {
+      const alert = alerts.find(
+        item => item.id === Number(button.dataset.alert)
+      );
+
+      closeModal();
+      document.getElementById("mapa").scrollIntoView({behavior:"smooth"});
+      selectZone(alert.zone);
+    });
+  });
+}
+
+/* ==========================================
+   10. REGISTRO DE NUEVOS PROYECTOS
+========================================== */
+
+function showProjectForm() {
+  openModal(`
+    <span class="eyebrow">Panel demostrativo</span>
+    <h2 id="modalTitle">Registrar un proyecto</h2>
+    <p>Completá los campos para probar el registro de una construcción.</p>
+
+    <form id="projectForm">
+
+      <div class="form-group">
+        <label for="newProjectName">Nombre del proyecto</label>
+        <input class="form-control" id="newProjectName"
+               maxlength="100" required
+               placeholder="Ej.: Nuevo barrio">
+      </div>
+
+      <div class="form-group">
+        <label for="newProjectZone">Sector</label>
+        <select class="form-control" id="newProjectZone" required>
+          <option value="">Seleccionar sector</option>
+          ${Object.entries(zones).map(([id, zone]) =>
+            `<option value="${id}">${escapeHTML(zone.name)}</option>`
+          ).join("")}
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label for="newProjectType">Tipo de proyecto</label>
+        <select class="form-control" id="newProjectType" required>
+          <option value="">Seleccionar</option>
+          <option>Residencial</option>
+          <option>Comercial</option>
+          <option>Turístico</option>
+          <option>Infraestructura</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label for="newProjectDescription">Descripción</label>
+        <textarea class="form-control" id="newProjectDescription"
+                  maxlength="500" required
+                  placeholder="Describí el proyecto..."></textarea>
+      </div>
+
+      <button class="btn btn-green btn-block" type="submit">
+        Guardar registro de prueba
+      </button>
+
+    </form>
+
+    <div class="demo-note">
+      El registro se agrega únicamente a esta demostración en memoria.
+      No se envía a ningún organismo oficial ni se guarda en una base de datos.
+    </div>
+  `);
+
+  document.getElementById("projectForm")
+    .addEventListener("submit", event => {
+      event.preventDefault();
+
+      const name = document.getElementById("newProjectName").value.trim();
+      const zone = document.getElementById("newProjectZone").value;
+      const type = document.getElementById("newProjectType").value;
+      const description =
+        document.getElementById("newProjectDescription").value.trim();
+
+      if (!name || !zone || !type || !description) return;
+
+      projects.push({
+        id: Date.now(),
+        name,
+        zone,
+        type,
+        description,
+        status: "revision",
+        reason: "Nuevo registro de prueba pendiente de revisión."
+      });
+
+      renderProjects();
+      closeModal();
+
+      document.getElementById("projectFilter").value = "todos";
+      renderProjects();
+
+      document.getElementById("proyectos")
+        .scrollIntoView({behavior:"smooth"});
+    });
+}
+
+document.getElementById("addProject")
+  .addEventListener("click", showProjectForm);
+
+/* ==========================================
+   11. REPORTE CIUDADANO
+========================================== */
+
+function showReportForm() {
+  openModal(`
+    <span class="eyebrow">Participación ciudadana</span>
+    <h2 id="modalTitle">Reportar una situación ambiental</h2>
+    <p>
+      Este formulario muestra cómo podría funcionar un canal
+      de comunicación para informar situaciones del territorio.
+    </p>
+
+    <form id="reportForm">
+
+      <div class="form-group">
+        <label for="reportType">Tipo de situación</label>
+        <select class="form-control" id="reportType" required>
+          <option value="">Seleccionar</option>
+          <option>Posible eliminación de vegetación</option>
+          <option>Movimiento de suelo</option>
+          <option>Construcción próxima a espacio natural</option>
+          <option>Residuos en espacio natural</option>
+          <option>Otra situación ambiental</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label for="reportZone">Sector aproximado</label>
+        <select class="form-control" id="reportZone" required>
+          <option value="">Seleccionar</option>
+          ${Object.entries(zones).map(([id, zone]) =>
+            `<option value="${id}">${escapeHTML(zone.name)}</option>`
+          ).join("")}
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label for="reportDescription">Descripción de la situación</label>
+        <textarea class="form-control" id="reportDescription"
+                  maxlength="500" required
+                  placeholder="Contanos qué observaste..."></textarea>
+      </div>
+
+      <button type="submit" class="btn btn-green btn-block">
+        Enviar reporte de prueba
+      </button>
+
+    </form>
+
+    <div class="demo-note">
+      No ingreses nombres, teléfonos, domicilios ni otros datos personales.
+      El reporte no se transmite ni genera una denuncia oficial.
+    </div>
+  `);
+
+  document.getElementById("reportForm")
+    .addEventListener("submit", event => {
+      event.preventDefault();
+
+      const type = document.getElementById("reportType").value;
+      const zone = document.getElementById("reportZone").value;
+      const description =
+        document.getElementById("reportDescription").value.trim();
+
+      if (!type || !zone || !description) return;
+
+      openModal(`
+        <span class="eyebrow">Prueba completada</span>
+        <h2 id="modalTitle">¡Reporte de demostración registrado!</h2>
+        <p>
+          Simulaste correctamente el envío de un reporte sobre:
+          <strong>${escapeHTML(type)}</strong>.
+        </p>
+        <p>Sector seleccionado: ${escapeHTML(zones[zone].name)}.</p>
+        <div class="form-message">
+          Esta información no fue enviada a ningún organismo.
+          En una plataforma real, el reporte podría pasar a un proceso
+          de revisión por personal autorizado.
+        </div>
+        <button class="btn btn-green btn-block"
+                style="margin-top:16px" id="finishReport">
+          Finalizar
+        </button>
+      `);
+
+      document.getElementById("finishReport")
+        .addEventListener("click", closeModal);
+    });
+}
+
+["reportTop","heroReport","quickReport","reportBottom"].forEach(id => {
+  document.getElementById(id)
+    .addEventListener("click", showReportForm);
+});
+
+/* ==========================================
+   12. ACCESOS RÁPIDOS
+========================================== */
+
+document.getElementById("goProjects").addEventListener("click", () => {
+  document.getElementById("proyectos").scrollIntoView({behavior:"smooth"});
+});
+
+document.getElementById("goIndicators").addEventListener("click", () => {
+  document.getElementById("indicadores").scrollIntoView({behavior:"smooth"});
+});
+
+/* ==========================================
+   13. INICIALIZACIÓN
+========================================== */
+
+document.getElementById("year").textContent =
+  new Date().getFullYear();
+
+renderProjects();
+renderAlerts();
+
+</script>
+</body>
+</html>

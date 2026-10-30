@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#173b32">
+<meta name="description" content="Cuenca Viva: prototipo escolar de restauración hídrico-ambiental para Villa de Merlo.">
+<title>Cuenca Viva | Restauración hídrico-ambiental</title>
+<style>
+:root{
+  --bg:#f3f5ef;--surface:#fff;--surface2:#eaf0e7;--ink:#20372e;--muted:#718078;
+  --line:#dce5dc;--green:#267451;--green2:#3b9369;--lime:#c6d98a;
+  --blue:#4a91a0;--blue-soft:#e4f1f1;--gold:#c28a3c;--gold-soft:#f8f0df;
+  --shadow:0 12px 34px rgba(29,62,47,.08);--radius:18px;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",Arial,sans-serif}
+button,input{font:inherit}
+button{cursor:pointer}
+.topbar{height:74px;padding:0 5vw;display:flex;align-items:center;justify-content:space-between;background:#173b32;color:#fff}
+.brand{display:flex;align-items:center;gap:12px}
+.brand-mark{width:42px;height:42px;border-radius:13px;background:#d7e7b4;color:#1b4938;display:grid;place-items:center;font-size:23px}
+.brand h1{font-size:19px;letter-spacing:.2px;margin:0}
+.brand p{font-size:10px;letter-spacing:1.5px;text-transform:uppercase;color:#b8d0c2;margin:4px 0 0}
+.top-right{display:flex;align-items:center;gap:12px}
+.pilot-tag{font-size:10px;letter-spacing:1px;font-weight:800;color:#d9edb8;border:1px solid #779d7c;border-radius:30px;padding:9px 13px}
+.top-button{border:0;border-radius:9px;padding:10px 14px;background:#d5e6ad;color:#234534;font-size:11px;font-weight:800}
+.hero{padding:48px 5vw 36px;background:linear-gradient(115deg,#e7eee0 0%,#f3f5ef 58%,#dcebe7 100%);position:relative;overflow:hidden}
+.hero:after{content:"";position:absolute;width:340px;height:340px;border:1px solid #c3d4c2;border-radius:50%;right:4%;top:-180px;box-shadow:0 0 0 35px #d7e5d533,0 0 0 75px #d7e5d522}
+.hero-inner{max-width:1450px;margin:auto;position:relative;z-index:1}
+.eyebrow{font-size:10px;font-weight:900;letter-spacing:2px;color:var(--green);text-transform:uppercase}
+.hero h2{font-size:clamp(30px,4vw,48px);line-height:1.06;max-width:780px;margin:13px 0 14px;letter-spacing:-1.4px}
+.hero p{max-width:760px;color:#5d7065;font-size:14px;line-height:1.8;margin:0}
+.hero-stats{display:flex;gap:12px;flex-wrap:wrap;margin-top:25px}
+.hero-stat{background:#ffffffb8;border:1px solid #d8e3d4;padding:12px 16px;border-radius:12px;min-width:145px}
+.hero-stat strong{display:block;font-size:19px;color:#245b43}
+.hero-stat span{font-size:10px;color:var(--muted)}
+main{max-width:1450px;margin:auto;padding:28px 5vw 55px}
+.section-head{display:flex;justify-content:space-between;align-items:end;gap:14px;margin:8px 0 15px}
+.section-head h3{font-size:17px;margin:0}
+.section-head p{font-size:11px;color:var(--muted);margin:5px 0 0}
+.section-kicker{font-size:9px;color:var(--green);font-weight:900;letter-spacing:1.4px;text-transform:uppercase}
+.grid{display:grid;gap:15px}
+.kpis{grid-template-columns:repeat(4,minmax(0,1fr))}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow)}
+.kpi{padding:18px 19px}
+.kpi-top{display:flex;justify-content:space-between;align-items:center;color:var(--muted);font-size:11px}
+.kpi-icon{width:32px;height:32px;border-radius:10px;background:var(--surface2);display:grid;place-items:center;font-size:16px}
+.kpi-value{font-size:27px;font-weight:850;letter-spacing:-.8px;margin-top:13px}
+.kpi-note{font-size:10px;color:var(--muted);margin-top:4px}
+.content-grid{grid-template-columns:minmax(0,1.25fr) minmax(330px,.75fr);margin-top:16px}
+.panel{padding:20px}
+.panel-title{display:flex;justify-content:space-between;align-items:flex-start;gap:12px;margin-bottom:16px}
+.panel-title h3{font-size:14px;margin:0}
+.panel-title p{font-size:10px;color:var(--muted);margin:5px 0 0;line-height:1.5}
+.pill{font-size:9px;font-weight:800;padding:7px 9px;border-radius:20px;background:var(--blue-soft);color:#36717a;white-space:nowrap}
+.map-wrap{background:#e8efe5;border:1px solid #d5e1d2;border-radius:14px;overflow:hidden}
+.map-wrap svg{display:block;width:100%;height:auto;min-height:280px}
+.map-caption{display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;padding:11px 14px;background:#f8faf6;color:var(--muted);font-size:9px}
+.map-legend{display:flex;gap:14px;flex-wrap:wrap}
+.legend-item{display:flex;align-items:center;gap:6px}
+.legend-dot{width:9px;height:9px;border-radius:50%;background:#39825e}
+.legend-dot.area{background:#9ab86a}
+.legend-dot.water{background:#5d9ead}
+.map-note{font-size:10px;line-height:1.6;color:#6c7d72;margin:11px 2px 0}
+.indicator-list{display:grid;gap:16px}
+.indicator{padding-bottom:14px;border-bottom:1px solid var(--line)}
+.indicator:last-child{border-bottom:0;padding-bottom:0}
+.indicator-row{display:flex;justify-content:space-between;align-items:center;gap:10px;font-size:11px}
+.indicator-row strong{font-size:15px}
+.track{height:9px;background:#edf1eb;border-radius:20px;margin-top:9px;overflow:hidden}
+.fill{height:100%;width:0;border-radius:20px;background:linear-gradient(90deg,#6eaa78,#b4cb76);transition:width .25s}
+.indicator small{display:block;color:var(--muted);font-size:9px;margin-top:6px;line-height:1.5}
+.control-grid{grid-template-columns:1fr 1fr;margin-top:16px}
+.control{padding:17px}
+.control label{display:flex;justify-content:space-between;gap:8px;font-size:11px;font-weight:750}
+.control output{color:var(--green);font-weight:900}
+.control input[type=range]{width:100%;accent-color:var(--green);margin:14px 0 5px}
+.control small{display:block;color:var(--muted);font-size:9px;line-height:1.5}
+.calculator-grid{grid-template-columns:minmax(0,1fr) minmax(280px,.75fr);margin-top:16px}
+.calc-controls{display:grid;grid-template-columns:1fr 1fr;gap:13px}
+.field label{display:block;font-size:10px;font-weight:800;margin-bottom:7px}
+.field input{width:100%;border:1px solid var(--line);background:#fbfcfa;border-radius:9px;padding:11px;color:var(--ink);font-size:13px}
+.field small{display:block;font-size:9px;color:var(--muted);margin-top:5px}
+.calc-result{background:#173b32;color:white;border-radius:15px;padding:20px;display:flex;flex-direction:column;justify-content:space-between;min-height:180px}
+.calc-result span{font-size:10px;color:#c1d5c7}
+.calc-result strong{display:block;font-size:30px;letter-spacing:-1px;margin:10px 0}
+.calc-result p{font-size:10px;line-height:1.6;color:#c1d5c7;margin:0}
+.calc-breakdown{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:14px}
+.breakdown-item{background:#f6f8f3;border:1px solid var(--line);border-radius:11px;padding:12px}
+.breakdown-item span{display:block;font-size:9px;color:var(--muted)}
+.breakdown-item strong{display:block;font-size:14px;margin-top:5px}
+.chart-card{margin-top:16px;padding:20px}
+.chart-area{height:220px;position:relative}
+.chart-area svg{width:100%;height:100%;overflow:visible}
+.chart-labels{display:flex;justify-content:space-around;color:var(--muted);font-size:9px;margin-top:5px}
+.stages{grid-template-columns:repeat(4,1fr);margin-top:16px}
+.stage{padding:17px}
+.stage-number{font-size:10px;color:var(--green);font-weight:900;letter-spacing:1px}
+.stage h4{font-size:12px;margin:9px 0 6px}
+.stage p{font-size:10px;color:var(--muted);line-height:1.6;margin:0}
+.notice{margin-top:17px;padding:15px 17px;background:var(--gold-soft);border:1px solid #ead8b7;border-radius:12px;color:#795c31;font-size:10px;line-height:1.7}
+.notice strong{display:block;margin-bottom:4px}
+footer{background:#173b32;color:#b9cfc1;padding:25px 5vw;text-align:center;font-size:10px;line-height:1.8}
+footer strong{color:#fff}
+@media(max-width:950px){.kpis{grid-template-columns:repeat(2,1fr)}.content-grid,.calculator-grid{grid-template-columns:1fr}.stages{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:600px){.topbar{padding:0 16px;height:65px}.pilot-tag{display:none}.hero{padding:35px 18px 28px}main{padding:22px 14px 40px}.kpis{gap:9px}.kpi{padding:13px}.kpi-value{font-size:22px}.content-grid{gap:12px}.panel{padding:15px}.control-grid,.calc-controls{grid-template-columns:1fr}.calc-breakdown{grid-template-columns:1fr 1fr}.stages{grid-template-columns:1fr 1fr}.section-head{align-items:flex-start;flex-direction:column}}
+</style>
+</head>
+<body>
+<header class="topbar">
+  <div class="brand">
+    <div class="brand-mark">🌱</div>
+    <div><h1>Cuenca Viva</h1><p>Restauración hídrico-ambiental</p></div>
+  </div>
+  <div class="top-right"><span class="pilot-tag">PROGRAMA PILOTO · BETA</span><button class="top-button" onclick="resetDemo()">Restablecer simulación ↺</button></div>
+</header>
+
+<section class="hero">
+  <div class="hero-inner">
+    <div class="eyebrow">Villa de Merlo · San Luis</div>
+    <h2>Restaurar el monte nativo también es cuidar el agua.</h2>
+    <p>Propuesta piloto de restauración hídrico-ambiental en la cuenca alta que abastece a Villa de Merlo. Este prototipo permite explorar un escenario de intervención de 20 hectáreas, observar indicadores simulados y proyectar costos para distintas escalas.</p>
+    <div class="hero-stats">
+      <div class="hero-stat"><strong>20 ha</strong><span>Superficie piloto propuesta</span></div>
+      <div class="hero-stat"><strong>$60.000.000</strong><span>Inversión inicial estimada</span></div>
+      <div class="hero-stat"><strong>4 especies</strong><span>Autóctonas propuestas</span></div>
+    </div>
+  </div>
+</section>
+
+<main>
+  <div class="section-head">
+    <div><div class="section-kicker">Vista general</div><h3>Panel de seguimiento del programa piloto</h3><p>Los valores que se muestran son parámetros de demostración, no mediciones ambientales reales.</p></div>
+    <span class="pill">● SIMULACIÓN INTERACTIVA</span>
+  </div>
+
+  <section class="grid kpis">
+    <article class="card kpi"><div class="kpi-top"><span>Superficie de intervención</span><span class="kpi-icon">🗺️</span></div><div class="kpi-value" id="kpiArea">20 ha</div><div class="kpi-note">Escenario piloto inicial</div></article>
+    <article class="card kpi"><div class="kpi-top"><span>Supervivencia vegetal</span><span class="kpi-icon">🌳</span></div><div class="kpi-value" id="kpiSurvival">80%</div><div class="kpi-note">Valor simulado a 12 meses</div></article>
+    <article class="card kpi"><div class="kpi-top"><span>Índice de cobertura</span><span class="kpi-icon">🍃</span></div><div class="kpi-value" id="kpiCover">65%</div><div class="kpi-note">Variable demostrativa del modelo</div></article>
+    <article class="card kpi"><div class="kpi-top"><span>Presupuesto proyectado</span><span class="kpi-icon">💰</span></div><div class="kpi-value" id="kpiBudget">$60 M</div><div class="kpi-note">Estimación inicial para 20 hectáreas</div></article>
+  </section>
+
+  <section class="grid content-grid">
+    <article class="card panel">
+      <div class="panel-title"><div><h3>Área de intervención propuesta</h3><p>Representación conceptual de un sector de cuenca alta en el entorno de Villa de Merlo.</p></div><span class="pill">20 hectáreas · referencia</span></div>
+      <div class="map-wrap">
+        <svg viewBox="0 0 760 390" role="img" aria-label="Mapa esquemático ilustrativo de una cuenca serrana con un polígono de intervención de referencia">
+          <defs>
+            <linearGradient id="terrain" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#e5edda"/><stop offset="1" stop-color="#c9dfd1"/></linearGradient>
+            <pattern id="dots" width="22" height="22" patternUnits="userSpaceOnUse"><circle cx="3" cy="4" r="1.2" fill="#9ab89c" opacity=".55"/></pattern>
+          </defs>
+          <rect width="760" height="390" fill="url(#terrain)"/><rect width="760" height="390" fill="url(#dots)"/>
+          <path d="M0 118 Q95 30 188 105 T370 92 T560 105 T760 54 L760 0 L0 0Z" fill="#a9c49c" opacity=".8"/>
+          <path d="M0 180 Q110 88 205 166 T390 150 T580 164 T760 112" fill="none" stroke="#8cab88" stroke-width="26" opacity=".35"/>
+          <path d="M0 240 Q120 170 220 220 T420 215 T610 225 T760 188" fill="none" stroke="#a5c29c" stroke-width="17" opacity=".55"/>
+          <path d="M-20 330 C90 280 130 250 210 267 S330 330 420 276 S570 205 780 250" fill="none" stroke="#70aeb7" stroke-width="12" opacity=".9"/>
+          <path d="M-20 330 C90 280 130 250 210 267 S330 330 420 276 S570 205 780 250" fill="none" stroke="#d8f0e8" stroke-width="3" stroke-dasharray="7 7"/>
+          <path d="M90 70 L220 48 L285 110 L255 190 L130 205 L62 145Z" fill="#9fc66e" fill-opacity=".55" stroke="#477d4f" stroke-width="3" stroke-dasharray="8 5"/>
+          <path d="M90 70 L220 48 L285 110 L255 190 L130 205 L62 145Z" fill="url(#dots)" opacity=".7"/>
+          <g fill="#477d4f"><circle cx="119" cy="103" r="6"/><circle cx="174" cy="82" r="6"/><circle cx="230" cy="122" r="6"/><circle cx="155" cy="158" r="6"/><circle cx="215" cy="173" r="6"/></g>
+          <g font-family="Arial,sans-serif" fill="#365a48">
+            <text x="35" y="30" font-size="12" font-weight="bold">CUENCA ALTA · ESQUEMA</text>
+            <text x="111" y="132" font-size="14" font-weight="bold">Área piloto</text><text x="133" y="150" font-size="12">20 ha</text>
+            <text x="510" y="83" font-size="13" font-weight="bold">Ladera serrana</text>
+            <text x="520" y="100" font-size="10">Cobertura vegetal nativa</text>
+            <text x="468" y="300" font-size="12" font-weight="bold" fill="#3d7e8a">Escurrimiento / cauce</text>
+            <text x="515" y="350" font-size="11">Entorno de Villa de Merlo</text>
+          </g>
+          <g transform="translate(635 24)"><path d="M0 25 L10 0 L20 25Z" fill="#456d58"/><text x="10" y="39" text-anchor="middle" font-size="10" fill="#456d58" font-weight="bold">N</text></g>
+          <g transform="translate(30 345)"><path d="M0 0 H80" stroke="#466d58" stroke-width="3"/><path d="M0 -5 V5 M80 -5 V5" stroke="#466d58" stroke-width="2"/><text x="40" y="17" text-anchor="middle" font-size="9" fill="#567565">escala ilustrativa</text></g>
+        </svg>
+        <div class="map-caption"><div class="map-legend"><span class="legend-item"><i class="legend-dot area"></i>Polígono de referencia</span><span class="legend-item"><i class="legend-dot"></i>Vegetación propuesta</span><span class="legend-item"><i class="legend-dot water"></i>Cauce esquemático</span></div><span>Mapa conceptual · no georreferenciado</span></div>
+      </div>
+      <p class="map-note">La ubicación y los límites del polígono son ilustrativos. No representan una parcela catastral ni una delimitación técnica validada. La selección definitiva requiere estudios y confirmación de los organismos competentes.</p>
+    </article>
+
+    <article class="card panel">
+      <div class="panel-title"><div><h3>Indicadores ambientales simulados</h3><p>Los controles de la sección siguiente modifican estos indicadores.</p></div><span class="pill">Modelo demostrativo</span></div>
+      <div class="indicator-list">
+        <div class="indicator"><div class="indicator-row"><span>Supervivencia de plantines</span><strong id="survivalText">80%</strong></div><div class="track"><div class="fill" id="survivalBar"></div></div><small>Porcentaje hipotético de ejemplares vivos en el período seleccionado.</small></div>
+        <div class="indicator"><div class="indicator-row"><span>Cobertura vegetal perenne</span><strong id="coverText">65%</strong></div><div class="track"><div class="fill" id="coverBar"></div></div><small>Índice simplificado para representar el avance de la cobertura.</small></div>
+        <div class="indicator"><div class="indicator-row"><span>Índice de retención potencial</span><strong id="retentionText">52%</strong></div><div class="track"><div class="fill" id="retentionBar"></div></div><small>Indicador conceptual derivado de la cobertura; no equivale a volumen de agua medido.</small></div>
+        <div class="indicator"><div class="indicator-row"><span>Avance presupuestario</span><strong id="budgetText">100%</strong></div><div class="track"><div class="fill" id="budgetBar"></div></div><small>En esta beta se visualiza la proporción respecto de la inversión estimada.</small></div>
+      </div>
+    </article>
+  </section>
+
+  <div class="section-head" style="margin-top:25px">
+    <div><div class="section-kicker">Laboratorio de escenarios</div><h3>Probá cómo cambian los indicadores</h3><p>Mové los controles para simular diferentes condiciones del programa.</p></div>
+  </div>
+  <section class="grid control-grid">
+    <article class="card control"><label for="survival">Supervivencia vegetal <output id="survivalOutput">80%</output></label><input id="survival" type="range" min="10" max="100" value="80"><small>Ejemplo: compará un escenario favorable con uno de estrés hídrico.</small></article>
+    <article class="card control"><label for="cover">Cobertura vegetal perenne <output id="coverOutput">65%</output></label><input id="cover" type="range" min="5" max="100" value="65"><small>Variable simplificada para representar la recuperación de la cobertura.</small></article>
+    <article class="card control"><label for="budgetProgress">Ejecución del presupuesto <output id="budgetProgressOutput">100%</output></label><input id="budgetProgress" type="range" min="0" max="100" value="100"><small>Permite representar qué proporción de la inversión estimada se ejecutó.</small></article>
+    <article class="card control"><label for="months">Período de seguimiento <output id="monthsOutput">12 meses</output></label><input id="months" type="range" min="6" max="36" step="6" value="12"><small>Períodos de referencia: 6, 12, 18, 24, 30 y 36 meses.</small></article>
+  </section>
+
+  <section class="grid calculator-grid">
+    <article class="card panel">
+      <div class="panel-title"><div><h3>Calculadora de escalamiento</h3><p>Proyectá el presupuesto según la superficie y el costo estimado por hectárea.</p></div><span class="pill">Cálculo automático</span></div>
+      <div class="calc-controls">
+        <div class="field"><label for="hectares">Superficie a restaurar (hectáreas)</label><input id="hectares" type="number" min="1" max="10000" value="20"><small>Podés probar 20, 100, 500 o 1.000 ha.</small></div>
+        <div class="field"><label for="costPerHa">Costo estimado por hectárea ($)</label><input id="costPerHa" type="number" min="0" step="100000" value="3000000"><small>Valor de referencia derivado del escenario inicial: $60 millones / 20 ha.</small></div>
+      </div>
+      <div class="calc-breakdown">
+        <div class="breakdown-item"><span>Superficie ingresada</span><strong id="calcHa">20 ha</strong></div>
+        <div class="breakdown-item"><span>Costo por hectárea</span><strong id="calcUnit">$3 M</strong></div>
+        <div class="breakdown-item"><span>Escala respecto del piloto</span><strong id="calcScale">1×</strong></div>
+      </div>
+    </article>
+    <aside class="calc-result"><div><span>INVERSIÓN TOTAL PROYECTADA</span><strong id="totalCost">$60.000.000</strong><p id="calcExplanation">Escenario de referencia para 20 hectáreas. El cálculo es lineal y no contempla variaciones de costos por escala.</p></div><span>Estimación orientativa · pesos argentinos</span></aside>
+  </section>
+
+  <section class="card chart-card">
+    <div class="panel-title"><div><h3>Proyección ilustrativa de indicadores</h3><p>Comparación conceptual a lo largo del tiempo. No representa una predicción científica ni datos de campo.</p></div><span class="pill">6 a 36 meses</span></div>
+    <div class="chart-area">
+      <svg id="trendChart" viewBox="0 0 800 220" preserveAspectRatio="none" role="img" aria-label="Gráfico de evolución simulada de supervivencia y cobertura vegetal">
+        <g stroke="#e4ebe3" stroke-width="1"><line x1="55" y1="20" x2="780" y2="20"/><line x1="55" y1="65" x2="780" y2="65"/><line x1="55" y1="110" x2="780" y2="110"/><line x1="55" y1="155" x2="780" y2="155"/><line x1="55" y1="200" x2="780" y2="200"/></g>
+        <g fill="#829188" font-size="10"><text x="12" y="24">100</text><text x="22" y="69">75</text><text x="22" y="114">50</text><text x="22" y="159">25</text><text x="31" y="204">0</text></g>
+        <path id="survivalPath" d="" fill="none" stroke="#2e8059" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+        <path id="coverPath" d="" fill="none" stroke="#5c9da8" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="7 5"/>
+      </svg>
+    </div>
+    <div class="chart-labels"><span>6 meses</span><span>12 meses</span><span>18 meses</span><span>24 meses</span><span>30 meses</span><span>36 meses</span></div>
+    <div class="map-legend" style="margin-top:14px;font-size:10px;color:var(--muted)"><span class="legend-item"><i class="legend-dot"></i>Supervivencia vegetal</span><span class="legend-item"><i class="legend-dot water"></i>Cobertura vegetal</span></div>
+  </section>
+
+  <div class="section-head" style="margin-top:25px"><div><div class="section-kicker">Implementación</div><h3>Etapas propuestas para el programa piloto</h3><p>Secuencia de trabajo planteada en la propuesta del equipo.</p></div></div>
+  <section class="grid stages">
+    <article class="card stage"><div class="stage-number">ETAPA 01</div><h4>Diagnóstico territorial</h4><p>Relevar el área, las condiciones del suelo y los sectores prioritarios de intervención.</p></article>
+    <article class="card stage"><div class="stage-number">ETAPA 02</div><h4>Plantines y preparación</h4><p>Coordinar la provisión de especies nativas y preparar los sectores seleccionados.</p></article>
+    <article class="card stage"><div class="stage-number">ETAPA 03</div><h4>Implantación y protección</h4><p>Realizar la plantación, el cercado de protección y el riego inicial.</p></article>
+    <article class="card stage"><div class="stage-number">ETAPA 04</div><h4>Monitoreo y evaluación</h4><p>Registrar supervivencia, condiciones del suelo y variables hídricas para evaluar resultados.</p></article>
+  </section>
+
+  <div class="notice"><strong>IMPORTANTE · PROTOTIPO ESCOLAR</strong>Cuenca Viva es una versión beta conceptual. El polígono, los indicadores ambientales y sus proyecciones son ilustrativos y no constituyen mediciones ni resultados comprobados. La inversión de $60.000.000 es una estimación incluida en la propuesta del equipo, no un presupuesto auditado. La selección del área, las especies, las técnicas de restauración y los indicadores deberán validarse mediante estudios y asesoramiento técnico de los organismos competentes.</div>
+</main>
+
+<footer><strong>CUENCA VIVA · RESTAURACIÓN HÍDRICO-AMBIENTAL</strong><br>Proyecto escolar · Educación Tecnológica · Villa de Merlo, San Luis<br>Prototipo interactivo para explorar escenarios y comunicar una propuesta.</footer>
+
+<script>
+const $ = id => document.getElementById(id);
+const money = n => new Intl.NumberFormat('es-AR',{style:'currency',currency:'ARS',maximumFractionDigits:0}).format(Number.isFinite(n)?n:0);
+const compactMoney = n => n>=1e9 ? '$'+(n/1e9).toLocaleString('es-AR',{maximumFractionDigits:2})+' mil M' : n>=1e6 ? '$'+(n/1e6).toLocaleString('es-AR',{maximumFractionDigits:1})+' M' : money(n);
+
+function updateIndicators(){
+  const survival=Number($('survival').value), cover=Number($('cover').value), progress=Number($('budgetProgress').value), months=Number($('months').value);
+  const retention=Math.round(cover*.8);
+  $('survivalOutput').textContent=survival+'%';$('coverOutput').textContent=cover+'%';$('budgetProgressOutput').textContent=progress+'%';$('monthsOutput').textContent=months+' meses';
+  $('kpiSurvival').textContent=survival+'%';$('kpiCover').textContent=cover+'%';
+  $('survivalText').textContent=survival+'%';$('coverText').textContent=cover+'%';$('retentionText').textContent=retention+'%';$('budgetText').textContent=progress+'%';
+  $('survivalBar').style.width=survival+'%';$('coverBar').style.width=cover+'%';$('retentionBar').style.width=retention+'%';$('budgetBar').style.width=progress+'%';
+  drawChart(survival,cover,months);
+}
+function drawChart(survival,cover,months){
+  const xs=[55,200,345,490,635,780], monthFactor=months/36;
+  const s=xs.map((x,i)=>{const v=Math.max(0,Math.min(100,survival+(i-5)*2.2*monthFactor));return [x,200-v*1.8]});
+  const c=xs.map((x,i)=>{const v=Math.max(0,Math.min(100,cover*(.55+i*.09)));return [x,200-v*1.8]});
+  const path=pts=>pts.map((p,i)=>(i?'L':'M')+p[0]+' '+p[1]).join(' ');
+  $('survivalPath').setAttribute('d',path(s));$('coverPath').setAttribute('d',path(c));
+}
+function updateCalculator(){
+  let ha=Math.max(1,Math.min(10000,Number($('hectares').value)||1));
+  let unit=Math.max(0,Number($('costPerHa').value)||0);
+  const total=ha*unit;
+  $('hectares').value=ha;
+  $('calcHa').textContent=ha.toLocaleString('es-AR')+' ha';
+  $('calcUnit').textContent=compactMoney(unit);
+  $('calcScale').textContent=(ha/20).toLocaleString('es-AR',{maximumFractionDigits:2})+'×';
+  $('totalCost').textContent=money(total);
+  $('calcExplanation').textContent=`Proyección lineal para ${ha.toLocaleString('es-AR')} hectáreas. No contempla economías de escala, inflación, diferencias de terreno ni cambios de costos por etapa.`;
+  $('kpiBudget').textContent=compactMoney(total);
+}
+function resetDemo(){
+  $('survival').value=80;$('cover').value=65;$('budgetProgress').value=100;$('months').value=12;
+  $('hectares').value=20;$('costPerHa').value=3000000;
+  updateIndicators();updateCalculator();
+}
+['survival','cover','budgetProgress','months'].forEach(id=>$(id).addEventListener('input',updateIndicators));
+['hectares','costPerHa'].forEach(id=>$(id).addEventListener('input',updateCalculator));
+updateIndicators();updateCalculator();
+</script>
+</body>
+</html>

@@ -1,3 +1,4 @@
+
 <!doctype html>
 <html lang="es">
 <head>
@@ -21,7 +22,7 @@ h2{font-size:clamp(1.8rem,4vw,2.7rem);letter-spacing:-.035em;line-height:1.1;mar
 .card{background:var(--panel);border:1px solid var(--line);border-radius:20px;overflow:hidden;display:flex;flex-direction:column;transition:transform .2s,border-color .2s}.card:hover{transform:translateY(-5px);border-color:#5b8794}
 .art{height:160px;display:grid;place-items:center;position:relative;overflow:hidden}.art:before,.art:after{content:"";position:absolute;border:1px solid #ffffff35;border-radius:50%;width:180px;height:180px}.art:after{width:250px;height:250px}.art span{font-size:3.5rem;z-index:1;filter:drop-shadow(0 8px 12px #0005)}
 .c1{background:linear-gradient(135deg,#174e68,#2a9b9a)}.c2{background:linear-gradient(135deg,#513e78,#a16ab1)}.c3{background:linear-gradient(135deg,#1d4b73,#4d91c5)}.c4{background:linear-gradient(135deg,#145b48,#79a95c)}.c5{background:linear-gradient(135deg,#174d58,#39a6a0)}.c6{background:linear-gradient(135deg,#5b482a,#c18a42)}.c7{background:linear-gradient(135deg,#493b70,#6d8fc2)}
-.cardbody{padding:21px;display:flex;flex-direction:column;flex:1}.number{font-size:.72rem;letter-spacing:.14em;color:var(--aqua);font-weight:800}.card h3{font-size:1.28rem;margin:7px 0 8px}.card p{font-size:.93rem;color:var(--muted);margin:0 0 20px;flex:1}.btn{display:inline-flex;justify-content:center;align-items:center;gap:8px;padding:11px 15px;border-radius:11px;background:var(--aqua);color:#09212a;text-decoration:none;font-weight:800;font-size:.9rem}.btn.disabled{background:#27374a;color:#9baabe;cursor:not-allowed}
+.cardbody{padding:21px;display:flex;flex-direction:column;flex:1}.number{font-size:.72rem;letter-spacing:.14em;color:var(--aqua);font-weight:800}.card h3{font-size:1.28rem;margin:7px 0 8px}.card p{font-size:.93rem;color:var(--muted);margin:0 0 20px;flex:1}.btn{display:inline-flex;justify-content:center;align-items:center;gap:8px;padding:11px 15px;border-radius:11px;background:var(--aqua);color:#09212a;text-decoration:none;font-weight:800;font-size:.9rem}.btn:hover{filter:brightness(1.08)}
 .qr-section{margin-top:70px;border:1px solid var(--line);border-radius:22px;background:linear-gradient(120deg,#142538,#102b35);padding:30px;display:flex;align-items:center;justify-content:space-between;gap:30px}.qr-section p{color:var(--muted);max-width:620px}.qr{background:white;padding:10px;border-radius:14px;width:150px;height:150px;flex:none}.qr img{width:100%;height:100%;display:block}
 footer{border-top:1px solid var(--line);padding:28px 0 40px;color:var(--muted);font-size:.88rem}footer strong{color:#e9f2fa}
 @media(max-width:800px){.grid{grid-template-columns:repeat(2,1fr)}.intro{grid-template-columns:1fr}.qr-section{align-items:flex-start;flex-direction:column}.qr{width:135px;height:135px}}
@@ -64,12 +65,12 @@ footer{border-top:1px solid var(--line);padding:28px 0 40px;color:var(--muted);f
 <script>
 const projects = [
  {name:"Merlo Calles",desc:"Una propuesta para explorar y conocer el proyecto Merlo Calles.",icon:"🗺️",className:"c1",url:"https://merlo-calles-beta.livelyfly3.chatgpt.site/"},
- {name:"Educación sin fronteras",desc:"Conocé esta propuesta desarrollada por los estudiantes de 6.º A.",icon:"📚",className:"c2",url:""},
- {name:"Merlo Bus",desc:"Ingresá para descubrir el proyecto y su desarrollo.",icon:"🚌",className:"c3",url:""},
- {name:"Merlo Verde",desc:"Una propuesta para conocer y recorrer desde la mirada de sus creadores.",icon:"🌱",className:"c4",url:""},
- {name:"Cuenca Viva",desc:"Explorá el trabajo y las ideas que dieron forma a este proyecto.",icon:"💧",className:"c5",url:""},
- {name:"Ubicabus",desc:"Conocé esta iniciativa y navegá por su presentación individual.",icon:"📍",className:"c6",url:""},
- {name:"Microred",desc:"Ingresá para conocer esta propuesta tecnológica.",icon:"⚡",className:"c7",url:""}
+ {name:"Educación sin fronteras",desc:"Conocé esta propuesta desarrollada por los estudiantes de 6.º A.",icon:"📚",className:"c2",url:"./educacion-sin-fronteras/"},
+ {name:"Merlo Bus",desc:"Ingresá para descubrir el proyecto y su desarrollo.",icon:"🚌",className:"c3",url:"./merlo-bus/"},
+ {name:"Merlo Verde",desc:"Una propuesta para conocer y recorrer desde la mirada de sus creadores.",icon:"🌱",className:"c4",url:"./merlo-verde/"},
+ {name:"Cuenca Viva",desc:"Explorá el trabajo y las ideas que dieron forma a este proyecto.",icon:"💧",className:"c5",url:"./cuenca-viva/"},
+ {name:"Ubicabus",desc:"Conocé esta iniciativa y navegá por su presentación individual.",icon:"📍",className:"c6",url:"./ubicabus/"},
+ {name:"Microred",desc:"Ingresá para conocer esta propuesta tecnológica.",icon:"⚡",className:"c7",url:"./microred/"}
 ];
 const grid=document.getElementById("projectGrid");
 projects.forEach((p,i)=>{
@@ -81,8 +82,10 @@ projects.forEach((p,i)=>{
  const title=document.createElement("h3");title.textContent=p.name;
  const desc=document.createElement("p");desc.textContent=p.desc;
  const link=document.createElement("a");link.className="btn";
- if(p.url){link.href=p.url;link.target="_blank";link.rel="noopener noreferrer";link.textContent="Ingresar al proyecto ↗";}
- else{link.href="#";link.classList.add("disabled");link.setAttribute("aria-disabled","true");link.textContent="Enlace pendiente";}
+ link.href=p.url;
+ link.target="_blank";
+ link.rel="noopener noreferrer";
+ link.textContent="Ingresar al proyecto ↗";
  body.append(num,title,desc,link);card.append(art,body);grid.append(card);
 });
 const qr=document.getElementById("qrImage");

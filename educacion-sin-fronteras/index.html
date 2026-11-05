@@ -498,6 +498,7 @@
     .banner-data { background: #ede5ff; }
     .banner-english { background: #ffe5e2; }
     .banner-digital { background: #dff3ff; }
+    .banner-green { background: #dff8ee; }
 
     .course-body {
       padding: 23px;
@@ -1243,7 +1244,9 @@
           <p>
             Encontrá propuestas para reforzar conocimientos, descubrir nuevas
             áreas y prepararte para la universidad o el mundo laboral.
-            Los cursos que aparecen aquí son ejemplos de la versión beta.
+            Encontrá propuestas de ciencias, tecnología, humanidades,
+            comunicación, literatura y educación financiera. La oferta se
+            presenta como una propuesta educativa en desarrollo.
           </p>
         </div>
 
@@ -1261,6 +1264,10 @@
           <button class="filter-btn" data-filter="programacion">Programación</button>
           <button class="filter-btn" data-filter="ciencias">Ciencias</button>
           <button class="filter-btn" data-filter="habilidades">Habilidades digitales</button>
+          <button class="filter-btn" data-filter="filosofia">Filosofía</button>
+          <button class="filter-btn" data-filter="comunicacion">Comunicación</button>
+          <button class="filter-btn" data-filter="literatura">Literatura</button>
+          <button class="filter-btn" data-filter="economia">Economía</button>
         </div>
 
         <div class="courses-grid" id="coursesGrid">
@@ -1411,6 +1418,106 @@
                 <span class="free-label">Gratuito</span>
                 <button class="btn btn-outline course-detail"
                         data-course="robotica">Ver curso ↗</button>
+              </div>
+            </div>
+          </article>
+
+          <article class="course-card"
+                   data-category="filosofia"
+                   data-search="filosofia pensamiento critico corrientes filosoficas etica dilemas razonamiento problemas sociales">
+            <div class="course-banner banner-data">
+              <span class="category">Filosofía</span>
+              <span class="emoji">💭</span>
+            </div>
+            <div class="course-body">
+              <h3>Filosofía y pensamiento crítico</h3>
+              <p>
+                Aprendé a reflexionar, cuestionar ideas y construir argumentos
+                propios a partir de problemas y dilemas actuales.
+              </p>
+              <div class="course-meta">
+                <span>◷ 4 ejes temáticos</span>
+                <span>◎ Formación general</span>
+              </div>
+              <div class="course-footer">
+                <span class="free-label">Gratuito</span>
+                <button class="btn btn-outline course-detail"
+                        data-course="filosofia">Ver curso ↗</button>
+              </div>
+            </div>
+          </article>
+
+          <article class="course-card"
+                   data-category="comunicacion"
+                   data-search="comunicacion oratoria debate hablar publico argumentacion negociacion verbal no verbal">
+            <div class="course-banner banner-english">
+              <span class="category">Comunicación</span>
+              <span class="emoji">🎙️</span>
+            </div>
+            <div class="course-body">
+              <h3>Comunicación, oratoria y debate</h3>
+              <p>
+                Desarrollá habilidades para expresarte con claridad, defender
+                ideas y comunicarte eficazmente.
+              </p>
+              <div class="course-meta">
+                <span>◷ 5 ejes temáticos</span>
+                <span>◎ Formación general</span>
+              </div>
+              <div class="course-footer">
+                <span class="free-label">Gratuito</span>
+                <button class="btn btn-outline course-detail"
+                        data-course="comunicacion">Ver curso ↗</button>
+              </div>
+            </div>
+          </article>
+
+          <article class="course-card"
+                   data-category="literatura"
+                   data-search="literatura escritura creativa argentina latinoamericana cuentos relatos personajes historias redaccion academica comprension interpretacion textos">
+            <div class="course-banner banner-science">
+              <span class="category">Literatura</span>
+              <span class="emoji">📚</span>
+            </div>
+            <div class="course-body">
+              <h3>Literatura y escritura creativa</h3>
+              <p>
+                Estimulá la creatividad, la comprensión lectora y la capacidad
+                de expresión escrita mediante lecturas y producciones propias.
+              </p>
+              <div class="course-meta">
+                <span>◷ 5 ejes temáticos</span>
+                <span>◎ Formación general</span>
+              </div>
+              <div class="course-footer">
+                <span class="free-label">Gratuito</span>
+                <button class="btn btn-outline course-detail"
+                        data-course="literatura">Ver curso ↗</button>
+              </div>
+            </div>
+          </article>
+
+          <article class="course-card"
+                   data-category="economia"
+                   data-search="economia educacion financiera inflacion mercado consumo ahorro inversiones finanzas personales presupuesto economia argentina mundial">
+            <div class="course-banner banner-green">
+              <span class="category">Economía</span>
+              <span class="emoji">💰</span>
+            </div>
+            <div class="course-body">
+              <h3>Economía y educación financiera</h3>
+              <p>
+                Comprendé cómo funciona la economía y adquirí herramientas
+                para tomar decisiones financieras responsables.
+              </p>
+              <div class="course-meta">
+                <span>◷ 5 ejes temáticos</span>
+                <span>◎ Formación general</span>
+              </div>
+              <div class="course-footer">
+                <span class="free-label">Gratuito</span>
+                <button class="btn btn-outline course-detail"
+                        data-course="economia">Ver curso ↗</button>
               </div>
             </div>
           </article>
@@ -1687,6 +1794,10 @@
                 <option>Programación y robótica</option>
                 <option>Ciencias</option>
                 <option>Herramientas digitales</option>
+                <option>Filosofía y pensamiento crítico</option>
+                <option>Comunicación, oratoria y debate</option>
+                <option>Literatura y escritura creativa</option>
+                <option>Economía y educación financiera</option>
                 <option>Otra área</option>
               </select>
             </div>
@@ -1961,6 +2072,57 @@
           "Programación básica",
           "Diseño de un prototipo"
         ]
+      },
+
+      filosofia: {
+        title: "Filosofía y pensamiento crítico",
+        description:
+          "Aprender a reflexionar, cuestionar ideas y construir argumentos propios.",
+        modules: [
+          "Grandes corrientes filosóficas",
+          "Ética y dilemas actuales",
+          "Pensamiento crítico y razonamiento",
+          "Análisis de problemas sociales"
+        ]
+      },
+
+      comunicacion: {
+        title: "Comunicación, oratoria y debate",
+        description:
+          "Desarrollar habilidades para expresarse con claridad, defender ideas y comunicarse eficazmente.",
+        modules: [
+          "Hablar en público",
+          "Técnicas de argumentación",
+          "Debate y negociación",
+          "Comunicación verbal y no verbal",
+          "Simulaciones de debates"
+        ]
+      },
+
+      literatura: {
+        title: "Literatura y escritura creativa",
+        description:
+          "Estimular la creatividad, la comprensión lectora y la capacidad de expresión escrita.",
+        modules: [
+          "Literatura argentina y latinoamericana",
+          "Escritura de cuentos y relatos",
+          "Creación de personajes e historias",
+          "Redacción académica",
+          "Comprensión e interpretación de textos"
+        ]
+      },
+
+      economia: {
+        title: "Economía y educación financiera",
+        description:
+          "Comprender cómo funciona la economía y adquirir herramientas para tomar decisiones financieras responsables.",
+        modules: [
+          "Conceptos básicos de economía",
+          "Inflación, mercado y consumo",
+          "Ahorro e inversiones",
+          "Finanzas personales y presupuesto",
+          "Economía argentina y mundial"
+        ]
       }
     };
 
@@ -2005,13 +2167,28 @@
 
         document.getElementById("modalJoin").addEventListener("click", () => {
           closeModal();
-          document.getElementById("studentInterest").value =
-            button.dataset.course === "robotica" ? "Programación y robótica" :
-            button.dataset.course === "programacion" ? "Programación y robótica" :
-            button.dataset.course === "matematica" ||
-            button.dataset.course === "estadistica" ? "Matemática avanzada" :
-            button.dataset.course === "ciencias" ? "Ciencias" :
-            "Herramientas digitales";
+          const interestByCourse = {
+            robotica: "Programación y robótica",
+            programacion: "Programación y robótica",
+            matematica: "Matemática avanzada",
+            estadistica: "Matemática avanzada",
+            ciencias: "Ciencias",
+            digital: "Herramientas digitales",
+            filosofia: "Filosofía y pensamiento crítico",
+            comunicacion: "Comunicación, oratoria y debate",
+            literatura: "Literatura y escritura creativa",
+            economia: "Economía y educación financiera"
+          };
+
+          const interestSelect = document.getElementById("studentInterest");
+          const selectedInterest = interestByCourse[button.dataset.course];
+          if (selectedInterest && [...interestSelect.options].some(
+            option => option.value === selectedInterest || option.text === selectedInterest
+          )) {
+            interestSelect.value = selectedInterest;
+          } else {
+            interestSelect.value = selectedInterest || "Otra área";
+          }
 
           document.getElementById("inscripcion").scrollIntoView();
         });
